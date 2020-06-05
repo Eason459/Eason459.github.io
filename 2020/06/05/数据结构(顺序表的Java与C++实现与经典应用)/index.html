@@ -12,13 +12,17 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/5 | Hexo</title>
+  <title>数据结构(顺序表的Java与C++实现及经典应用) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/05/index.html">
+  <meta name="description" content="一些重要的数据结构算法的实现之顺序表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构(顺序表的Java与C++实现及经典应用)">
+<meta property="og:url" content="http://yoursite.com/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一些重要的数据结构算法的实现之顺序表">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-05T07:37:36.000Z">
+<meta property="article:modified_time" content="2020-06-05T07:38:23.636Z">
 <meta property="article:author" content="Eason He">
 <meta name="twitter:card" content="summary">
   
@@ -162,49 +166,188 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-数据结构(顺序表的Java与C++实现与经典应用)" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-05-27T04:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">Java设计模式(记忆点)</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构(顺序表的Java与C++实现及经典应用)
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        <!--显示阅读次数-->
+        
+          <br/>
+          <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+          <span class="icon-sort"></span>
+          <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+  	        阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+          </span>
+          </a>
+        
+        <!--显示阅读次数完毕-->
+        
+        <a href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" class="archive-article-date">
+  	<time datetime="2020-06-05T07:37:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一些重要的数据结构算法的实现之顺序表"><a href="#一些重要的数据结构算法的实现之顺序表" class="headerlink" title="一些重要的数据结构算法的实现之顺序表"></a>一些重要的数据结构算法的实现之顺序表</h1><a id="more"></a>
+<h4 id="1-顺序表的Java实现"><a href="#1-顺序表的Java实现" class="headerlink" title="1.顺序表的Java实现"></a>1.顺序表的Java实现</h4><blockquote>
+<p>Java代码是对顺序表的简单数组实现，对于顺序表的任何操作都可以利用数组来实现，但是往往使用数组时需要对数组的长度进行估计，这也很不符合实际也是很大的缺陷，但是在Java等现代语言中均不需要再对数组的长度进行估算，若数组长度达到了最大值可以用相应的方法进行扩充建立一个新的顺序表，当然对于顺序表的实现即使是数组实现但也有插入和删除需要大量移动数组带来的时间复杂度的问题。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Java代码实现</span><br><span class="line">package SquenceList;</span><br><span class="line"></span><br><span class="line">public class Sqlist &#123;</span><br><span class="line"></span><br><span class="line">	private static int MAXSIZE;</span><br><span class="line">	private static int[] sqlist;</span><br><span class="line">	private static int length;</span><br><span class="line">	&#x2F;&#x2F;用最大数组长度来初始化顺序表</span><br><span class="line">	public Sqlist(int MAXSIZE)&#123;</span><br><span class="line">		this.sqlist &#x3D; new int[MAXSIZE];</span><br><span class="line">		this.MAXSIZE&#x3D;MAXSIZE;</span><br><span class="line">		this.length&#x3D;0;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;用数组来初始化顺序表</span><br><span class="line">	public Sqlist(int[] arr) &#123;</span><br><span class="line">		for(int i&#x3D;0;i&lt;arr.length;i++) &#123;</span><br><span class="line">			sqlist[i] &#x3D; arr[i];</span><br><span class="line">		&#125;</span><br><span class="line">		this.length &#x3D; arr.length;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;对由数组实现的顺序表进行扩充</span><br><span class="line">	public void expandList()&#123;</span><br><span class="line">	    int[] newarr &#x3D; new int[arr.length*2]</span><br><span class="line">	    for(int i&#x3D;0;i&lt;arr.length;i++)&#123;</span><br><span class="line">	        newarr[i]&#x3D;arr[i]</span><br><span class="line">	    &#125;</span><br><span class="line">	    arr &#x3D; newarr;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;向顺序表指定位置插入元素</span><br><span class="line">	public int listInsert(int i, int e) </span><br><span class="line">	&#123;</span><br><span class="line">		if(i&lt;1) &#123;</span><br><span class="line">			System.out.println(&quot;非法插入位置&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;else if(this.length &#x3D;&#x3D; this.MAXSIZE) &#123;</span><br><span class="line">			System.out.println(&quot;顺序表已满&quot;);</span><br><span class="line">			return -2;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int k&#x3D;length-1;k&gt;&#x3D;i-1;k--) &#123;</span><br><span class="line">			sqlist[k+1]&#x3D;sqlist[k];  &#x2F;&#x2F;数组中插入位置及其后的元素均向后移动一位</span><br><span class="line">		&#125;</span><br><span class="line">		sqlist[i-1]&#x3D;e;  &#x2F;&#x2F;将制定元素插入此位置</span><br><span class="line">		this.length++;  &#x2F;&#x2F;插入后的顺序表长度+1</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;清空顺序表</span><br><span class="line">	public void listClear() &#123;</span><br><span class="line">		this.length &#x3D; 0;  &#x2F;&#x2F;仅用来判断是否为空，直接将长度设置为0</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;判断顺序表是否为空</span><br><span class="line">	public boolean isEmpty() &#123;</span><br><span class="line">		return this.length&#x3D;&#x3D;0;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取指定位置的顺序表元素</span><br><span class="line">	public static int getElem(int i) &#123;</span><br><span class="line">		if(i&lt;1||i&gt;length)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.println(&quot;获取位置不合法&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		return sqlist[i-1];</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取制定元素的位置信息</span><br><span class="line">	public int getIndex(int e, int i) &#123;</span><br><span class="line">		for(int j&#x3D;0;j&lt;&#x3D;length-1;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			if(sqlist[j]&#x3D;&#x3D;e) &#123;</span><br><span class="line">				i&#x3D;j++;</span><br><span class="line">				return i;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;顺序表中无对应元素&quot;);</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;打印顺序表</span><br><span class="line">	public static void printList() &#123;</span><br><span class="line">		for(int i&#x3D;0;i&lt;&#x3D;length-1;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			int t&#x3D;i+1;</span><br><span class="line">			System.out.println(&quot;第&quot;+t+&quot;个元素为&quot;+sqlist[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;删除顺序表指定位置的元素</span><br><span class="line">	public static int listDelete(int i) &#123;</span><br><span class="line">		if(i&lt;1||i&gt;length)</span><br><span class="line">		&#123;</span><br><span class="line">			System.out.println(&quot;删除位置不合法&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int j&#x3D;i;j&lt;&#x3D;length-1;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			sqlist[j-1]&#x3D;sqlist[j];</span><br><span class="line">		&#125;</span><br><span class="line">		length--;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Sqlist sqlist &#x3D; new Sqlist(5);</span><br><span class="line">		for(int i&#x3D;1;i&lt;&#x3D;4;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			sqlist.listInsert(i, i);</span><br><span class="line">		&#125;</span><br><span class="line">		printList();</span><br><span class="line">		System.out.println(&quot;第3个元素为&quot;+getElem(3));</span><br><span class="line">		System.out.println(&quot;删除第二个元素后的顺序表的内容为：&quot;)</span><br><span class="line">		listDelete(2);</span><br><span class="line">		printList();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-顺序表的C-实现"><a href="#2-顺序表的C-实现" class="headerlink" title="2.顺序表的C++实现"></a>2.顺序表的C++实现</h4><blockquote>
+<p>C++代码实现顺序表的实现由于有指针的牵制而使得代码的实现比较复杂，需要多加理解和记忆。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;建立顺序表的存储结构</span><br><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">    int *elem;</span><br><span class="line">    int length;</span><br><span class="line">&#125;SqList;</span><br><span class="line">&#x2F;&#x2F;构造一个空的顺序表</span><br><span class="line">int InitList(SqList &amp;L)</span><br><span class="line">&#123;</span><br><span class="line">    L.elem&#x3D;new ElemType[maxsize];</span><br><span class="line">    if(!L.elem) exit(overflow);</span><br><span class="line">    L.length&#x3D;0;</span><br><span class="line">    return ok;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;顺序表的插入</span><br><span class="line">int ListInsert(SqList &amp;L,int i,int e)</span><br><span class="line">&#123;</span><br><span class="line">    if((i&lt;1)||(i&gt;L.length+1)) return error; &#x2F;&#x2F;插入位置是否合法的判断</span><br><span class="line">    if(L.length&#x3D;&#x3D;maxsize)  return error;</span><br><span class="line">    for(int j&#x3D;L.length-1;j&gt;&#x3D;i-1;j--)</span><br><span class="line">        L.elem[j+1]&#x3D;L.elem[j];  &#x2F;&#x2F;插入后元素位置的移动变化</span><br><span class="line">    L.elem[i-1]&#x3D;e;</span><br><span class="line">    ++L.length;</span><br><span class="line">    return ok;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;顺序表元素的获取</span><br><span class="line">int GetElem(SqList L,int i,int &amp;e)</span><br><span class="line">&#123;</span><br><span class="line">    if(i&lt;1||i&gt;L.length) return error;</span><br><span class="line">    e&#x3D;L.elem[i-1];</span><br><span class="line">    return e;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;判断值是否相等</span><br><span class="line">int EqualList(int a,int b)</span><br><span class="line">&#123;</span><br><span class="line">    if(a&#x3D;&#x3D;b)</span><br><span class="line">        return ok;</span><br><span class="line">    else</span><br><span class="line">        return error;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;判断顺序表中是否存在值为e的元素</span><br><span class="line">int LocateElem(SqList L,ElemType e,int EqualList(int a, int b))</span><br><span class="line">&#123;</span><br><span class="line">    int i&#x3D;1;</span><br><span class="line">    int *p&#x3D;L.elem;</span><br><span class="line">    while(i&lt;&#x3D;L.length&amp;&amp;!EqualList(*p++,e))</span><br><span class="line">        ++i;</span><br><span class="line">    if(i&lt;&#x3D;L.length)</span><br><span class="line">        return 1;</span><br><span class="line">    else</span><br><span class="line">        return 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;顺序表的打印</span><br><span class="line">void PrintList(SqList L)</span><br><span class="line">&#123;</span><br><span class="line">    for(int i&#x3D;0; i&lt;L.length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;L.elem[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;顺序表表示集合的并集</span><br><span class="line">void MergeList(SqList LA,SqList LB,SqList &amp; LC)</span><br><span class="line">&#123;</span><br><span class="line">   int m,n,e;</span><br><span class="line">   m&#x3D;LA.length;n&#x3D;LB.length;</span><br><span class="line">   for(int i&#x3D;1;i&lt;&#x3D;n;i++)</span><br><span class="line">   &#123;</span><br><span class="line">       GetElem(LB,i,e);  &#x2F;&#x2F;获取B中第i个元素并返回给e</span><br><span class="line">       if(!LocateElem(LA,e,EqualList) )</span><br><span class="line">           &#123;</span><br><span class="line">               ListInsert(LA,++m,e);    &#x2F;&#x2F;将e插在LC的最后</span><br><span class="line">           &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   for(int i&#x3D;1;i&lt;&#x3D;m;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        GetElem(LA,i,e);   &#x2F;&#x2F;获取A中第i个元素并赋给e</span><br><span class="line">        ListInsert(LC,i,e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int Mixture(SqList LA,SqList LB,SqList &amp;LC)</span><br><span class="line">&#123;&#x2F;&#x2F;a与b的交集</span><br><span class="line">    int m,n,e;</span><br><span class="line">    m&#x3D;LA.length;</span><br><span class="line">    n&#x3D;LB.length;</span><br><span class="line">    int j&#x3D;0;</span><br><span class="line">    SqList p&#x3D;m&lt;&#x3D;n?LA:LB;</span><br><span class="line">    SqList q&#x3D;m&gt;n?LA:LB;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;p.length;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        GetElem(p,i,e);</span><br><span class="line">        if(LocateElem(q,e,EqualList))</span><br><span class="line">        &#123;</span><br><span class="line">            ListInsert(LC,++j,e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if(LC.length)</span><br><span class="line">        return ok;</span><br><span class="line">    else</span><br><span class="line">        return error;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int Different(SqList LA,SqList LB,SqList &amp;LC)</span><br><span class="line">&#123;&#x2F;&#x2F;求A-B的集合</span><br><span class="line">    int m&#x3D;LA.length;</span><br><span class="line">    int e;</span><br><span class="line">    int j&#x3D;0;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;m;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        GetElem(LA,i,e);</span><br><span class="line">        if(!LocateElem(LB,e,EqualList))</span><br><span class="line">            ListInsert(LC,++j,e);</span><br><span class="line">    &#125;</span><br><span class="line">    if(LC.length)</span><br><span class="line">        return ok;</span><br><span class="line">    else</span><br><span class="line">        return error;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    SqList LA,LB;</span><br><span class="line">    InitList(LA);</span><br><span class="line">    InitList(LB);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&quot;线性表a的长度：&quot;&lt;&lt;endl;</span><br><span class="line">    int la;</span><br><span class="line">    cin&gt;&gt;la;</span><br><span class="line">    cout&lt;&lt;&quot;请输入a中的元素：&quot;&lt;&lt;endl;</span><br><span class="line">    int e;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;la;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;e;</span><br><span class="line">        ListInsert(LA,i,e);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;&quot;A中的元素:&quot;&lt;&lt;endl;</span><br><span class="line">    PrintList(LA);</span><br><span class="line">    cout&lt;&lt;&quot;线性表b的长度：&quot;&lt;&lt;endl;</span><br><span class="line">    int lb;</span><br><span class="line">    cin&gt;&gt;lb;</span><br><span class="line">    cout&lt;&lt;&quot;请输入b中的元素：&quot;&lt;&lt;endl;</span><br><span class="line">    for(int i&#x3D;1;i&lt;&#x3D;lb;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cin&gt;&gt;e;</span><br><span class="line">        ListInsert(LB,i,e);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;&quot;B中的元素&quot;&lt;&lt;endl;</span><br><span class="line">    PrintList(LB);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&quot;A并B:&quot;;</span><br><span class="line">    SqList LC1;</span><br><span class="line">    InitList(LC1);</span><br><span class="line">    MergeList(LA,LB,LC1);</span><br><span class="line">    PrintList(LC1);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&quot;A交B：&quot;;</span><br><span class="line">    SqList LC2;</span><br><span class="line">    InitList(LC2);</span><br><span class="line">    Mixture(LA,LB,LC2);</span><br><span class="line">    PrintList(LC2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&quot;A差B：&quot;;</span><br><span class="line">    SqList LC3;</span><br><span class="line">    InitList(LC3);</span><br><span class="line">    Different(LA,LB,LC3);</span><br><span class="line">    PrintList(LC3);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java设计模式(记忆点)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一些重要的数据结构算法的实现之顺序表"><span class="toc-number">1.</span> <span class="toc-text">一些重要的数据结构算法的实现之顺序表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-顺序表的Java实现"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">1.顺序表的Java实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-顺序表的C-实现"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">2.顺序表的C++实现</span></a></li></ol></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -243,8 +386,8 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
