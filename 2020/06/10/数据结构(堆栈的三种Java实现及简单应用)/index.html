@@ -12,13 +12,17 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>数据结构(堆栈的三种Java实现与经典应用) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="一些重要的数据结构算法的实现之堆栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构(堆栈的三种Java实现与经典应用)">
+<meta property="og:url" content="http://yoursite.com/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一些重要的数据结构算法的实现之堆栈">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-10T07:57:10.000Z">
+<meta property="article:modified_time" content="2020-06-10T15:53:14.254Z">
 <meta property="article:author" content="Eason He">
 <meta name="twitter:card" content="summary">
   
@@ -154,20 +158,26 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-数据结构(堆栈的三种Java实现及简单应用)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-数据结构(堆栈的三种Java实现及简单应用)" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/">数据结构(堆栈的三种Java实现与经典应用)</a>
+    <h1 class="article-title" itemprop="name">
+      数据结构(堆栈的三种Java实现与经典应用)
     </h1>
   
 
         <!--显示阅读次数-->
+        
+          <br/>
+          <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+          <span class="icon-sort"></span>
+          <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+  	        阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+          </span>
+          </a>
         
         <!--显示阅读次数完毕-->
         
@@ -179,10 +189,39 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="一些重要的数据结构算法的实现之堆栈"><a href="#一些重要的数据结构算法的实现之堆栈" class="headerlink" title="一些重要的数据结构算法的实现之堆栈"></a>一些重要的数据结构算法的实现之堆栈</h1>
-        
+        <h1 id="一些重要的数据结构算法的实现之堆栈"><a href="#一些重要的数据结构算法的实现之堆栈" class="headerlink" title="一些重要的数据结构算法的实现之堆栈"></a>一些重要的数据结构算法的实现之堆栈</h1><a id="more"></a>
+<blockquote>
+<p>LIFO(先进后出)的一种线性表，栈的优点是存取速度快，仅次于寄存器，并且栈的数据是可共享的，但是存放在栈的数据的大小和生存周期是固定的，缺乏一定的灵活性。在本篇对栈的实现使用的是链表与数组的形式，因为这两种形式简化了在ArrayList和LinkedList中的逻辑。   </p>
+</blockquote>
+<p><strong><em>1.数组形式对栈实现</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class Stack&lt;E&gt; &#123;</span><br><span class="line"></span><br><span class="line">	private Object[] data;</span><br><span class="line">	private int maxsize;</span><br><span class="line">	private int top;</span><br><span class="line">	&#x2F;&#x2F;若没有定义初始长度则自定义一个5为初始长度</span><br><span class="line">	public Stack()&#123;</span><br><span class="line">		this(5);</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;若有定义初始长度，则调用此构造函数来初始化数组长度</span><br><span class="line">	public Stack(int maxsize) &#123;</span><br><span class="line">		if(maxsize&gt;0) &#123;</span><br><span class="line">			this.maxsize &#x3D; maxsize;</span><br><span class="line">			data &#x3D; new Object[maxsize];</span><br><span class="line">			top &#x3D; -1;  &#x2F;&#x2F;top目前指向第一个元素之前的位置</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			System.out.println(&quot;初始化长度不能为0及小于0&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;判断栈是否为空</span><br><span class="line">	public boolean isEmpty() &#123;</span><br><span class="line">		return top&#x3D;&#x3D;-1;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;入栈</span><br><span class="line">	public void push(Object o) &#123;</span><br><span class="line">		if(top&gt;&#x3D;maxsize-1) &#123;</span><br><span class="line">			System.out.println(&quot;栈满，无法放入新元素&quot;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			data[++top] &#x3D; o;  &#x2F;&#x2F;若栈味满则此时top指针向上移动一位后存放入元素，此时成为栈顶元素</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取栈顶元素但不弹出</span><br><span class="line">	public E peek() &#123;</span><br><span class="line">		if(isEmpty()) &#123;</span><br><span class="line">			System.out.println(&quot;栈空，无栈顶元素&quot;);</span><br><span class="line">			return null;</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			return (E)data[top];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;出栈</span><br><span class="line">	public E pop() &#123;</span><br><span class="line">		if(isEmpty())&#123;</span><br><span class="line">			System.out.println(&quot;栈空，无栈顶元素&quot;);</span><br><span class="line">			return null;</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			return (E)data[top--];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;寻找元素在栈中的位置</span><br><span class="line">	public int search(E order) &#123;</span><br><span class="line">		int toptem &#x3D; top;  &#x2F;&#x2F;临时top节点，以便查找完成后回到初始状态</span><br><span class="line">		while(top!&#x3D;-1) &#123;</span><br><span class="line">			if(data[top]&#x3D;&#x3D;order) &#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;else &#123;</span><br><span class="line">				--top;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		int result &#x3D; ++top;</span><br><span class="line">		top &#x3D; toptem;</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Stack mystack&#x3D; new Stack(6);</span><br><span class="line">		mystack.push(1);</span><br><span class="line">		mystack.push(2);</span><br><span class="line">		mystack.push(3);</span><br><span class="line">		mystack.push(4);</span><br><span class="line">		System.out.println(&quot;mystack 是否为空？&quot;+mystack.isEmpty());</span><br><span class="line">		System.out.println(&quot;mystack的栈顶元素为：&quot;+mystack.peek());</span><br><span class="line">		System.out.println(&quot;依次出栈前两个:&quot;+mystack.pop()+mystack.pop());</span><br><span class="line">		System.out.println(&quot;此时栈顶元素为：&quot;+mystack.peek());</span><br><span class="line">		System.out.println(&quot;元素1此时在栈中的位置为：&quot;+mystack.search(2));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>2.链表形式堆栈实现</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">public class LinkStack&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">	Node&lt;T&gt; top &#x3D; null;</span><br><span class="line">	&#x2F;&#x2F;用内部类对栈的节点进行定义</span><br><span class="line">	class Node&lt;T&gt;&#123;</span><br><span class="line">		private T data;</span><br><span class="line">		private Node&lt;T&gt; next&#x3D;null;</span><br><span class="line">		public Node(T data) &#123;</span><br><span class="line">			this.data &#x3D; data;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;入栈</span><br><span class="line">	public void push(T data) &#123;</span><br><span class="line">		Node&lt;T&gt; newnode &#x3D; new Node&lt;T&gt;(data);</span><br><span class="line">		newnode.next &#x3D; top;</span><br><span class="line">		top &#x3D; newnode;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;出栈</span><br><span class="line">	public T pop() &#123;</span><br><span class="line">		if(top&#x3D;&#x3D;null) &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">		T data &#x3D; top.data;</span><br><span class="line">		top &#x3D; top.next;</span><br><span class="line">		return data;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;判断栈是否为空</span><br><span class="line">	public boolean isEmpty() &#123;</span><br><span class="line">		return top&#x3D;&#x3D;null;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;取栈顶的值</span><br><span class="line">	public T peek() &#123;</span><br><span class="line">		if(top&#x3D;&#x3D;null) &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">		return top.data;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		LinkStack ls &#x3D; new LinkStack();</span><br><span class="line">		ls.push(1);</span><br><span class="line">		ls.push(6);  &#x2F;&#x2F;依次入栈</span><br><span class="line">		ls.push(2);</span><br><span class="line">		System.out.println(&quot;栈是否为空:&quot;+ls.isEmpty());</span><br><span class="line">		System.out.println(ls.pop());</span><br><span class="line">		System.out.println(ls.pop());  &#x2F;&#x2F;先入后出是栈的最大的特点</span><br><span class="line">		System.out.println(ls.pop());</span><br><span class="line">		System.out.println(&quot;取出栈顶元素:&quot;+ls.peek()); &#x2F;&#x2F;栈已经全部弹出 栈顶元素为null</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><em>3.共享数组空间的双重栈形式</em></strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">public class DoubleStack &#123;</span><br><span class="line"></span><br><span class="line">	private int maxsize &#x3D; 20;</span><br><span class="line">	private int topl;</span><br><span class="line">	private int topr;</span><br><span class="line">	private int[] data;</span><br><span class="line">	public DoubleStack() &#123;</span><br><span class="line">		data &#x3D; new int[maxsize];</span><br><span class="line">		topl &#x3D; -1;</span><br><span class="line">		topr &#x3D; maxsize;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;判断是否栈空</span><br><span class="line">	public boolean isEmpty() &#123;</span><br><span class="line">		return ((topl&#x3D;&#x3D;0)&amp;&amp;(topr&#x3D;&#x3D;maxsize));</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;判断是否栈满</span><br><span class="line">	public boolean isFull() &#123;</span><br><span class="line">		return (topl+1&#x3D;&#x3D;topr);</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;清空栈</span><br><span class="line">	public void clearStack() &#123;</span><br><span class="line">		topl &#x3D; -1;</span><br><span class="line">		topr &#x3D; maxsize;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取栈的长度</span><br><span class="line">	public int length() &#123;</span><br><span class="line">		if(isEmpty()) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		if(isFull()) &#123;</span><br><span class="line">			return maxsize;</span><br><span class="line">		&#125;</span><br><span class="line">		int length &#x3D; (topl+1)+(maxsize-topr);</span><br><span class="line">		return length;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取左栈栈顶值</span><br><span class="line">	public int getLeftStack() &#123;</span><br><span class="line">		if(topl&#x3D;&#x3D;-1) &#123;</span><br><span class="line">			System.out.println(&quot;左栈什么都没有喔～&quot;);</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		return data[topl];</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;获取右栈栈顶值</span><br><span class="line">	public int getRightStack() &#123;</span><br><span class="line">		if(topr&#x3D;&#x3D;maxsize) &#123;</span><br><span class="line">			System.out.println(&quot;右栈什么都没有喔～&quot;);</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		return data[topr];</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;入栈</span><br><span class="line">	public void push(String stackdir, int e) &#123;  &#x2F;&#x2F;stackdir分为左栈和右栈</span><br><span class="line">		if(isFull()) &#123;</span><br><span class="line">			System.out.println(&quot;嘻嘻嘻栈满啦，不能再入啦～～&quot;);</span><br><span class="line">			return ;</span><br><span class="line">		&#125;</span><br><span class="line">		if(stackdir&#x3D;&#x3D;&quot;左栈&quot;) &#123;</span><br><span class="line">			topl+&#x3D;1;</span><br><span class="line">			data[topl]&#x3D;e;</span><br><span class="line">			return ;</span><br><span class="line">		&#125;</span><br><span class="line">		if(stackdir&#x3D;&#x3D;&quot;右栈&quot;) &#123;</span><br><span class="line">			topr-&#x3D;1;</span><br><span class="line">			data[topr]&#x3D;e;</span><br><span class="line">			return ;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;	</span><br><span class="line">	&#x2F;&#x2F;出栈</span><br><span class="line">	public int pop(String stackdir) &#123;</span><br><span class="line">		int result;</span><br><span class="line">		if(isEmpty()) &#123;</span><br><span class="line">			System.out.println(&quot;555这里什么都没有，不能再出了～～～&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		if(stackdir&#x3D;&#x3D;&quot;左栈&quot;) &#123;</span><br><span class="line">			result &#x3D; data[topl--];</span><br><span class="line">			return result;</span><br><span class="line">		&#125;</span><br><span class="line">		if(stackdir&#x3D;&#x3D;&quot;右栈&quot;) &#123;</span><br><span class="line">			result &#x3D; data[topr++];</span><br><span class="line">			return result;</span><br><span class="line">		&#125;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F;遍历此双栈</span><br><span class="line">	public void stackTraverse() &#123;</span><br><span class="line">		int i&#x3D;0;</span><br><span class="line">		while(i&lt;&#x3D;topl) &#123;</span><br><span class="line">			System.out.println(data[i]+&quot; &quot;);</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		i &#x3D; topr;</span><br><span class="line">		while(i&lt;maxsize) &#123;</span><br><span class="line">			System.out.println(data[i]+&quot; &quot;);;</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		DoubleStack stack &#x3D; new DoubleStack();</span><br><span class="line">		System.out.println(&quot;此时栈为空吗？&quot;+stack.isEmpty());</span><br><span class="line">		stack.push(&quot;左栈&quot;, 1);</span><br><span class="line">		stack.push(&quot;左栈&quot;, 2);</span><br><span class="line">		stack.push(&quot;左栈&quot;, 3);</span><br><span class="line">		stack.push(&quot;右栈&quot;, 4);</span><br><span class="line">		stack.push(&quot;右栈&quot;, 5);</span><br><span class="line">		stack.push(&quot;右栈&quot;, 6);</span><br><span class="line">		System.out.println(&quot;此时栈的长度为:&quot;+stack.length());</span><br><span class="line">		System.out.println(&quot;我放入了一些元素，此时栈为空吗？&quot;+stack.isEmpty());</span><br><span class="line">		System.out.println(&quot;我想看看左栈栈顶是什么:&quot;+stack.getLeftStack());</span><br><span class="line">		System.out.println(&quot;我还想看右栈栈顶是什么:&quot;+stack.getRightStack());</span><br><span class="line">		System.out.print(&quot;让我看看栈里面都有什么吧：&quot;);</span><br><span class="line">		stack.stackTraverse();</span><br><span class="line">		System.out.println(&quot;我想弹出一些左栈的元素&quot;+stack.pop(&quot;左栈&quot;)+stack.pop(&quot;左栈&quot;));</span><br><span class="line">		System.out.println(&quot;我想弹出一些右栈的元素&quot;+stack.pop(&quot;右栈&quot;)+stack.pop(&quot;右栈&quot;));</span><br><span class="line">		System.out.print(&quot;现在栈里都还剩哪些元素呢？:&quot;);</span><br><span class="line">		stack.stackTraverse();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -191,16 +230,75 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构(链表的Java实现与经典应用)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -215,277 +313,32 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数据结构(Java链表的实现)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/">数据结构(链表的Java实现与经典应用)</a>
-    </h1>
-  
-
-        <!--显示阅读次数-->
-        
-        <!--显示阅读次数完毕-->
-        
-        <a href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/" class="archive-article-date">
-  	<time datetime="2020-06-08T07:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一些重要的数据结构算法的实现之链表"><a href="#一些重要的数据结构算法的实现之链表" class="headerlink" title="一些重要的数据结构算法的实现之链表"></a>一些重要的数据结构算法的实现之链表</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一些重要的数据结构算法的实现之堆栈"><span class="toc-number">1.</span> <span class="toc-text">一些重要的数据结构算法的实现之堆栈</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
   
-    <article id="post-数据结构(顺序表的Java与C++实现与经典应用)" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/">数据结构(顺序表的Java与C++实现及经典应用)</a>
-    </h1>
   
 
-        <!--显示阅读次数-->
-        
-        <!--显示阅读次数完毕-->
-        
-        <a href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" class="archive-article-date">
-  	<time datetime="2020-06-05T07:37:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="一些重要的数据结构算法的实现之顺序表"><a href="#一些重要的数据结构算法的实现之顺序表" class="headerlink" title="一些重要的数据结构算法的实现之顺序表"></a>一些重要的数据结构算法的实现之顺序表</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">Java设计模式(记忆点)</a>
-    </h1>
   
 
-        <!--显示阅读次数-->
-        
-        <!--显示阅读次数完毕-->
-        
-        <a href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-05-27T04:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="关于设计模式的一些简单总结"><a href="#关于设计模式的一些简单总结" class="headerlink" title="关于设计模式的一些简单总结"></a>关于设计模式的一些简单总结</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java后知后觉" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/29/Java%E5%90%8E%E7%9F%A5%E5%90%8E%E8%A7%89/">Java后知后觉(初阶)</a>
-    </h1>
   
 
-        <!--显示阅读次数-->
-        
-        <!--显示阅读次数完毕-->
-        
-        <a href="/2020/04/29/Java%E5%90%8E%E7%9F%A5%E5%90%8E%E8%A7%89/" class="archive-article-date">
-  	<time datetime="2020-04-29T08:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="那些Java中你可能不知道的一些事"><a href="#那些Java中你可能不知道的一些事" class="headerlink" title="那些Java中你可能不知道的一些事"></a>那些Java中你可能不知道的一些事</h1>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/29/Java%E5%90%8E%E7%9F%A5%E5%90%8E%E8%A7%89/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -524,8 +377,8 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
