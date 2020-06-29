@@ -12,19 +12,20 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>数据结构(堆栈的三种Java实现与经典应用) | Hexo</title>
+  <title>【数据结构】(堆栈的三种Java实现与经典应用) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="堆栈在Java编程中无处不在,作为重要的数据结构类型之一,本篇使用了三种方式(数组\链表\共享数组空间)来实现堆栈,并且对一些经典的应用方法进行了定义,欢迎阅览">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据结构(堆栈的三种Java实现与经典应用)">
+<meta property="og:title" content="【数据结构】(堆栈的三种Java实现与经典应用)">
 <meta property="og:url" content="http://yoursite.com/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="堆栈在Java编程中无处不在,作为重要的数据结构类型之一,本篇使用了三种方式(数组\链表\共享数组空间)来实现堆栈,并且对一些经典的应用方法进行了定义,欢迎阅览">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/06/15/cr2inNtdUVW1GK5.jpg">
 <meta property="article:published_time" content="2020-06-10T07:57:10.000Z">
-<meta property="article:modified_time" content="2020-06-19T15:58:41.580Z">
+<meta property="article:modified_time" content="2020-06-29T09:16:40.246Z">
 <meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习区">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.loli.net/2020/06/15/cr2inNtdUVW1GK5.jpg">
   
@@ -167,7 +168,7 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
         
   
     <h1 class="article-title" itemprop="name">
-      数据结构(堆栈的三种Java实现与经典应用)
+      【数据结构】(堆栈的三种Java实现与经典应用)
     </h1>
   
 
@@ -212,7 +213,7 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你陪我一起成长<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
                     
@@ -228,6 +229,17 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -296,14 +308,14 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          数据结构(队列的Java实现与经典应用)
+          【数据结构】(队列的Java实现与经典应用)
         
       </div>
     </a>
   
   
     <a href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">数据结构(链表的Java实现与经典应用)</div>
+      <div class="article-nav-title">【数据结构】(链表的Java实现与经典应用)</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -392,11 +404,11 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
-		toc_hide_index: true,
+		open_in_new: true,
+		toc_hide_index: false,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -456,6 +468,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">学习区</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
