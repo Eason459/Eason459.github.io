@@ -12,15 +12,22 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | Hexo</title>
+  <title>【JVM】类文件结构 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥.¥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【JVM】类文件结构">
+<meta property="og:url" content="http://yoursite.com/2020/06/29/%E3%80%90JVM%E3%80%91%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥.¥">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/06/29/2jo44.png">
+<meta property="article:published_time" content="2020-06-29T09:30:52.000Z">
+<meta property="article:modified_time" content="2020-06-30T08:44:04.190Z">
 <meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习区">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx2.sbimg.cn/2020/06/29/2jo44.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -154,74 +161,143 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-【JVM】类文件结构" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/30/%E3%80%90JVM%E3%80%91%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-  	<time datetime="2020-06-30T08:42:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-30</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/30/%E3%80%90JVM%E3%80%91%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">【JVM】类加载机制</a>
+    <h1 class="article-title" itemprop="name">
+      【JVM】类文件结构
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/29/%E3%80%90JVM%E3%80%91%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
+        <!--显示阅读次数-->
+        
+          <br/>
+          <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+          <span class="icon-sort"></span>
+          <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+  	        阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+          </span>
+          </a>
+        
+        <!--显示阅读次数完毕-->
+        
+        <a href="/2020/06/29/%E3%80%90JVM%E3%80%91%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" class="archive-article-date">
   	<time datetime="2020-06-29T09:30:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-29</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/29/%E3%80%90JVM%E3%80%91%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/">【JVM】类文件结构</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥-¥"><a href="#学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥-¥" class="headerlink" title="学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥.¥"></a>学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥.¥</h2><a id="more"></a>
+<hr>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>如今的计算机仍然只能识别0和1，但将我们编写的程序编译成二进制本地机器码已不再是唯一的选择，越来越多的程序语言选择了与操作系统和机器指令集无关的、 平台中立的格式作为程序编译后的存储格式。各种不同平台的虚拟机与所有平台都统一使用的程序存储格式——字节码（ByteCode）是构成平台无关性的基石，而且语言无关性正越来越被开发者所重视。Java虚拟机不和包括Java在内的任何语言绑定，它只与Class文件这种特定的二进制文件格式所关联，Class文件中包含了Java虚拟机指令集和符号表以及若干其他辅助信息。</p>
+<hr>
+<h2 id="类文件结构的相关概念与属性"><a href="#类文件结构的相关概念与属性" class="headerlink" title="类文件结构的相关概念与属性"></a>类文件结构的相关概念与属性</h2><p><strong><em>1. 类文件定义</em></strong></p>
+<blockquote>
+<p>Class文件是一组以8位字节为基础单位的二进制流，各项数据项目严格按照顺序紧凑地排列在Class文件之中，中间没有添加任何分隔符，如果是超过8位字节以上空间的数据项，则会按照高位在前的方式（Big-Endian）分割成若干个8位字节进行存储。    </p>
+</blockquote>
+<p>来看一个类文件二进制流实例：</p>
+<p><img src="https://wx2.sbimg.cn/2020/06/29/2jo44.png" alt="2jo44.png"><br><strong>其中一个字节为2位16进制数，图中的‘cafe’就是为两个字节</strong>   </p>
+<p><strong><em>2. 魔数与文件版本</em></strong></p>
+<blockquote>
+<p><strong>魔数</strong>是每个class文件的4个字节组成的数，如图中的‘cafe babe’就是魔数，魔数的唯一作用就是用来判断此class文件是否是能被虚拟机接受的文件。很多种文件都是用到了魔数进行文件类别的识别，如：.gif, .jpeg等   </p>
+</blockquote>
+<blockquote>
+<p><strong>文件版本</strong>号就是紧跟在魔数后的四个字节，其中，第5 6个字节表示的是次版本号，第7 8个字节表示的是主版本号。如图中的0000为次版本号，0034为主版本号，Java的版本号是从45开始的，JDK1.1之后每个JDK大版本发布，其主版本号就向上加1，这就让高版本的JDK能向下兼容低版本的class文件，但是不能向上兼容高版本的class文件，因为<em>虚拟机是拒绝执行超过它版本号的class文件</em>。</p>
+</blockquote>
+<p><strong><em>3. 常量池</em></strong></p>
+<blockquote>
+<p>常量池的入口紧跟在主次版本号之后，<strong>向后的两个字节为常量池的个数，再向后就是从常量1….到常量n</strong>,常量池是class文件的数据仓库，也是占用class文件空间最大的数据项目之一，它是与class文件的其他项目关联最多的数据类型。<br>常量池中主要存放着<strong><em>两大元素</em></strong>：    </p>
+<ol>
+<li><strong>字面量</strong>：类似于常量概念，如final修饰的常量值等等   </li>
+<li><strong>符号引用</strong>：包含类和进口的全限定名、字段的名称和描述符、方法的名称和描述符这三种常量，属于编译方面的概念。</li>
+</ol>
+</blockquote>
+<p>当JVM运行时，需要从常量池中获取对应的符号引用，然后在类创建或运行时进行解析，得到真正的内存地址。</p>
+<p><strong><em>4.访问标志</em></strong></p>
+<blockquote>
+<p>访问标志是在常量池继续向后的两个字节，这个标志（access-flags）表示一些类或接口的访问信息，比如，这个Class是一个类呢还是一个接口呢，它是被什么限定符所修饰的？public？abstract？final？这些都在访问标志中被标明。</p>
+</blockquote>
+<p><strong><em>5.类索引-父索引-接口索引</em></strong></p>
+<blockquote>
+<p>类索引（this_class）与父索引（super_class）都是一个两个字节的数据集合，因为Java的单一继承所以让类索引和父索引只能有一个，以此类推，接口索引就不再只是一个两个字节的数据集合了，而是一组两个字节的数据集合，前两个字节代表着接口索引的个数，后面的字节分别就代表了接口1….接口n，其中<strong><em>类索引是用来确定这个类的全限定名，父所以与接口索引用来确定这个类的继承连接关系</em></strong>，接口索引的顺序是按照implements（或extends）后的顺序以此展开的。</p>
+</blockquote>
+<p><strong><em>6.字段表集合</em></strong></p>
+<blockquote>
+<p>字段表中存放用于描述类或接口中声明的变量信息，也是由一个两个字节的数据表示字段个数后面字节代表字段1….字段n，其中包括类级和实例级变量（static修饰符来区分）但是其中<strong>不包括局部变量也不包括从超类或父类中继承来的字段</strong>，还有一些是有着特殊含义的字段，如内部类通常会添加指向外部类的字段用来保持对外部类的访问性。其中<strong>字段的通常信息</strong>包括：   </p>
+<ol>
+<li>字段的作用域（public protected private default修饰符区分）；   </li>
+<li>变量的级别（类级变量或实例级变量）；   </li>
+<li>可变性（final修饰符区分）；   </li>
+<li>并发可见性（volatile修饰符）；   </li>
+<li>可否序列化（reansient修饰符）；   </li>
+<li>字段的数据类型（int char double float等修饰符）；    </li>
+<li>字段的名称等等。</li>
+</ol>
+</blockquote>
+<p><strong><em>7.方法表集合</em></strong></p>
+<blockquote>
+<p>与字段表一致的是方法集合在class文件中采用了相同的存储方式，也是由一个两个字节的数据表示方法个数后面字节代表方法1….方法n，其中方法表的集合的信息通常包含：</p>
+<ol>
+<li>访问标志（access_flags）；   </li>
+<li>名称索引（name_index）；   </li>
+<li>描述符索引（descriptor_index）；   </li>
+<li>属性表集合（attributes）这个里面包含的是类文件方法里的Java代码经过虚拟机编译后的<strong>字节码指令</strong>，这些指令都被放在了一个叫属性表的集合里面的“code”属性里。</li>
+</ol>
+</blockquote>
+<p>解释一下字节码指令：字节码指令是指JVM的指令由一个字节长度的、代表着某种特定操作含义的数字（操作码，Opcode）以及跟随其后的0至多个爱表此操作所需参数（操作数，Operands）构成。字节码指令集是一种具有鲜明特点、优劣势都很突出的指令集架构，由于限制了Java虚拟机操作码的长度为一个字节（即0～255），这意味着指令集的操作码总数不可能超过256 条；又由于Class文件格式放弃了编译后代码的操作数长度对齐，这就意味着虚拟机处理那些超过一个字节数据的时候，不得不在运行时从字节中重建出具体数据的结构。</p>
+<p><strong><em>8.属性表集合</em></strong></p>
+<blockquote>
+<p>在class 文件、字段表、方法表中都可以携带自己的属性表集合，以用于描述某些场景专有的信息，它也是由一个两个字节的数据表示属性个数后面字节代表属性1….方属性n。其中的属性包括：</p>
+<ol>
+<li><strong>code属性</strong>：这个在方法表集合中提到过，类文件方法体中的代码经过Javac编译器处理后，最终变为字节码指令存储在Code属性内。但是要注意，抽象类和接口的方法是没有code属性的；</li>
+<li><strong>Exception属性</strong>：这个应该是很常见的，这个是一个异常类的统称，Exception属性就是用来列举出方法中可能抛出的（thorows关键字后的）受检查异常；</li>
+<li><strong>LineNumberTable属性</strong>：用于描述 Java源码行号与字节码行号（字节码的偏移量）之间的对应关系。它并不是运行时必需的属性，但默认会生成到 Class 文件之中，可以在 javac 中分别使用 -g:none 或 -g:lines选项来取消或要求生成这项信息。如果选择不生成LineNumberTable 属性，对程序运行产生的最主要的影响就是当抛出异常时，堆栈中将不会显示出错的行号，并且在调试程序的时候，也无法按照源码行来设置断点。</li>
+<li><strong>LocalVariableTable属性</strong>:用于描述栈帧中局部变量表中的变量与 Java 源码中定义的变量之间的关系,它也不是运行时必需的属性，但默认会生成到 Class 文件之中，可以在 Javac 中分别使用 -g:none 或 -g:vars 选项来取消或要求生成这项信息。如果没有生成这项属性，最大的影响就是当其他人引用这个方法时，所有的参数名称都将会丢失，IDE 将会使用诸如 arg0、arg1 之类的占位符代替原有的参数名，这对程序运行没有影响，但是会对代码编写带来较大不变，而且在调试期间无法根据参数名称从上下文获得参数值。</li>
+<li><strong>SourceFile属性</strong>:用于记录生成这个 Class 文件的源码文件名称。这个属性也是可选的，可以分别使用 javac 的 -g:none 或 -g:source 选项来关闭或要求生成这项信息。在 Java 中，对于大多数的类来说，类名和文件名是一致的，但是又一些特殊情况（如内部类）例外。如果不生成这项属性，当抛出异常时，堆栈中将不会显示出错代码所属的文件名。</li>
+<li><strong>ConstantValue属性</strong>:作用是通知虚拟机自动为静态变量赋值。只有被 static 关键字修饰的变量（类变量）才可以使用这项属性。类似 “int x = 1” 和 “static int x = 1” 这样的变量定义在 Java 程序中是非常常见的事情，但虚拟机对这两种变量赋值的方式和时刻都有所不同。对于非 static 类型的变量（也就是实例变量）的赋值是在实例构造器 <init> 方法中进行的；而对于类变量，则有两种方式可以选择：在类构造器 <clinit> 方法中或者使用 ConstantValue 属性。目前 Sun Javac 编译器的选择是：如果同时使用 final 和 static 来修饰一个变量（按照习惯，这里称 “常量” 更贴切），并且这个变量的数据类型是基本类型或者 java.lang.String 的话，就生成 ConstantValue 属性来进行初始化，如果这个变量没有被 final 修饰，或者并非基本类型及字符串，则将会选择在 <clinit> 方法中进行初始化。</li>
+<li><strong>InnerClass属性</strong>:用于记录内部类与宿主类之间的关联。如果一个类中定义了内部类，那编译器将会为它以及它所包含的内部类生成 InnerClass 属性。</li>
+<li><strong>Deprecated和Synthetic属性</strong>：Deprecated 和 Synthetic 两个属性都属于标志类型的布尔属性，只存在有和没有的区别，没有属性值的概念。Deprecated 属性用于表示某个类、字段或者方法，已经被程序作者定为不再推荐使用，它可以通过在代码中使用 @deprecated 注释进行设置。<br>Synthetic 属性代表此字段或者方法并不是由 Java 源码直接产生的，而是由编译器自行添加的，在 JDK 1.5 之后，标识一个类、字段或者方法是编译器自动产生的，也可以设置它们访问标志中的 ACC_SYNTHETIC 标志位，其中最典型的例子就是 Bridge Method。所有由非用户代码产生的类、方法及字段都应当至少设置 Synthetic 属性和 ACC_SYNTHETIC 标志位中的一项，唯一的例外是实例构造器 “<init>” 方法和类构造器 “<clinit>” 方法。</li>
+<li><strong>StackMapTable属性</strong>:在 JDK 1.6 发布后增加到了 Class 文件规范中，它是一个复杂的变长属性，位于 Code 属性的属性表中。这个属性会在虚拟机类加载的字节码验证阶段被新类型检查验证器（Type Checker）使用，目的在于代替以前比较消耗性能的基于数据流分析的类型推导验证器。</li>
+<li><strong>Signature属性</strong>:在 JDK 1.5 发布后增加到了 Class 文件规范之中，它是一个可选的定长属性，可以出现于类、属性表和方法表结构的属性表中。在 JDK 1.5 中大幅增强了 Java 语言的语法，在此之后，任何类、接口、初始化方法或成员的泛型签名如果包含了类型变量（Type Variables）或参数化类型（Parameterized Types），则 Signature 属性会为它记录泛型签名信息。之所以要专门使用这样一个属性去记录泛型类型，是因为 Java 语言的泛型采用的是擦除法实现的伪泛型，在字节码（Code 属性）中，泛型信息编译（类型变量、参数化类型）之后都通通被擦除掉。使用擦除法的好处是实现简单（主要修改 Javac 编译器，虚拟机内部只做了很少的改动）、非常容易实现 backport，运行期也能够节省一些类型所占的内存空间。但坏处是运行期就无法像 C# 等有真泛型支持的语言那样，将泛型类型与用户定义的普通类型同等对待，例如运行期做反射时无法获得泛型信息。Signature 属性就是为了弥补这个缺陷而增设的，现在 Java 的反射 API 能够获取泛型类型，最终的数据来源也就是这个属性。</li>
+<li><strong>BootstrapMethods属性</strong>:在 JDK 1.7 发布后增加到了 Class 文件规范之中，它是一个复杂的变长属性，位于类文件的属性表中。这个属性用于保存 invokedynamic 指令引用的引导方法限定符。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Java类文件结构是java技术体系的重要基础之一，类文件是JVM对于编译首先要识别的入口，这是个数据和指令的开端，所以想要深入理解Java虚拟机，就不能不对class文件结构进行一个详细的认知。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你陪我一起成长<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -233,323 +309,128 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/06/29/%E3%80%90JVM%E3%80%91%E7%B1%BB%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%BE%E7%9A%84%E4%B8%A4%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" class="archive-article-date">
-  	<time datetime="2020-06-26T16:39:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-27</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/06/30/%E3%80%90JVM%E3%80%91%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【JVM】类加载机制
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%BE%E7%9A%84%E4%B8%A4%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【数据结构】(图的两种Java实现与经典应用)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%9B%BE%E7%9A%84%E4%B8%A4%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/">【数据结构】(图的两种Java实现与经典应用)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥-¥"><span class="toc-number">1.</span> <span class="toc-text">学习JVM居然能忽略类文件结构？不存在的！类文件结构作为理解JVM入门级的垫脚石，你不能不清楚它的存在及意义¥.¥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-number">2.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类文件结构的相关概念与属性"><span class="toc-number">3.</span> <span class="toc-text">类文件结构的相关概念与属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0)/" class="archive-article-date">
-  	<time datetime="2020-06-19T15:39:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-19</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/19/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0)/">【数据结构】(二叉树的Java与C++实现)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%98%9F%E5%88%97%E7%9A%84%E4%B8%A4%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/" class="archive-article-date">
-  	<time datetime="2020-06-13T08:26:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/13/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%98%9F%E5%88%97%E7%9A%84%E4%B8%A4%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/">【数据结构】(队列的Java实现与经典应用)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/" class="archive-article-date">
-  	<time datetime="2020-06-10T07:57:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E5%A0%86%E6%A0%88%E7%9A%84%E4%B8%89%E7%A7%8DJava%E5%AE%9E%E7%8E%B0%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8)/">【数据结构】(堆栈的三种Java实现与经典应用)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/" class="archive-article-date">
-  	<time datetime="2020-06-08T07:44:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/08/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(Java%E9%93%BE%E8%A1%A8%E7%9A%84%E5%AE%9E%E7%8E%B0)/">【数据结构】(链表的Java实现与经典应用)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/" class="archive-article-date">
-  	<time datetime="2020-06-05T07:37:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84(%E9%A1%BA%E5%BA%8F%E8%A1%A8%E7%9A%84Java%E4%B8%8EC++%E5%AE%9E%E7%8E%B0%E4%B8%8E%E7%BB%8F%E5%85%B8%E5%BA%94%E7%94%A8)/">【数据结构】(顺序表的Java与C++实现及经典应用)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-05-27T04:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">【设计模式】Java设计模式(记忆点)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/29/Java%E5%90%8E%E7%9F%A5%E5%90%8E%E8%A7%89/" class="archive-article-date">
-  	<time datetime="2020-04-29T08:30:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/29/Java%E5%90%8E%E7%9F%A5%E5%90%8E%E8%A7%89/">【Java】Java后知后觉(初阶)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">学习区</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -588,8 +469,8 @@ color="220,220,220" opacity='0.7' zIndex="-2" count="200" src="//cdn.bootcss.com
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
