@@ -19,19 +19,19 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒@-@">
+  <meta name="description" content="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒✪ω✪">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【设计模式】Java设计模式(记忆点)">
 <meta property="og:url" content="http://easonhe.top/2020/05/27/Java%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="小贺のBLOG">
-<meta property="og:description" content="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒@-@">
+<meta property="og:description" content="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒✪ω✪">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.loli.net/2020/06/15/VUPQWpBE9hdLxl2.jpg">
 <meta property="article:published_time" content="2020-05-27T04:30:57.000Z">
-<meta property="article:modified_time" content="2020-07-01T08:10:47.887Z">
+<meta property="article:modified_time" content="2020-07-01T12:20:33.971Z">
 <meta property="article:author" content="Eason He">
 <meta property="article:tag" content="学习区">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-01 16:10:47" itemprop="dateModified" datetime="2020-07-01T16:10:47+08:00">2020-07-01</time>
+                <time title="修改时间：2020-07-01 20:20:33" itemprop="dateModified" datetime="2020-07-01T20:20:33+08:00">2020-07-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,120 +260,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结-后期深读时会继续更新设计模式系列的博文哒"><a href="#这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结-后期深读时会继续更新设计模式系列的博文哒" class="headerlink" title="这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒@-@"></a>这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒@-@</h2><a id="more"></a>
+        <p><strong>这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒✪ω✪</strong></p>
+<a id="more"></a>
 <p><img src="https://i.loli.net/2020/06/15/VUPQWpBE9hdLxl2.jpg" alt="IMG_7799.jpg"></p>
-<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><blockquote>
+<h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><blockquote>
 <p><strong><em>策略模式用来封装算法，当遇到不同时间使用不同时可以使用策略模式</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>虽然当业务变更时仍需要改变Text里的switch语句中的判断条件，但是任何需求的变更都是需要成本的<br>—</p>
 </blockquote>
-<h3 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h3><blockquote>
+<h2 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h2><blockquote>
 <p><strong><em>装饰模式就是为已有功能动态添加更多功能的一种方式，当代码需要新功能时不必向主类中添加代码从而增加主类的复杂度，可以使用修饰类来完成这个功能</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><blockquote>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><blockquote>
 <p><strong><em>代理模式的应用场景：1.远程代理，即为一个对象在不同的地址空间提供局部代表，从而可以隐藏对象在不同地址空间的事实；2.虚拟代理，是根据需要创建开销很大的对象，通过它来存放实例化需要很长时间的真实对象如HTML网页中的大量图片信息；3.安全代理，用来控制真实对象的访问权限；4.智能指引，指在调用真实的对象时代理处理另外一些事</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><blockquote>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><blockquote>
 <p><strong><em>工厂方法定义一个用于创建对象的接口，让子类决定实例化哪一个类，工厂模式使一个类实例化延迟到了子类。相比于简单工厂的添加功能需要修改工厂的switch语句，这违背了开-闭原则，所以引入了工厂模式，它将修改的代码从普通类移动到了客户端</em></strong>   </p>
 </blockquote>
 <hr>
-<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><blockquote>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><blockquote>
 <p><strong><em>原型模式其实就是从一个对象再创建另外一个可定制的对象，而且不需要知道任何创建的细节。一般在初始化信息不变的的情况下，克隆是最好的方法，既隐藏了初始化的细节，又是对性能的极大提高</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="模版模式"><a href="#模版模式" class="headerlink" title="模版模式"></a>模版模式</h3><blockquote>
+<h2 id="模版模式"><a href="#模版模式" class="headerlink" title="模版模式"></a>模版模式</h2><blockquote>
 <p><strong><em>模版模式提供了一个代码复用的平台，通过模版模式将一些单一的行为整合到一个单一的地方，这样使子类摆脱了重复单一行为的纠缠</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h3><blockquote>
+<h2 id="迪米特法则"><a href="#迪米特法则" class="headerlink" title="迪米特法则"></a>迪米特法则</h2><blockquote>
 <p><strong><em>迪米特法则指出如果两个类不必彼此直接通信，那么它们就不应该直接发生相互作用，如果其中一个类需要调用另一个类的方法的话，那么可以通过第三方转发这个调用</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>迪米特法则根本思想其实强调了类之间的松耦合</p>
 </blockquote>
 <hr>
-<h3 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h3><blockquote>
+<h2 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h2><blockquote>
 <p><strong><em>外观模式为子系统的一组接口提供了一致的界面，此模式定义了一个高层接口，这个接口使得这个子系统更加容易使用</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>外观模式用一个高层接口使得原本设计粗糙且复杂的遗留代码有了一个清晰的接口，这样让新的系统更加容易与其交互</p>
 </blockquote>
 <hr>
-<h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><blockquote>
+<h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><blockquote>
 <p><strong><em>建造者模式将一个复杂对象的构建与表示分离，这样使得同样的构建过程可以创建不同的表示</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>建造者模式的Builder定义了抽象的建造过程，使得实例化的建造可以不遗漏建造过程（遗漏的话是不能通过编译的）,与此同时创建Director类可以用来创建具体的想要创建的对象</p>
 </blockquote>
 <hr>
-<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><blockquote>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><blockquote>
 <p><strong><em>观察者模式一般使用在当一个对象改变同时需要改变其他对象时，并且并不知道具体有多少对象需要改变，观察者模式的工作其实就是在接触耦合，使得耦合双方依赖于抽象而非具体，从而使得各自的变化不回影响另一个的变化</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><blockquote>
+<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><blockquote>
 <p><strong><em>抽象工厂模式提供一个创建一系列相关或互相依赖对象的接口，而无需指定它们具体的类</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="三种工厂模式对比"><a href="#三种工厂模式对比" class="headerlink" title="三种工厂模式对比"></a>三种工厂模式对比</h3><blockquote>
+<h2 id="三种工厂模式对比"><a href="#三种工厂模式对比" class="headerlink" title="三种工厂模式对比"></a>三种工厂模式对比</h2><blockquote>
 <p><strong>简单工厂模式</strong>:生产一个有多种款式的对象，对象通用抽象父类，用Switch决定实例化哪一种款式的对象；<br><strong>工厂模式</strong>：生产一个有多重款式的对象，对象通用抽象父类，每种款式有其特定的生产工厂，它们都继承一个工厂接口，在客户端种决定用哪一个特定工厂来实例化工厂，这将实例化延迟到了客户端；<br><strong>抽象工厂模式</strong>：生产多个有多种款式的对象3应其抽象父类，多个对象用多个特定工厂来连接工厂接口，接口里对应了每个款式对应的对象创建实例</p>
 </blockquote>
 <hr>
-<h3 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h3><blockquote>
+<h2 id="状态模式"><a href="#状态模式" class="headerlink" title="状态模式"></a>状态模式</h2><blockquote>
 <p><strong><em>状态模式:当一个对象的行为取决于它的状态，并且它必须在运行时刻根据自己的状态来改变自己的行为的时候可以考虑使用状态模式</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>由于对于状态来判断行为会含有很长的判断语句，这将是long method其实就已经有了坏味道，这违反了单一职责和开-闭原则，状态模式说白了就是将很长的判断语句分离开来，以便后期修改与维护</p>
 </blockquote>
 <hr>
-<h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><blockquote>
+<h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><blockquote>
 <p><strong><em>适配器模式：适配器类继承适配目标的父类，被适配作为适配器的内部对象变量，在构造函数时将其实例化，然后将目标父类的函数内部调用被适配的对象的相对应的内方法</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="备忘录模式"><a href="#备忘录模式" class="headerlink" title="备忘录模式"></a>备忘录模式</h3><blockquote>
+<h2 id="备忘录模式"><a href="#备忘录模式" class="headerlink" title="备忘录模式"></a>备忘录模式</h2><blockquote>
 <p><strong><em>备忘录模式：在需要进行存储备忘录的类里添加保存备忘录的方法，并将需要保存的属性加入，由于对备忘录的封装属性最好再加备忘录管理者类，通过管理者类来对备忘录进行存储和使用</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h3><blockquote>
+<h2 id="组合模式"><a href="#组合模式" class="headerlink" title="组合模式"></a>组合模式</h2><blockquote>
 <p><strong><em>组合模式：将对象组合成树形结构，以表示它们之间的额“整体-部分”的层次结构，组合模式使得客户对单个对象和组合对象的使用具有一致性</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>当发现需求中是整体与部分的结构层次时，并且客户可以忽略组合对象与单个对象之间的关系，从而统一的使用组合结构中的所有对象时就可以考虑使用组合模式了</p>
 </blockquote>
 <hr>
-<h3 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h3><blockquote>
+<h2 id="迭代器模式"><a href="#迭代器模式" class="headerlink" title="迭代器模式"></a>迭代器模式</h2><blockquote>
 <p><strong><em>迭代器模式：提供了一个方法可以顺序的访问某聚合类型里的各个元素，而又不暴露各个对象的内部表示</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>很多语言中已经不再显式的使用迭代器模式而是已经把这个模式做到了语言当中例如foreach in循环或者枚举类型，但是迭代器模式还是拥有它本身的优点，比如可以自己定义一种循环方式，而不是简单的进行顺序遍历</p>
 </blockquote>
 <hr>
-<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><blockquote>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><blockquote>
 <p><strong><em>单例模式：为了确保类被一次且只能被实例化一次，并且提供获取此实例的方法 一般来说不建议使用懒汉方式，一般使用饿汉方式，在明确要用lazy loading时会使用登记模式，如果涉及到反序列化创建对象时可以考虑使用枚举方式，如果有特殊需求可以使用双检锁方式</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><blockquote>
+<h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h2><blockquote>
 <p><strong><em>桥接模式：由于大量的继承会导致更改影响大难以更新维护，违背了开-闭原则，所以也就是当多角度分类时，就可以将这些类分离出来，这种时候使用合成/聚合复用原则，尽量不使用继承</em></strong>   </p>
 </blockquote>
 <blockquote>
 <p>可以这样想：猪八戒投胎，灵魂在河的一边，河对面有两个肉体，红猪和绿猪；灵魂需要过桥，选择红猪的肉体或者绿猪的肉体完成投胎。在上面的例子中，红猪和绿猪就是 HandsetGame 和 HandsetPhone，灵魂是 HandsetBand 类，而那座桥就是 HandsetBand 这个接口。</p>
 </blockquote>
 <hr>
-<h3 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h3><blockquote>
+<h2 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h2><blockquote>
 <p><strong><em>命令模式：把请求一个操作的对象与它怎么执行一个操作的对象分割开来，这样在程序中请求者和实现者分割开来，可以方便的加入一个新的命令，并且降低了系统的耦合度</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h3><blockquote>
+<h2 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h2><blockquote>
 <p><strong><em>责任链模式有点类似于迭代器模式，一个对象管理对应的业务，超出范围则转入下一个对象管理，以此类推</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h3><blockquote>
+<h2 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h2><blockquote>
 <p><strong><em>中介者模式是将很多实体之间的交互封装在一个特定的类当中，使得类之间松耦合，一般应用于一组定义良好但是复杂的方式进行通信的场合，但是由于中介者模式的特点使得中介者类很复杂难以维护</em></strong></p>
 </blockquote>
 <hr>
-<h3 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h3><blockquote>
+<h2 id="享元模式"><a href="#享元模式" class="headerlink" title="享元模式"></a>享元模式</h2><blockquote>
 <p><strong><em>享元模式是在一个程序需要创建大量的对象并且这些对象大多数的状态都可以是外部状态时就可以考虑使用享元模式，享元模式是通过对象生产工厂生产出来具有内部状态的对象，然后提供给不同用户赋予对象外部状态来使用，，这样避免了大量的创建对象而造成的占用大量的空间问题</em></strong></p>
 </blockquote>
 
@@ -476,7 +477,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结-后期深读时会继续更新设计模式系列的博文哒"><span class="nav-number">1.</span> <span class="nav-text">这里是初读程杰老师的《大话设计模式》得到的一些对应模式应用场景的简单总结,后期深读时会继续更新设计模式系列的博文哒@-@</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#策略模式"><span class="nav-number">1.1.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰模式"><span class="nav-number">1.2.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理模式"><span class="nav-number">1.3.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.4.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原型模式"><span class="nav-number">1.5.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模版模式"><span class="nav-number">1.6.</span> <span class="nav-text">模版模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迪米特法则"><span class="nav-number">1.7.</span> <span class="nav-text">迪米特法则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外观模式"><span class="nav-number">1.8.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建造者模式"><span class="nav-number">1.9.</span> <span class="nav-text">建造者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察者模式"><span class="nav-number">1.10.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象工厂模式"><span class="nav-number">1.11.</span> <span class="nav-text">抽象工厂模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三种工厂模式对比"><span class="nav-number">1.12.</span> <span class="nav-text">三种工厂模式对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#状态模式"><span class="nav-number">1.13.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适配器模式"><span class="nav-number">1.14.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备忘录模式"><span class="nav-number">1.15.</span> <span class="nav-text">备忘录模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合模式"><span class="nav-number">1.16.</span> <span class="nav-text">组合模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代器模式"><span class="nav-number">1.17.</span> <span class="nav-text">迭代器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式"><span class="nav-number">1.18.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桥接模式"><span class="nav-number">1.19.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令模式"><span class="nav-number">1.20.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式"><span class="nav-number">1.21.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中介者模式"><span class="nav-number">1.22.</span> <span class="nav-text">中介者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#享元模式"><span class="nav-number">1.23.</span> <span class="nav-text">享元模式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式"><span class="nav-number">1.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰模式"><span class="nav-number">2.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">3.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">4.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式"><span class="nav-number">5.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版模式"><span class="nav-number">6.</span> <span class="nav-text">模版模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迪米特法则"><span class="nav-number">7.</span> <span class="nav-text">迪米特法则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外观模式"><span class="nav-number">8.</span> <span class="nav-text">外观模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式"><span class="nav-number">9.</span> <span class="nav-text">建造者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">10.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂模式"><span class="nav-number">11.</span> <span class="nav-text">抽象工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三种工厂模式对比"><span class="nav-number">12.</span> <span class="nav-text">三种工厂模式对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态模式"><span class="nav-number">13.</span> <span class="nav-text">状态模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适配器模式"><span class="nav-number">14.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备忘录模式"><span class="nav-number">15.</span> <span class="nav-text">备忘录模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合模式"><span class="nav-number">16.</span> <span class="nav-text">组合模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器模式"><span class="nav-number">17.</span> <span class="nav-text">迭代器模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">18.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#桥接模式"><span class="nav-number">19.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令模式"><span class="nav-number">20.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#责任链模式"><span class="nav-number">21.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中介者模式"><span class="nav-number">22.</span> <span class="nav-text">中介者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#享元模式"><span class="nav-number">23.</span> <span class="nav-text">享元模式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -600,7 +601,7 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/pisces.js"></script>
+<script src="/js/schemes/muse.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
