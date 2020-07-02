@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="*顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ ) *">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java】字节码执行机制">
+<meta property="og:url" content="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="*顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ ) *">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/02/2YjyJ.png">
+<meta property="article:published_time" content="2020-07-02T14:30:57.000Z">
+<meta property="article:modified_time" content="2020-07-02T14:30:22.891Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习区">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx2.sbimg.cn/2020/07/02/2YjyJ.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Java】字节码执行机制 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">13</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Java】字节码执行机制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-07-02 22:30:57 / 修改时间：22:30:22" itemprop="dateCreated datePublished" datetime="2020-07-02T22:30:57+08:00">2020-07-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>*<em>顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ ) *</em></p>
+<a id="more"></a>
+<h2 id="JVM字节码执行引擎概念"><a href="#JVM字节码执行引擎概念" class="headerlink" title="JVM字节码执行引擎概念"></a>JVM字节码执行引擎概念</h2><blockquote>
+<p>作为JVM最为核心的组成部分，JVM执行引擎的工作方式本身就非常类似于真正物理机的编译以及汇编语言的执行机理，JVM执行引擎可以自己制定指令集和执行结构体系，很多不能被硬件所直接支持的指令集在执行引擎里也能够执行，这都是执行引擎自己所实现的，一般看来，<strong>所有的Java虚拟机的执行引擎都是将输入的字节码文件经过字节码解析过程从而得到执行结果的过程</strong>。<strong>字节码作为JVM的指令集，它需要JVM执行引擎去执行，达到从本地机器码到字节码的编译结果</strong>，这看似只是存储格式的转变，但这却深深的影响了编程语言。</p>
+</blockquote>
+<h2 id="线帧"><a href="#线帧" class="headerlink" title="线帧"></a>线帧</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><blockquote>
+<p>线帧（Stack Frame）是一种用于支持虚拟机进行方法调用和方法执行的数据结构，<strong>它是虚拟机运行时数据区中虚拟机栈的栈元素</strong>线帧作为栈元素并且能支持虚拟机对方法的相关操作自然包含了很多数据元素，也就是说，每一个方法的被调用到结束都对应着一个线帧从入栈到出栈的过程。</p>
+</blockquote>
+<p>在方法调用到结束的过程中还有一些相关概念</p>
+<blockquote>
+<p><strong>一个线程中的方法调用链可能会很长，很多方法都同时处于执行状态。对于执行引擎来说，在活动线程中，只有位于栈顶的栈帧才是有效的</strong>,每当一个线程启动时，JVM都会为它分配一个栈，栈的单位是帧，并且它负责保存当前线程的运行状态，其中某个线程正在执行的方法就称为<strong>当前方法</strong>，当前方法所用到的帧称为<strong>当前帧</strong>，这个方法所属的类就被称作<strong>当前类</strong>，当前所用到的常量池成为<strong>当前常量池</strong>，所以在一个线程执行方法时就会追踪当前常量池。线帧作为当前方法所分配的一个帧，于是也就成了当前帧，这个帧就被用来存储当前方法的相关数据流被压入虚拟机栈中。</p>
+</blockquote>
+<p>概括的说</p>
+<blockquote>
+<p>栈是用来保存当前线程的运行状态的，而帧是用来保存当前方法的运行状态的，也就是线程中依次运行不同方法对应着帧的入栈和出栈   </p>
+</blockquote>
+<h3 id="组成成分"><a href="#组成成分" class="headerlink" title="组成成分"></a>组成成分</h3><h4 id="局部变量表"><a href="#局部变量表" class="headerlink" title="局部变量表"></a>局部变量表</h4><p>相关概念：</p>
+<blockquote>
+<p>局部变量表的容量是<strong>容量槽slot</strong>为最小单位，一个slot大小为32bit，所以在<strong>64位的虚拟机</strong>中需要使用<strong>对齐补白</strong>的手段来使得使得容量槽slot在外观上看起来和32位的虚拟机保持一致，所以说对于<strong>64位的数据如long，double都需要使用两个容量槽slot去存储</strong>，并且在任何时候都不允许<strong>单独访问</strong>其中的一个。局部变量表的大小是在编译期间可以查询到的，因为它是作为方法的对应属性里的数据max_local数据项中存储的，也就是编译class文件的过程中，这个最大的需要分配变量的局部变量表的最大存储容量就已经确定了。</p>
+</blockquote>
+<p>局部变量表的顺序：</p>
+<blockquote>
+<p>变量表的索引从0开始，首先是方法所属的对象的引用（静态方法无）-&gt;其次是方法的参数变量（按照声明的顺序）-&gt;再者是方法的内部的局部变量（按照声明的顺序）。并且对于byte char short这三种数据类型需要转化为int类型存储在局部变量表中</p>
+</blockquote>
+<p>其他性质：</p>
+<blockquote>
+<p>在类被JVM加载时会为类变量赋初值，但是局部变量若声明了但却未赋初值是会出现编译错误的并且slot对于局部变量中没有覆盖整个方法的作用域的变量是可重用的。对于可重用的slot，如果后面没有在定义变量对这个slot进行覆盖，即使这个变量已经无效，那么这个变量在方法体内也不会被回收，除非解释执行的时候显示的赋值为null，但是在JIT编译器优化后赋值为null的操作就会被消除掉，这时候将变量设置为null就没有意义了。</p>
+</blockquote>
+<h4 id="操作数栈"><a href="#操作数栈" class="headerlink" title="操作数栈"></a>操作数栈</h4><p>一些操作性质：</p>
+<blockquote>
+<p>操作数栈和局部变量表一样都是编译期间，操作数栈的最大深度在编译的时候写入到Code属性的max_stacks数据项中。操作数栈的元素不明确Java的数据类型，也就是说在所有Java数据类型中，32位数据容量为1,64位数据容量为2，   </p>
+</blockquote>
+<p>其他性质：</p>
+<blockquote>
+<p>在概念模型中，一个县城的两个栈帧是相互独立的，但是在虚拟机实现中都会做一些优化处理，让两个栈帧出现一部分重叠，也就是让下面栈帧的部分操作数栈与上面的栈帧的部分局部变量表互相重重叠，这样在进行方法调用时就会公用一部分数据，无需进行额外的参数复制，达到了一定的优化效果。java虚拟机的解释执行引擎称为“基于栈的执行引擎”，其中栈指的就是操作数栈。</p>
+</blockquote>
+<h4 id="动态连接"><a href="#动态连接" class="headerlink" title="动态连接"></a>动态连接</h4><blockquote>
+<p>栈帧包含了一个指向运行时常量池中该栈帧所属方法的引用，这个引用是为了支持方法调用过程中的<strong>动态连接</strong>。常量池中存有大量的符号引用，字节码中的方法调用指令就以常量池中指向方法的符号引用作为参数。这些符号引用有些会在类加载阶段或者第一次使用的时候就转化为直接引用，这种转化称为静态解析。另外的符号引用将在每一次<strong>运行期间</strong>转化为直接引用，这部分称为<strong>动态解析</strong>。</p>
+</blockquote>
+<h4 id="方法返回地址"><a href="#方法返回地址" class="headerlink" title="方法返回地址"></a>方法返回地址</h4><blockquote>
+<p>无论是正常完成退出方法还是异常完成退出方法，都需要返回到方法被调用的位置，才能将程序正常进行下去，方法正常退出时，PC计数器的值可以作为返回地址，栈帧中很可能会保存这个计数器值；方法异常退出时，要通过异常处理器表来确定返回的地址，栈帧中一般不会保存这部分信息。方法退出相当于把当前栈帧出栈，所以方法退出时可能执行恢复上层方法的局部变量表和操作数栈的操作和把返回值（如果存在）压入调用者栈帧的操作数栈中的操作以及调整PC计数器的值以指向方法调用指令后面的一条指令的操作。</p>
+</blockquote>
+<h2 id="方法调用"><a href="#方法调用" class="headerlink" title="方法调用"></a>方法调用</h2><p><img src="https://wx2.sbimg.cn/2020/07/02/2YjyJ.png" alt="2YjyJ.png"></p>
+<h3 id="解析调用"><a href="#解析调用" class="headerlink" title="解析调用"></a>解析调用</h3><blockquote>
+<p>我们知道，在类加载过程中有解析阶段，在这个阶段中，类文件的一部分符号引用会转化为直接引用，这么做主要是因为<strong>方法在真正的执行前就已经有了一个可确定的调用版本，并且这个版本在运行期间是不可变的</strong>，这类方法的调用就称作解析调用。并且满足条件的这类方法叫做<strong>非虚方法</strong>主要有静态方法、私有方法、父类方法、final类方法、实例构造器方法，其他的不满足这样过程的条件都称为<strong>虚方法</strong></p>
+</blockquote>
+<h2 id="分派与多态"><a href="#分派与多态" class="headerlink" title="分派与多态"></a>分派与多态</h2><h3 id="静态分派与重载"><a href="#静态分派与重载" class="headerlink" title="静态分派与重载"></a>静态分派与重载</h3><blockquote>
+<p>重载是指方法名是相同的但是方法签名不同的情况，调用时使用<strong>方法签名</strong>来判断调用哪个具体方法，<strong>JVM在重载时是通过静态类型作为判断依据</strong>，所以javac编译器会根据参数的静态类型来决定选择哪个版本的方法，<strong>静态分派发生在编译阶段</strong>，因此确定静态分派的动作实际上不是有虚拟机来执行的。</p>
+</blockquote>
+<p>Java静态类型与实际类型的相关解释可以参考上一篇博客或直接点击<a href="http://www.easonhe.top/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/" target="_blank" rel="noopener">传送门</a></p>
+<h4 id="方法签名的解释"><a href="#方法签名的解释" class="headerlink" title="方法签名的解释"></a>方法签名的解释</h4><blockquote>
+<p><strong>方法头指定修饰符、返回值类型、方法名、和形式参数</strong>。方法头中定义的变量称为形参 ，形参如同占位符。当方法被调用时，传递一个值给形参，此值称为实参，形参列表指的是形参的类型、顺序和形参的数目。<strong>方法签名就是方法名和形参列表共同组成的</strong>。</p>
+</blockquote>
+<h3 id="动态分配与重写"><a href="#动态分配与重写" class="headerlink" title="动态分配与重写"></a>动态分配与重写</h3><blockquote>
+<p>重写是指方法名和方法签名都相同的子类重写父类的方法，但是需要注意的是静态方法可以重载但是重写是无效的，因为在调用的过程中<strong>通过子类的实例对象调用就是调用子类的静态方法，通过父类的实例对象调用则调用父类的静态方法</strong></p>
+</blockquote>
+<blockquote>
+<p>动态分派和多态重写的本质与<strong>字节码指令invokevirtual的多态查找过程</strong>相关：1.找到栈顶元素所指向的对象的实际类型，记为C；2. 在类型C中找到与常量池中的描述符与简单名称都相符的方法，然后进行访问权限检查，如果通过则返回这个方法的直接引用，查找结束；如果不通过，则返回java.lang.IllegalAccessError异常。3.否则，按照继承关系，继续重复2中搜索和验证过程。4.如果始终没有找到，则抛出java.lang.AbstractMethodError异常。这里注意，<strong>重写的本质其实就是invokevirtual指令把常量池中的符号引用解析到了不同的实际类型的直接引用上</strong></p>
+</blockquote>
+<p>用代码实例验证一下动态分配与静态方法重写问题：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package Second;</span><br><span class="line"><span class="comment">//动态分配与静态方法重写的测试</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Text1</span> &#123;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span>&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Father say Hi"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStatic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Father static"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="title">extends</span> <span class="title">Father</span>&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Son say Hi"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStatic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Son static"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Daughter</span> <span class="title">extends</span> <span class="title">Father</span>&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Daughter say Hi"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testStatic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Daughter static"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"动态分配测试"</span>);</span><br><span class="line">		Father s = <span class="keyword">new</span> Son();</span><br><span class="line">		Father d = <span class="keyword">new</span> Daughter();</span><br><span class="line">		s.sayHi();</span><br><span class="line">		d.sayHi();</span><br><span class="line">		s = <span class="keyword">new</span> Daughter();</span><br><span class="line">		s.sayHi();</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"静态方法重写测试"</span>);</span><br><span class="line">		s.testStatic();</span><br><span class="line">		d.testStatic();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<blockquote>
+<p>动态分配测试<br>Son say Hi<br>Daughter say Hi<br>Daughter say Hi<br>静态方法重写测试<br>Father static<br>Father static   </p>
+</blockquote>
+<p>这里需要注意的是：</p>
+<blockquote>
+<p>分派与解析并不是说只能选一个的问题，只是它们在不同的阶段不同层次上筛选和确定目标的过程，就比如静态方法在类加载过程的解析中就进行了解析，但若静态方法含有重载的版本那么这将在静态分派中完成选择问题。</p>
+</blockquote>
+<h3 id="虚方法表"><a href="#虚方法表" class="headerlink" title="虚方法表"></a>虚方法表</h3><blockquote>
+<p>动态分派时为了避免频繁的搜索，会为类在方法区建立一个虚方法表，利用索引来代替元数据查找从而提高性能。<strong>虚方法表中存放着各个方法的实际入口地址</strong>。如果某个方法在子类中没有重写，那子类的虚方法表里面的地址入口和父类相同方法的地址入口是一致的，都指向父类的实现入口，如果子类中重写了这个方法，那么子类对应的方法的地址将会替代指向父类方法的入口地址。具有相同方法签名的父类、子类的方法在父类和子类的虚方法表中具有相同的索引序号，这样当类型变换时，仅需要变更查找的方法表。</p>
+</blockquote>
+<h2 id="解释执行与直接执行"><a href="#解释执行与直接执行" class="headerlink" title="解释执行与直接执行"></a>解释执行与直接执行</h2><h3 id="解释器"><a href="#解释器" class="headerlink" title="解释器"></a>解释器</h3><blockquote>
+<p>解释器是将平台无关的字节码（原本由javac将java文件编译为class文件，并将源代码编译成了与平台无关的字节码）解释称对应平台的机器码解释执行</p>
+</blockquote>
+<h3 id="JIT编译器"><a href="#JIT编译器" class="headerlink" title="JIT编译器"></a>JIT编译器</h3><blockquote>
+<p>（即时编译器）是一个把Java的字节码（包括需要被解释的指令的程序）转换成可以直接发送给处理器的指令的程序。JVM对这个函数就不再解释而是直接执行</p>
+</blockquote>
+<h3 id="使用环境"><a href="#使用环境" class="headerlink" title="使用环境"></a>使用环境</h3><blockquote>
+<p>用户模式下:解释执行的。<br>server模式下：先解释执行，然后JVM统计函数执行热点，将这些热点代码仔细优化编译成本地机器码(默认为调用10000次以上)，即使用JIT编译器，当这个热点不再是热点的时候，重新解释执行。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" title="【Java】字节码执行机制">http://easonhe.top/2020/07/02/【JVM】字节码执行机制/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" rel="tag"># 学习区</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/" rel="prev" title="【Java】静态类型与实际类型">
+      <i class="fa fa-chevron-left"></i> 【Java】静态类型与实际类型
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM字节码执行引擎概念"><span class="nav-number">1.</span> <span class="nav-text">JVM字节码执行引擎概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线帧"><span class="nav-number">2.</span> <span class="nav-text">线帧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组成成分"><span class="nav-number">2.2.</span> <span class="nav-text">组成成分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#局部变量表"><span class="nav-number">2.2.1.</span> <span class="nav-text">局部变量表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作数栈"><span class="nav-number">2.2.2.</span> <span class="nav-text">操作数栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态连接"><span class="nav-number">2.2.3.</span> <span class="nav-text">动态连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法返回地址"><span class="nav-number">2.2.4.</span> <span class="nav-text">方法返回地址</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法调用"><span class="nav-number">3.</span> <span class="nav-text">方法调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解析调用"><span class="nav-number">3.1.</span> <span class="nav-text">解析调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分派与多态"><span class="nav-number">4.</span> <span class="nav-text">分派与多态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态分派与重载"><span class="nav-number">4.1.</span> <span class="nav-text">静态分派与重载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法签名的解释"><span class="nav-number">4.1.1.</span> <span class="nav-text">方法签名的解释</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态分配与重写"><span class="nav-number">4.2.</span> <span class="nav-text">动态分配与重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚方法表"><span class="nav-number">4.3.</span> <span class="nav-text">虚方法表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解释执行与直接执行"><span class="nav-number">5.</span> <span class="nav-text">解释执行与直接执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解释器"><span class="nav-number">5.1.</span> <span class="nav-text">解释器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JIT编译器"><span class="nav-number">5.2.</span> <span class="nav-text">JIT编译器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用环境"><span class="nav-number">5.3.</span> <span class="nav-text">使用环境</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="atom"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">76k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:09</span>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    我的第<span id="busuanzi_value_site_uv"></span>位朋友, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
