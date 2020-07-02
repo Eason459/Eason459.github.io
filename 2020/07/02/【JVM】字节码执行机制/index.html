@@ -22,16 +22,16 @@
     var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ )">
+  <meta name="description" content="顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做      ( ∙̆ .̯ ∙̆ )">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Java】字节码执行机制">
+<meta property="og:title" content="【JVM】字节码执行机制">
 <meta property="og:url" content="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="小贺のBLOG">
-<meta property="og:description" content="顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ )">
+<meta property="og:description" content="顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做      ( ∙̆ .̯ ∙̆ )">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wx2.sbimg.cn/2020/07/02/2YjyJ.png">
 <meta property="article:published_time" content="2020-07-02T14:30:57.000Z">
-<meta property="article:modified_time" content="2020-07-02T14:33:05.888Z">
+<meta property="article:modified_time" content="2020-07-02T14:36:48.278Z">
 <meta property="article:author" content="Eason He">
 <meta property="article:tag" content="学习区">
 <meta name="twitter:card" content="summary">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>【Java】字节码执行机制 | 小贺のBLOG</title>
+  <title>【JVM】字节码执行机制 | 小贺のBLOG</title>
   
 
 
@@ -199,7 +199,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Java】字节码执行机制
+          【JVM】字节码执行机制
         </h1>
 
         <div class="post-meta">
@@ -210,7 +210,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-07-02 22:30:57 / 修改时间：22:33:05" itemprop="dateCreated datePublished" datetime="2020-07-02T22:30:57+08:00">2020-07-02</time>
+              <time title="创建时间：2020-07-02 22:30:57 / 修改时间：22:36:48" itemprop="dateCreated datePublished" datetime="2020-07-02T22:30:57+08:00">2020-07-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +254,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做( ∙̆ .̯ ∙̆ )</strong></p>
+        <p><strong>顺承前几篇对于JVM运行的文章，本节字节码执行机制将深入了解JVM字节码执行引擎怎么去做      ( ∙̆ .̯ ∙̆ )</strong></p>
 <a id="more"></a>
 <h2 id="JVM字节码执行引擎概念"><a href="#JVM字节码执行引擎概念" class="headerlink" title="JVM字节码执行引擎概念"></a>JVM字节码执行引擎概念</h2><blockquote>
 <p>作为JVM最为核心的组成部分，JVM执行引擎的工作方式本身就非常类似于真正物理机的编译以及汇编语言的执行机理，JVM执行引擎可以自己制定指令集和执行结构体系，很多不能被硬件所直接支持的指令集在执行引擎里也能够执行，这都是执行引擎自己所实现的，一般看来，<strong>所有的Java虚拟机的执行引擎都是将输入的字节码文件经过字节码解析过程从而得到执行结果的过程</strong>。<strong>字节码作为JVM的指令集，它需要JVM执行引擎去执行，达到从本地机器码到字节码的编译结果</strong>，这看似只是存储格式的转变，但这却深深的影响了编程语言。</p>
@@ -350,7 +350,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" title="【Java】字节码执行机制">http://easonhe.top/2020/07/02/【JVM】字节码执行机制/</a>
+    <a href="http://easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" title="【JVM】字节码执行机制">http://easonhe.top/2020/07/02/【JVM】字节码执行机制/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
