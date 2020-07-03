@@ -22,20 +22,23 @@
     var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Java的静态类型与实际类型的相关问题，同时有助于理解Java中的转型问题 (๑´ڡ&#96;๑)">
+  <meta name="description" content="JVM内存模型是JVM高效运行的基础，也是JVM核心部分，同样也是面试官手里的香饽饽，盘它不要犹豫(●･̆⍛･̆●)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Java】静态类型与实际类型">
-<meta property="og:url" content="http://easonhe.top/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:title" content="【JVM】内存模型">
+<meta property="og:url" content="http://easonhe.top/2020/07/03/%E3%80%90JVM%E3%80%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="小贺のBLOG">
-<meta property="og:description" content="Java的静态类型与实际类型的相关问题，同时有助于理解Java中的转型问题 (๑´ڡ&#96;๑)">
+<meta property="og:description" content="JVM内存模型是JVM高效运行的基础，也是JVM核心部分，同样也是面试官手里的香饽饽，盘它不要犹豫(●･̆⍛･̆●)">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-07-02T14:24:31.000Z">
-<meta property="article:modified_time" content="2020-07-02T14:30:48.829Z">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/03/2UAF1.png">
+<meta property="article:published_time" content="2020-07-03T13:55:00.000Z">
+<meta property="article:modified_time" content="2020-07-03T13:55:50.610Z">
 <meta property="article:author" content="Eason He">
-<meta property="article:tag" content="学习区">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx1.sbimg.cn/2020/07/03/2UAF1.png">
 
-<link rel="canonical" href="http://easonhe.top/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/">
+<link rel="canonical" href="http://easonhe.top/2020/07/03/%E3%80%90JVM%E3%80%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
 
 <script id="page-configurations">
@@ -48,7 +51,7 @@
   };
 </script>
 
-  <title>【Java】静态类型与实际类型 | 小贺のBLOG</title>
+  <title>【JVM】内存模型 | 小贺のBLOG</title>
   
 
 
@@ -181,7 +184,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/03/%E3%80%90JVM%E3%80%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/header.JPG">
@@ -194,7 +197,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【Java】静态类型与实际类型
+          【JVM】内存模型
         </h1>
 
         <div class="post-meta">
@@ -204,7 +207,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-07-02 22:24:31" itemprop="dateCreated datePublished" datetime="2020-07-02T22:24:31+08:00">2020-07-02</time>
+              <time title="创建时间：2020-07-03 21:55:00" itemprop="dateCreated datePublished" datetime="2020-07-03T21:55:00+08:00">2020-07-03</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,14 +232,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>831</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -248,14 +251,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><strong>Java的静态类型与实际类型的相关问题，同时有助于理解Java中的转型问题 (๑´ڡ`๑)</strong></p>
+        <p><strong>JVM内存模型是JVM高效运行的基础，也是JVM核心部分，同样也是面试官手里的香饽饽，盘它不要犹豫(●･̆⍛･̆●)</strong></p>
 <a id="more"></a>
-<h2 id="代码观察"><a href="#代码观察" class="headerlink" title="代码观察"></a>代码观察</h2><h3 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package Second;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Text</span> &#123;</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Father</span>&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">doIt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Father do it"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Son</span> <span class="title">extends</span> <span class="title">Father</span>&#123;</span></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">doIt</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			System.out.<span class="built_in">println</span>(<span class="string">"Son do it"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">(Father father)</span> </span>&#123;</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"Father say Hi"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHi</span><span class="params">(Son son)</span> </span>&#123;</span><br><span class="line">		System.out.<span class="built_in">println</span>(<span class="string">"Son say Hi"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123;</span><br><span class="line">		Text t = <span class="keyword">new</span> Text();</span><br><span class="line">		Father f = <span class="keyword">new</span> Son();</span><br><span class="line">		f.doIt();</span><br><span class="line">		t.sayHi(f);</span><br><span class="line">		System.out.<span class="built_in">println</span>(f.getClass());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h3><blockquote>
-<p>Son do it<br>Father say Hi<br>class Second.Text$Son</p>
+<hr>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><blockquote>
+<p>内存作为重要的系统资源，为硬盘和CPU的握手做了桥梁，JVM内存布局规定了Java在运行过程中内存申请、分配、管理的策略，保证了JVM的高效稳定运行，不同的JVM对于内存的划分方式和管理机制存在着部分差异。为了直观感受，先上经典JVM内存模型的<strong>结构组成图</strong>。</p>
 </blockquote>
-<h2 id="相关解释"><a href="#相关解释" class="headerlink" title="相关解释"></a>相关解释</h2><blockquote>
-<p>在本段代码中Father f = new Son()实例化时<strong>Father为静态类型，Son为实际类型</strong>，并且<strong>静态类型在编译期间就是可知的，而实际类型要等到运行期间才可知</strong>，Son（）中的doIt（）方法重写了父类中的此方法，而最后执行结果是调用的子类的方法，这说明方法的<strong>重写是动态的</strong>，以此类推当f作为参数传入时是作为father这个静态类型传入的，因为结果调用的father的方法，这也说明了<strong>重载是静态的的</strong></p>
+<p><img src="https://wx1.sbimg.cn/2020/07/03/2UAF1.png" alt="2UAF1.png"></p>
+<h2 id="区域解释"><a href="#区域解释" class="headerlink" title="区域解释"></a>区域解释</h2><h3 id="程序计数器（PC）"><a href="#程序计数器（PC）" class="headerlink" title="程序计数器（PC）"></a>程序计数器（PC）</h3><blockquote>
+<p>便于记忆的说，PC就是一块内存区域，<strong>里面存放着下一条要执行的指令的地址，也就是当前所执行的字节码的行号指示区</strong>，它会告诉字节码解释器下一条要解释的字节码的行号，起到了一个定位作用，其中类似于分支、循环、跳转、异常处理、线程恢复等功能都是依赖于PC来完成的。由于PC是线程隔离的，所以它<strong>不仅可以实现代码的流程控制，而且在多线程的情况下，它还可以记录下当前线程的执行位置，以便于再次切换到线程时能够继续顺序执行</strong>。</p>
+</blockquote>
+<p>需要注意的是：程序计数器是唯不会出现 OutOfMemoryError 的内存区域，因为它的生命周期与线程保持同步，随着线程的创建而创建，随着线程的结束而死亡。</p>
+<h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><blockquote>
+<p>我们在JVM字节码执行机制中详细的讲述了关于线帧的内容，它包括了局部变量表、操作数栈、动态链接、方法出口信息的内容，这里虚拟机栈就是线帧作为组成成分的栈结构，所以在方法执行中，虚拟机栈就是运用压栈出栈的方式对方法的执行进行控制，对于具体的操作流程这里不再赘述，不清楚这一块内容的小伙伴可以看往期blog《【JVM】字节码执行机制》或直接点击<a href="http://www.easonhe.top/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" target="_blank" rel="noopener">传送门</a></p>
+</blockquote>
+<blockquote>
+<p>虚拟机栈是JVM内存模型中非常重要的一个角色，关于它我们还需哟啊注意的是JVM会出现的两种异常问题：</p>
+<ol>
+<li>StackOverFlowError:如果虚拟机栈的大小不允许动态扩展，那么如果当前线程请求超过了虚拟机栈的最大深度，那么将会抛出此异常；   </li>
+<li>OutOfMemeoryError:如果虚拟机栈的大小允许动态扩展，那么如果当前线程请求栈时内存已经用尽，那么将会抛出此异常。</li>
+</ol>
+</blockquote>
+<h3 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h3><blockquote>
+<p>本地方法栈不仅在名字上与虚拟机栈相似，他们的作用也非常的相似，<strong>本地方法栈与虚拟机栈的运作方式基本相同</strong>，包括可能抛出的两种异常。<strong>虚拟机栈主要是为了虚拟机执行字节码服务，而本地方法栈服务的是虚拟机使用native方法</strong>，在<a href="https://blog.csdn.net/tianshuhao/article/details/89819214" target="_blank" rel="noopener">HotSpot虚拟机</a>中与Java虚拟机相融合.</p>
+</blockquote>
+<p>关于native方法：</p>
+<blockquote>
+<p>简单来说native方法就是一个不是使用Java代码编写的但是Java需要使用的这么一个方法，这个方法的接口并非Java代码的接口，也就是说<strong>native是用作Java和其他语言协作时使用到的方法</strong>。这个特性在很多种语言中都支持，这种是Java底层的机制，实际上Java的平台无关性很大程度上就是在不同的平台上调用不同的native方法实现对操作系统的访问的。正是因为非Java接口所以<strong>native方法是由操作系统实现的</strong>，Java虚拟机只进行调用就可以了。</p>
+</blockquote>
+<h3 id="Java堆（heap）"><a href="#Java堆（heap）" class="headerlink" title="Java堆（heap）"></a>Java堆（heap）</h3><blockquote>
+<ol>
+<li>Java堆作为线程共享的数据区，所以它作为JVM所管理的最大的最大的一块内存，它可以供几乎所有类实例对象与数组对象分配内存，但是如果无节制的大量创建对象，那么将会消耗完内存空间，所以Java堆也是OOM异常出现的主要发源地;   </li>
+<li>由于Java堆的特点，Java堆也是垃圾收集器主要管理的区域，所以也被成错Garbage Collected Heap（GC堆）;   </li>
+<li>堆内存既可以固定大小也可以动态调整，但是通常情况下，在服务器运行的过程中，堆内存不断的进行扩容或收缩形成了不必要的系统压力，所以一般在线上生产环境中会给堆内存设置固定大小，避免了在GC后调整堆内存大小所带来的不必要的压力</li>
+<li>从GC的角度来说，现在的垃圾收集器一般均采用分代垃圾收集算法，所以java堆又分成了新生代和老年代的空间。</li>
+</ol>
+</blockquote>
+<p>在Java堆中新生代和老年代之间的运作关系很有意思，这里着重的说一下：</p>
+<blockquote>
+<p>新生代：<strong>1个Eden区+2个Survivor区；其中绝大部分的对象的生成是在Eden区，当Eden区已满后将会触发GC垃圾回收机制，经过GC垃圾回收后只有少量对象可以存活（被引用的对象）然后被复制到其中的一个Survivor区，每次GC的时候，将存活的对象复制到未使用的那块Survivor空间，然后将当前正在使用的空间完全清除，交换两块空间的使用状态，如果YGC要移送的对象大于Survivor区容量上限，则直接移交给老年代。并且重要的是对象是不可以在两个Survuvir区一直交换的，因为每进行一次交换就要将对象的1个计数器的值+1，也就是“年龄”+1，当年龄到达某个阀值的时候就会自动进入老年代</strong></p>
+</blockquote>
+<blockquote>
+<p>老年代：在新生代经历了多次GC回收后仍然存活的对象都放在了此区域，这个区域存放的对象存活率非常高，所以对于老年代的GC机制又被称为Major GC（老年代的垃圾回收），<strong>MGC通常使用的算法是“标记-清理”或者“标记-整理”的算法</strong>，其中整堆回收的机制也被成为Full GC（包括新生代）</p>
+</blockquote>
+<blockquote>
+<p>永久代（Perm区）：故名思议这里主要存放的是例如Class、Method的元信息，由于GC主要回收的是Java对象所以这里相对于Young Generation和Old Generation来说受GC影响是很小的（<strong>JDK 1.8之后此区域已经被替换成了物理内存中的元空间区域</strong>）</p>
+</blockquote>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><blockquote>
+<p>方法区用于<strong>存放已经被虚拟机加载的类的信息、常量、静态变量、JIT编译后的代码等等</strong>，虽然它在逻辑上也是堆的一部分，但是方法区还有一个别名叫做Non-Heap（非堆），目的就是为了与堆区分开来。对于它存放的这些数据的特点简单的虚拟机实现<strong>可以不在这个区域进行垃圾收集</strong>，方法区和堆一样在实际内存中的存储可以是不连续的，这个区域存放的数据一般都<strong>长期存在</strong>，在这个区域垃圾回收主要也就是对于常量池的回收和类型的卸载，也同堆一样可以根据需求动态扩充和收缩内存大小也可以固定大小，如果内存不足也将抛出OutOfMemory异常。</p>
+</blockquote>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><blockquote>
+<p>虽然直接内存并不是实际JVM运行时内存区的一部分，他是利用了本地方法在Java堆之外申请的内存区域，但是这部分内存也将会被频繁的使用并且也会抛出OOM异常，JVM通过一个存储在Java堆中的 DirectByteBuffer对象作为这块内存的引用并进行操作，这样一来，就可以<strong>避免在Java堆和Native堆之间频繁的复制数据</strong>，就能在一些场景中显著提高性能。</p>
+</blockquote>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><blockquote>
+<p>运行时常量池是JVM内存模型方法区中的一部分，java文件被编译之后生成的class文件中除了包含：类的版本、字段、方法、接口等信息外，还有一项就是常量池，在类和接口被加载到虚拟机中之后对应的运行时常量池也就被创建了出来，Class文件中除了有类的版本、字段、方法、接口等描述信息外,还有一项信息是常量池，用于存放编译期生成的各种字面量和符号引用，这部分内容将在类加载后进入运行时常量池中存放。运行期间也可能将新的常量放入池中。当运行时常量池中的某些常量没有被对象引用，同时也没有被变量引用，那么就需要垃圾收集器回收。它也有可能抛出OOM异常。</p>
 </blockquote>
 
     </div>
@@ -272,7 +321,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://easonhe.top/2020/07/02/%E3%80%90Java%E3%80%91%E9%9D%99%E6%80%81%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AE%9E%E9%99%85%E7%B1%BB%E5%9E%8B/" title="【Java】静态类型与实际类型">http://easonhe.top/2020/07/02/【Java】静态类型与实际类型/</a>
+    <a href="http://easonhe.top/2020/07/03/%E3%80%90JVM%E3%80%91%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="【JVM】内存模型">http://easonhe.top/2020/07/03/【JVM】内存模型/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -284,7 +333,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" rel="tag"><i class="fa fa-tag"></i> 学习区</a>
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
           </div>
 
         
@@ -293,12 +343,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/30/%E3%80%90%E7%94%9F%E6%B4%BB%E5%8C%BA%E3%80%91%E6%9C%AC%E7%A7%91%E5%9C%A8%E8%AF%BB%E7%94%9F%E6%B5%85%E8%B0%88%E8%80%83%E7%A0%94/" rel="prev" title="【看法分享】浅谈考研">
-      <i class="fa fa-chevron-left"></i> 【看法分享】浅谈考研
+    <a href="/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" rel="prev" title="【JVM】字节码执行机制">
+      <i class="fa fa-chevron-left"></i> 【JVM】字节码执行机制
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/02/%E3%80%90JVM%E3%80%91%E5%AD%97%E8%8A%82%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/" rel="next" title="【JVM】字节码执行机制">
-      【JVM】字节码执行机制 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -358,7 +408,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码观察"><span class="nav-number">1.</span> <span class="nav-text">代码观察</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码部分"><span class="nav-number">1.1.</span> <span class="nav-text">代码部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行结果"><span class="nav-number">1.2.</span> <span class="nav-text">执行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关解释"><span class="nav-number">2.</span> <span class="nav-text">相关解释</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区域解释"><span class="nav-number">2.</span> <span class="nav-text">区域解释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序计数器（PC）"><span class="nav-number">2.1.</span> <span class="nav-text">程序计数器（PC）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机栈"><span class="nav-number">2.2.</span> <span class="nav-text">虚拟机栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地方法栈"><span class="nav-number">2.3.</span> <span class="nav-text">本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java堆（heap）"><span class="nav-number">2.4.</span> <span class="nav-text">Java堆（heap）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法区"><span class="nav-number">2.5.</span> <span class="nav-text">方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接内存"><span class="nav-number">2.6.</span> <span class="nav-text">直接内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时常量池"><span class="nav-number">2.7.</span> <span class="nav-text">运行时常量池</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
