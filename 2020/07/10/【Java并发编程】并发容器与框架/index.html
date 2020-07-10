@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Java并发&#x2F;多线程编程系列blog(五）并发容器与框架含ConcurrentHashMap&#x2F;ConcurrentLinkedQueue&#x2F;阻塞队列&#x2F;Fork&#x2F;Join框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java并发编程】并发容器与框架">
+<meta property="og:url" content="http://easonhe.top/2020/07/10/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B8%8E%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="Java并发&#x2F;多线程编程系列blog(五）并发容器与框架含ConcurrentHashMap&#x2F;ConcurrentLinkedQueue&#x2F;阻塞队列&#x2F;Fork&#x2F;Join框架">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/10/Cck4h.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/10/Cc2Ha.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/10/CdjwR.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/10/ChQUj.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/10/Ch1UT.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/10/ChwKl.png">
+<meta property="article:published_time" content="2020-07-10T15:22:00.000Z">
+<meta property="article:modified_time" content="2020-07-10T15:22:39.994Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="Java并发编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx1.sbimg.cn/2020/07/10/Cck4h.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/10/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B8%8E%E6%A1%86%E6%9E%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【Java并发编程】并发容器与框架 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">22</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/10/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B8%8E%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【Java并发编程】并发容器与框架
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-10 23:22:00" itemprop="dateCreated datePublished" datetime="2020-07-10T23:22:00+08:00">2020-07-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Java并发/多线程编程系列blog(五）并发容器与框架含ConcurrentHashMap/ConcurrentLinkedQueue/阻塞队列/Fork/Join框架</strong></p>
+<a id="more"></a>
+<h2 id="ConcurrentHashMap的实现原理与使用"><a href="#ConcurrentHashMap的实现原理与使用" class="headerlink" title="ConcurrentHashMap的实现原理与使用"></a>ConcurrentHashMap的实现原理与使用</h2><p>线程不安全的HashMap：</p>
+<blockquote>
+<p>HashMap在并发执行put操作时会引起死循环，是因为多线程会导致HashMap的Entry链表 形成环形数据结构，一旦形成环形数据结构，Entry的next节点永远不为空，就会产生死循环获取Entry。</p>
+</blockquote>
+<p>效率低下的HashTable:</p>
+<blockquote>
+<p>为当一个线程访问HashTable的同步方法，其他线程也访问HashTable的同 步方法时，会进入阻塞或轮询状态。</p>
+</blockquote>
+<p>ConcurrentHashMap的锁分段技术:</p>
+<blockquote>
+<p>HashTable容器在竞争激烈的并发环境下表现出效率低下的原因是所有访问HashTable的 线程都必须竞争同一把锁，假如<strong>容器里有多把锁，每一把锁用于锁容器其中一部分数据，那么当多线程访问容器里不同数据段的数据时，线程间就不会存在锁竞争，从而可以有效提高并发访问效率</strong>，这就是ConcurrentHashMap所使用的<strong>锁分段技术</strong>。<strong>首先将数据分成一段一段地存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问</strong>。</p>
+</blockquote>
+<h3 id="ConcurrentHashMap的结构"><a href="#ConcurrentHashMap的结构" class="headerlink" title="ConcurrentHashMap的结构"></a>ConcurrentHashMap的结构</h3><p>ConcurrentHashMap是由Segment数组结构和HashEntry数组结构组成。Segment是一种可重 入锁（ReentrantLock），在ConcurrentHashMap里扮演锁的角色；HashEntry则用于存储键值对数据。一个ConcurrentHashMap里<strong>包含一个Segment数组</strong>。Segment的结构和HashMap类似，是一种数组和链表结构。一个Segment里<strong>包含一个HashEntry数组</strong>，每个HashEntry是一个链表结构的元 素，每个Segment守护着一个HashEntry数组里的元素，<strong>当对HashEntry数组的数据进行修改时，必须首先获得与它对应的Segment锁</strong>，</p>
+<p>类图如图所示：<br><img src="https://wx1.sbimg.cn/2020/07/10/Cck4h.png" alt="Cck4h.png"><br>结构如图所示：<br><img src="https://wx1.sbimg.cn/2020/07/10/Cc2Ha.png" alt="Cc2Ha.png"></p>
+<h3 id="ConcurrentHashMap的初始化"><a href="#ConcurrentHashMap的初始化" class="headerlink" title="ConcurrentHashMap的初始化"></a>ConcurrentHashMap的初始化</h3><p>ConcurrentHashMap初始化方法是通过initialCapacity、loadFactor和concurrencyLevel等几个参数来初始化segment数组、段偏移量segmentShift、段掩码segmentMask和每个segment里的 HashEntry数组来实现的。</p>
+<h4 id="初始化segments数组"><a href="#初始化segments数组" class="headerlink" title="初始化segments数组"></a>初始化segments数组</h4><p>源码：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (concurrencyLevel &gt; MAX_SEGMENTS) </span><br><span class="line">    concurrencyLevel = MAX_SEGMENTS; </span><br><span class="line"><span class="built_in">int</span> sshift = <span class="number">0</span>; </span><br><span class="line"><span class="built_in">int</span> ssize = <span class="number">1</span>; </span><br><span class="line"><span class="keyword">while</span> (ssize &lt; concurrencyLevel) &#123;</span><br><span class="line">    ++sshift; </span><br><span class="line">    size &lt;&lt;= <span class="number">1</span>; </span><br><span class="line">&#125;</span><br><span class="line">segmentShift = <span class="number">32</span> - sshift; </span><br><span class="line">segmentMask = ssize - <span class="number">1</span>; </span><br><span class="line"><span class="keyword">this</span>.segments = Segment.newArray(ssize);</span><br></pre></td></tr></table></figure>
+<p>由上面的代码可知，segments数组的长度ssize是通过concurrencyLevel计算得出的。为了能 通过按位与的散列算法来定位segments数组的索引，必须保证segments数组的长度是2的N次方），所以必须计算出一个大于或等于concurrencyLevel的最小的2的N次方值来作为segments数组的长度。<strong>假如concurrencyLevel等于14、15或16，ssize都会等于16，即容器里锁的个数也是16。concurrencyLevel的最大值是65535，这意味着segments数组的长度最大为65536， 对应的二进制是16位。</strong></p>
+<h4 id="初始化segmentShift和segmentMask"><a href="#初始化segmentShift和segmentMask" class="headerlink" title="初始化segmentShift和segmentMask"></a>初始化segmentShift和segmentMask</h4><p><strong>这两个全局变量需要在定位segment时的散列算法里使用</strong>，sshift等于ssize从1向左移位的次数，在默认情况下concurrencyLevel等于16，1需要向左移位移动4次，所以sshift等于4。segmentShift用于定位参与散列运算的位数，segmentShift等于32减sshift，所以等于28，这里之所以用32是因为ConcurrentHashMap里的hash()方法输出的最大数是32位的，后面的测试中我们可以看到这点。segmentMask是散列运算的掩码，等于ssize减1，即15，掩码的二进制各个位的值都是1。因为ssize的最大长度是65536，所以segmentShift最大值是16，segmentMask最大值是65535，对应的二进制是16位，每个位都是1。</p>
+<h4 id="初始化每个segment"><a href="#初始化每个segment" class="headerlink" title="初始化每个segment"></a>初始化每个segment</h4><p>输入参数initialCapacity是ConcurrentHashMap的初始化容量，loadfactor是每个segment的负载因子，在构造方法里需要通过这两个参数来初始化数组中的每个segment。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">    initialCapacity = MAXIMUM_CAPACITY; </span><br><span class="line"><span class="built_in">int</span> c = initialCapacity / ssize;</span><br><span class="line"><span class="keyword">if</span> (c * ssize &lt; initialCapacity) </span><br><span class="line">    ++c; </span><br><span class="line"><span class="built_in">int</span> cap = <span class="number">1</span>; </span><br><span class="line"><span class="keyword">while</span> (cap &lt; c) </span><br><span class="line">    cap &lt;&lt;= <span class="number">1</span>; </span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.segments.length; ++i) </span><br><span class="line">    <span class="keyword">this</span>.segments[i] = new Segment&lt;K,V&gt;(cap, loadFactor);</span><br></pre></td></tr></table></figure>
+<p>上面代码中的变量cap就是segment里HashEntry数组的长度，它等于initialCapacity除以ssize的倍数c，如果c大于1，就会取大于等于c的2的N次方值，所以cap不是1，就是2的N次方。segment的容量threshold＝（int）cap*loadFactor，默认情况下initialCapacity等于16，loadfactor等于0.75，通过运算cap等于1，threshold等于零。</p>
+<h3 id="定位Segment"><a href="#定位Segment" class="headerlink" title="定位Segment"></a>定位Segment</h3><p>既然ConcurrentHashMap使用分段锁Segment来保护不同段的数据，<strong>那么在插入和获取元素的时候，必须先通过散列算法定位到Segment</strong>。可以看到ConcurrentHashMap会首先使用Wang/Jenkins hash的变种算法对元素的hashCode进行一次再散列。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> static <span class="built_in">int</span> hash(<span class="built_in">int</span> h) &#123; </span><br><span class="line">    h += (h &lt;&lt; <span class="number">15</span>) ^ <span class="number">0xffffcd7d</span>; </span><br><span class="line">    h ^= (h &gt;&gt;&gt; <span class="number">10</span>);</span><br><span class="line">    h += (h &lt;&lt; <span class="number">3</span>);</span><br><span class="line">    h ^= (h &gt;&gt;&gt; <span class="number">6</span>); </span><br><span class="line">    h += (h &lt;&lt; <span class="number">2</span>) + (h &lt;&lt; <span class="number">14</span>); </span><br><span class="line">    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">16</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>之所以进行再散列，目的是减少散列冲突，使元素能够均匀地分布在不同的Segment上， 从而提高容器的存取效率</strong> <strong>如果不进行再散列，散列冲突会非 常严重，因为只要低位一样，无论高位是什么数，其散列值总是一样。</strong></p>
+<p>ConcurrentHashMap通过以下散列算法定位segment:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> Segment&lt;K,V&gt; <span class="title">segmentFor</span><span class="params">(<span class="keyword">int</span> hash)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> segments[(hash &gt;&gt;&gt; segmentShift) &amp; segmentMask]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认情况下segmentShift为28，segmentMask为15，再散列后的数最大是32位二进制数据，向右无符号移动28位，意思是让高4位参与到散列运算中，（hash&gt;&gt;&gt;segmentShift）&amp;segmentMask的运算结果分别是4、15、7和8，可以看到散列值没有发生冲突。</p>
+<h3 id="ConcurrentHashMap的操作"><a href="#ConcurrentHashMap的操作" class="headerlink" title="ConcurrentHashMap的操作"></a>ConcurrentHashMap的操作</h3><h4 id="get操作"><a href="#get操作" class="headerlink" title="get操作"></a>get操作</h4><p>Segment的get操作实现非常简单和高效。<strong>先经过一次再散列，然后使用这个散列值通过散列运算定位到Segment，再通过散列算法定位到元素</strong>，代码如下：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> V <span class="built_in">get</span>(<span class="keyword">Object</span> <span class="built_in">key</span>) &#123; </span><br><span class="line">    <span class="built_in">int</span> hash = hash(<span class="built_in">key</span>.hashCode()); </span><br><span class="line">    <span class="keyword">return</span> segmentFor(hash).<span class="built_in">get</span>(<span class="built_in">key</span>, hash);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>get操作的高效之处在于整个get过程不需要加锁，除非读到的值是空才会加锁重读。原因是它的get方法里将要使用的共享变量都定义成volatile类型</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hash &gt;&gt;&gt; segmentShift) &amp; segmentMask </span><br><span class="line"><span class="comment">// 定位Segment所使用的hash算法 </span></span><br><span class="line"><span class="type">int</span> <span class="keyword">index</span> = hash &amp; (tab.<span class="built_in">length</span> - <span class="number">1</span>);</span><br><span class="line"><span class="comment">//定位HashEntry所使用的hash算法</span></span><br></pre></td></tr></table></figure>
+<p>在定位元素的代码里我们可以发现，定位HashEntry和定位Segment的散列算法虽然一样， 都与数组的长度减去1再相“与”，但是相“与”的值不一样，<strong>定位Segment使用的是元素的hashcode通过再散列后得到的值的高位</strong>，而定位HashEntry直接使用的是再散列后的值。其目的是避免两次散列后的值一样，虽然元素在Segment里散列开了，但是却没有在HashEntry里散列开。</p>
+<h4 id="put操作"><a href="#put操作" class="headerlink" title="put操作"></a>put操作</h4><p>由于put方法里需要对共享变量进行写入操作，所以为了线程安全，在操作共享变量时必 须加锁。put方法首先定位到Segment，然后在Segment里进行插入操作。<strong>插入操作需要经历两个步骤</strong>:</p>
+<blockquote>
+<ul>
+<li>第一步判断是否需要对Segment里的HashEntry数组进行扩容：在插入元素前会先判断Segment里的HashEntry数组是否超过容量（threshold），如果超过阈值，则对数组进行扩容。值得一提的是，Segment的扩容判断比HashMap更恰当，因为HashMap是在插入元素后判断元素是否已经到达容量的，如果到达了就进行扩容，但是很有可能扩容之后没有新元素插入，这时HashMap就进行了一次无效的扩容。在扩容的时候，首先会创建一个容量是原来容量两倍的数组，然后将原数组里的元素进行再散列后插入到新的数组里。为了高效，ConcurrentHashMap不会对整个容器进行扩容，而只 对某个segment进行扩容。</li>
+<li>第二步定位添加元素的位置，然后将其放在HashEntry数组里</li>
+</ul>
+</blockquote>
+<h4 id="size操作"><a href="#size操作" class="headerlink" title="size操作"></a>size操作</h4><p>因为在累加count操作过程中，之前累加过的count发生变化的几率非常小，所以 ConcurrentHashMap的做法是先尝试2次通过不锁住Segment的方式来统计各个Segment大小，如果统计的过程中，容器的count发生了变化，则再采用加锁的方式来统计所有Segment的大小。那么ConcurrentHashMap是如何判断在统计的时候容器是否发生了变化呢？使用modCount变量，在put、remove和clean方法里操作元素前都会将变量modCount进行加1，那么在统计size前后比较modCount是否发生变化，从而得知容器的大小是否发生变化。</p>
+<h3 id="ConcurrentLinkedQueue"><a href="#ConcurrentLinkedQueue" class="headerlink" title="ConcurrentLinkedQueue"></a>ConcurrentLinkedQueue</h3><p>在并发编程中，有时候需要使用线程安全的队列。如果要实现一个线程安全的队列有两种方式：</p>
+<blockquote>
+<ul>
+<li>一种是使用阻塞算法，</li>
+<li>另一种是使用非阻塞算法。</li>
+</ul>
+</blockquote>
+<p><strong>使用阻塞算法的队列可以用一个锁（入队和出队用同一把锁）或两个锁（入队和出队用不同的锁）等方式来实现。非阻塞的实现方式则可以使用循环CAS了“wait-free”算法的方式来实现。</strong></p>
+<p><strong>类图结构：</strong><br><img src="https://wx1.sbimg.cn/2020/07/10/CdjwR.png" alt="CdjwR.png"></p>
+<h3 id="入队列"><a href="#入队列" class="headerlink" title="入队列"></a>入队列</h3><h4 id="入队列过程"><a href="#入队列过程" class="headerlink" title="入队列过程"></a>入队列过程</h4><p>注意的：如果tail节点的next节点不为空，则将入队节点设置成tail节点，如果tail节点的next节点为空，则将入队节点设置成tail的next节点，所以tail节点不总是尾节点</p>
+<p>多个线程同时进行入队的情况就变得更加复杂了，因为可能会出现其他线程插队的情况。如果有一个线程正在入队，那么它必须先获取尾节点，然后设置尾节点的下一个节点为入队节点，但这时可能有另外一个线程插队了，那么队列的尾节点就会发生变化，这时当前线程要暂停入队操作，然后重新获取尾节点。整个入队过程主要做两件事情：第一是定位出尾节点；第二是使用 CAS算法将入队节点设置成尾节点的next节点，如不成功则重试。</p>
+<h4 id="定位尾结点"><a href="#定位尾结点" class="headerlink" title="定位尾结点"></a>定位尾结点</h4><p>tail节点并不总是尾节点，所以每次入队都必须先通过tail节点来找到尾节点。尾节点可能 是tail节点，也可能是tail节点的next节点。获取tail节点的next节点需要注意的是<strong>p节点等于p的next节点</strong>的情况，只有一种可能就是<strong>p节点和p的next节点都等于空</strong>，表示这个队列刚初始化，正准备添加节点，所以需要返回head节点。</p>
+<h4 id="设置入队节点为尾节点"><a href="#设置入队节点为尾节点" class="headerlink" title="设置入队节点为尾节点"></a>设置入队节点为尾节点</h4><p>p.casNext（null，n）方法用于将入队节点设置为当前队列尾节点的next节点，如果p是null，表示p是当前队列的尾节点，如果不为null，表示有其他线程更新了尾节点，则需要重新获取当 前队列的尾节点。</p>
+<h4 id="HOPS的设计意图"><a href="#HOPS的设计意图" class="headerlink" title="HOPS的设计意图"></a>HOPS的设计意图</h4><blockquote>
+<p>用hops变量来控制并减少tail节点的更新频率，并不是每次节点入队后都将tail节点更新成尾节点，而是当tail节点和尾节点的距离大于等于常量 HOPS的值（默认等于1）时才更新tail节点，tail和尾节点的距离越长，使用CAS更新tail节点的次数就会越少，但是<strong>距离越长带来的负面效果就是每次入队时定位尾节点的时间就越长，因为循环体需要多循环一次来定位出尾节点，但是这样仍然能提高入队的效率，因为从本质上来看它通过增加对volatile变量的读操作来减少对volatile变量的写操作，而对volatile变量的写操作开销要远远大于读操作，所以入队效率会有所提升</strong>。<strong>入队方法永远返回true，所以不要通过返回值判断入队是否成功。</strong></p>
+</blockquote>
+<h3 id="出队列"><a href="#出队列" class="headerlink" title="出队列"></a>出队列</h3><p>并不是每次出队时都更新head节点，当head节点里有元素时，直接弹出head节点里的元素，而不会更新head节点。只有当head节点里没有元素时，出队操作才会更新head节点。这种做法也是通过hops变量来减少使用CAS更新head节点的消耗，从而提高出队效率。</p>
+<h2 id="Java中的阻塞队列"><a href="#Java中的阻塞队列" class="headerlink" title="Java中的阻塞队列"></a>Java中的阻塞队列</h2><h3 id="什么是阻塞队列"><a href="#什么是阻塞队列" class="headerlink" title="什么是阻塞队列"></a>什么是阻塞队列</h3><p>阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作支持阻塞的插入和移除方法：</p>
+<blockquote>
+<ul>
+<li><strong>支持阻塞的插入方法</strong>：意思是当队列满时，队列会阻塞插入元素的线程，直到队列不满。</li>
+<li><strong>支持阻塞的移除方法</strong>：意思是在队列为空时，获取元素的线程会等待队列变为非空。 </li>
+</ul>
+</blockquote>
+<p>阻塞队列常用于生产者和消费者的场景，生产者是向队列里添加元素的线程，消费者是从队列里取元素的线程。阻塞队列就是生产者用来存放元素、消费者用来获取元素的容器。在阻塞队列不可用时，这两个附加操作提供了4种处理方式，如表所示:<br><img src="https://wx2.sbimg.cn/2020/07/10/ChQUj.png" alt="ChQUj.png"></p>
+<blockquote>
+<ul>
+<li>抛出异常：当队列满时，如果再往队列里插入元素，会抛出IllegalStateException（”Queue full”）异常。当队列空时，从队列里获取元素会抛出NoSuchElementException异常。</li>
+<li>返回特殊值：当往队列插入元素时，会返回元素是否插入成功，成功返回true。如果是移除方法，则是从队列里取出一个元素，如果没有则返回null。 </li>
+<li>一直阻塞：当阻塞队列满时，如果生产者线程往队列里put元素，队列会一直阻塞生产者线程，直到队列可用或者响应中断退出。当队列空时，如果消费者线程从队列里take元素，队列会阻塞住消费者线程，直到队列不为空。</li>
+<li>超时退出：当阻塞队列满时，如果生产者线程往队列里插入元素，队列会阻塞生产者线程一段时间，如果超过了指定的时间，生产者线程就会退出。</li>
+</ul>
+</blockquote>
+<p>这两个附加操作的4种处理方式不方便记忆，所以我找了一下这几个方法的规律。<strong>put和take分别尾首含有字母t，offer和poll都含有字母o</strong>。 <strong>注意如果是无界阻塞队列，队列不可能会出现满的情况，所以使用put或offer方法永远不会被阻塞，而且使用offer方法时，该方法永远返回true</strong>。</p>
+<h3 id="Java里的阻塞队列"><a href="#Java里的阻塞队列" class="headerlink" title="Java里的阻塞队列"></a>Java里的阻塞队列</h3><p>JDK 7提供了7个阻塞队列，如下。</p>
+<blockquote>
+<ul>
+<li>ArrayBlockingQueue：一个由数组结构组成的有界阻塞队列:是一个用数组实现的有界阻塞队列。此队列按照先进先出（FIFO）的原则对元素进行排序。默认情况下不保证线程公平的访问队列;</li>
+<li>LinkedBlockingQueue：一个由链表结构组成的有界阻塞队列:一个用链表实现的有界阻塞队列。此队列的默认和最大长度为Integer.MAX_VALUE。此队列按照先进先出的原则对元素进行排序。</li>
+<li>PriorityBlockingQueue：一个支持优先级排序的无界阻塞队列:一个支持优先级的无界阻塞队列。默认情况下元素采取自然顺序升序排列。也可以自定义类实现compareTo()方法来指定元素排序规则，或者初始化 PriorityBlockingQueue时，指定构造参数Comparator来对元素进行排序。需要注意的是不能保证同优先级元素的顺序。</li>
+<li>DelayQueue：一个使用优先级队列实现的无界阻塞队列:一个支持延时获取元素的无界阻塞队列。队列使用PriorityQueue来实现。队列中的元素必须实现Delayed接口，在创建元素时可以指定多久才能从队列中获取当前元素。只有在延迟期满时才能从队列中提取元素。</li>
+<li>SynchronousQueue：一个不存储元素的阻塞队列:一个不存储元素的阻塞队列。每一个put操作必须等待一个take操作，否则不能继续添加元素。 它支持公平访问队列。默认情况下线程采用非公平性策略访问队列.</li>
+<li>LinkedTransferQueue：一个由链表结构组成的无界阻塞队列:一个由链表结构组成的无界阻塞TransferQueue队列。相对于其他阻塞队列，LinkedTransferQueue多了tryTransfer和transfer方法。</li>
+<li>LinkedBlockingDeque：一个由链表结构组成的双向阻塞队列:一个由链表结构组成的双向阻塞队列。所谓双向队列指的是可以从队列的两端插入和移出元素。双向队列因为多了一个操作队列的入口，在多线程同时入队时，也就减少了一半的竞争。相比其他的阻塞队列，LinkedBlockingDeque多了addFirst、 addLast、offerFirst、offerLast、peekFirst和peekLast等方法，以First单词结尾的方法，表示插入、获取（peek）或移除双端队列的第一个元素。以Last单词结尾的方法，表示插入、获取或移除双 端队列的最后一个元素。</li>
+</ul>
+</blockquote>
+<h2 id="Fork-Join框架"><a href="#Fork-Join框架" class="headerlink" title="Fork/Join框架"></a>Fork/Join框架</h2><p>一个用于并行执行任务的框架，是一个把大任务分割成若干个小任务，最终汇总每个小任务结果后得到大任务结果的框架。</p>
+<p>运行流程如图所示:<br><img src="https://wx1.sbimg.cn/2020/07/10/Ch1UT.png" alt="Ch1UT.png"></p>
+<h3 id="工作窃取算法"><a href="#工作窃取算法" class="headerlink" title="工作窃取算法"></a>工作窃取算法</h3><p>工作窃取（work-stealing）算法是指某个线程从其他队列里窃取任务来执行</p>
+<p>工作窃取的运行流程如图所示：<br><img src="https://wx2.sbimg.cn/2020/07/10/ChwKl.png" alt="ChwKl.png"></p>
+<blockquote>
+<ul>
+<li>工作窃取算法的优点：充分利用线程进行并行计算，减少了线程间的竞争。</li>
+<li>工作窃取算法的缺点：在某些情况下还是存在竞争，比如双端队列里只有一个任务时。并且该算法会消耗了更多的系统资源，比如创建多个线程和多个双端队列。</li>
+</ul>
+</blockquote>
+<h3 id="Fork-Join框架的设计"><a href="#Fork-Join框架的设计" class="headerlink" title="Fork/Join框架的设计"></a>Fork/Join框架的设计</h3><blockquote>
+<ul>
+<li><strong>步骤1 分割任务</strong>:首先我们需要有一个fork类来把大任务分割成子任务，有可能子任务还是很大，所以还需要不停地分割，直到分割出的子任务足够小。 </li>
+<li><strong>步骤2 执行任务并合并结果</strong>。分割的子任务分别放在双端队列里，然后几个启动线程分别从双端队列里获取任务执行。子任务执行完的结果都统一放在一个队列里，启动一个线程从队列里拿数据，然后合并这些数据。</li>
+</ul>
+</blockquote>
+<p>Fork/Join使用两个类来完成以上两件事情:</p>
+<blockquote>
+<ul>
+<li>ForkJoinTask：我们要使用ForkJoin框架，必须首先创建一个ForkJoin任务。它提供在任务中执行fork()和join()操作的机制。通常情况下，我们不需要直接继承ForkJoinTask类，只需要继承它的子类，Fork/Join框架提供了以下两个子类。 ·RecursiveAction：用于没有返回结果的任务。 ·RecursiveTask：用于有返回结果的任务。</li>
+<li>ForkJoinPool：ForkJoinTask需要通过ForkJoinPool来执行。任务分割出的子任务会添加到当前工作线程所维护的双端队列中，进入队列的头部。当一个工作线程的队列里暂时没有任务时，它会随机从其他工作线程的队列的尾部获取一个任务。</li>
+</ul>
+</blockquote>
+<h3 id="使用Fork-Join框架"><a href="#使用Fork-Join框架" class="headerlink" title="使用Fork/Join框架"></a>使用Fork/Join框架</h3><p>一个简单的需求来使用Fork/Join框架，需求是：计算1+2+3+4的结果。 使用Fork/Join框架首先要考虑到的是如何分割任务，如果希望每个子任务最多执行两个 数的相加，那么我们设置分割的阈值是2，由于是4个数字相加，所以Fork/Join框架会把这个任务fork成两个子任务，子任务一负责计算1+2，子任务二负责计算3+4，然后再join两个子任务的结果。因为是有结果的任务，所以必须继承RecursiveTask，实现代码如下：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package Second; </span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutionException; </span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ForkJoinPool; </span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Future; </span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.RecursiveTask; </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CountTask</span> <span class="title">extends</span> <span class="title">RecursiveTask</span>&lt;Integer&gt; &#123;</span> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> THRESHOLD = <span class="number">2</span>; <span class="comment">// 阈值 </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> start; </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> <span class="built_in">end</span>; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CountTask</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> <span class="built_in">end</span>)</span> </span>&#123; </span><br><span class="line">        <span class="keyword">this</span>.start = start; </span><br><span class="line">        <span class="keyword">this</span>.<span class="built_in">end</span> = <span class="built_in">end</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Integer <span class="title">compute</span><span class="params">()</span> </span>&#123; </span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>; <span class="comment">// 如果任务足够小就计算任务 </span></span><br><span class="line">        <span class="keyword">boolean</span> canCompute = (<span class="built_in">end</span> - start) &lt;= THRESHOLD; </span><br><span class="line">        <span class="keyword">if</span> (canCompute) &#123; </span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= <span class="built_in">end</span>; i++) &#123; </span><br><span class="line">                sum += i;</span><br><span class="line">                &#125; </span><br><span class="line">            </span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 如果任务大于阈值，就分裂成两个子任务计算 </span></span><br><span class="line">            <span class="keyword">int</span> middle = (start + <span class="built_in">end</span>) / <span class="number">2</span>;</span><br><span class="line">            CountTask leftTask = <span class="keyword">new</span> CountTask(start, middle); CountTask rightTask = <span class="keyword">new</span> CountTask(middle + <span class="number">1</span>, <span class="built_in">end</span>); <span class="comment">// 执行子任务 </span></span><br><span class="line">            leftTask.fork(); </span><br><span class="line">            rightTask.fork(); </span><br><span class="line">            <span class="comment">// 等待子任务执行完，并得到其结果 int leftResult=leftTask.join(); </span></span><br><span class="line">            <span class="keyword">int</span> rightResult=rightTask.join(); </span><br><span class="line">            <span class="comment">// 合并子任务 </span></span><br><span class="line">            sum = leftResult + rightResult;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">String</span>[] args)</span> </span>&#123; </span><br><span class="line">    ForkJoinPool forkJoinPool = <span class="keyword">new</span> ForkJoinPool();</span><br><span class="line">    <span class="comment">// 生成一个计算任务，负责计算1+2+3+4 </span></span><br><span class="line">    CountTask task = <span class="keyword">new</span> CountTask(<span class="number">1</span>, <span class="number">4</span>); </span><br><span class="line">    <span class="comment">// 执行一个任务 Future&lt;Integer&gt; result = forkJoinPool.submit(task); </span></span><br><span class="line">    <span class="keyword">try</span> &#123; </span><br><span class="line">        System.out.<span class="built_in">println</span>(result.<span class="built_in">get</span>()); </span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; </span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">catch</span> (ExecutionException e) &#123; </span><br><span class="line">        </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Fork-Join框架的异常处理"><a href="#Fork-Join框架的异常处理" class="headerlink" title="Fork/Join框架的异常处理"></a>Fork/Join框架的异常处理</h3><p>ForkJoinTask在执行的时候可能会抛出异常，但是我们没办法在主线程里直接捕获异常，所以ForkJoinTask提供了isCompletedAbnormally()方法来检查任务是否已经抛出异常或已经被取消了，并且可以通过ForkJoinTask的getException方法获取异常。使用如下代码：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(task.is<span class="constructor">CompletedAbnormally()</span>) &#123;</span><br><span class="line">    <span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(task.get<span class="constructor">Exception()</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>getException方法返回Throwable对象，如果任务被取消了则返回CancellationException。如果任务没有完成或者没有抛出异常则返回null。</p>
+<p>参考：<br><strong>《Java并发编程的艺术》</strong></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/10/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E4%B8%8E%E6%A1%86%E6%9E%B6/" title="【Java并发编程】并发容器与框架">http://easonhe.top/2020/07/10/【Java并发编程】并发容器与框架/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> Java并发编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/09/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91%E9%94%81/" rel="prev" title="【Java并发编程】锁">
+      <i class="fa fa-chevron-left"></i> 【Java并发编程】锁
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ConcurrentHashMap的实现原理与使用"><span class="nav-number">1.</span> <span class="nav-text">ConcurrentHashMap的实现原理与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap的结构"><span class="nav-number">1.1.</span> <span class="nav-text">ConcurrentHashMap的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap的初始化"><span class="nav-number">1.2.</span> <span class="nav-text">ConcurrentHashMap的初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化segments数组"><span class="nav-number">1.2.1.</span> <span class="nav-text">初始化segments数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化segmentShift和segmentMask"><span class="nav-number">1.2.2.</span> <span class="nav-text">初始化segmentShift和segmentMask</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化每个segment"><span class="nav-number">1.2.3.</span> <span class="nav-text">初始化每个segment</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定位Segment"><span class="nav-number">1.3.</span> <span class="nav-text">定位Segment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap的操作"><span class="nav-number">1.4.</span> <span class="nav-text">ConcurrentHashMap的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#get操作"><span class="nav-number">1.4.1.</span> <span class="nav-text">get操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put操作"><span class="nav-number">1.4.2.</span> <span class="nav-text">put操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#size操作"><span class="nav-number">1.4.3.</span> <span class="nav-text">size操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentLinkedQueue"><span class="nav-number">1.5.</span> <span class="nav-text">ConcurrentLinkedQueue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#入队列"><span class="nav-number">1.6.</span> <span class="nav-text">入队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#入队列过程"><span class="nav-number">1.6.1.</span> <span class="nav-text">入队列过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定位尾结点"><span class="nav-number">1.6.2.</span> <span class="nav-text">定位尾结点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置入队节点为尾节点"><span class="nav-number">1.6.3.</span> <span class="nav-text">设置入队节点为尾节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HOPS的设计意图"><span class="nav-number">1.6.4.</span> <span class="nav-text">HOPS的设计意图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出队列"><span class="nav-number">1.7.</span> <span class="nav-text">出队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中的阻塞队列"><span class="nav-number">2.</span> <span class="nav-text">Java中的阻塞队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是阻塞队列"><span class="nav-number">2.1.</span> <span class="nav-text">什么是阻塞队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java里的阻塞队列"><span class="nav-number">2.2.</span> <span class="nav-text">Java里的阻塞队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fork-Join框架"><span class="nav-number">3.</span> <span class="nav-text">Fork&#x2F;Join框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作窃取算法"><span class="nav-number">3.1.</span> <span class="nav-text">工作窃取算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fork-Join框架的设计"><span class="nav-number">3.2.</span> <span class="nav-text">Fork&#x2F;Join框架的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Fork-Join框架"><span class="nav-number">3.3.</span> <span class="nav-text">使用Fork&#x2F;Join框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fork-Join框架的异常处理"><span class="nav-number">3.4.</span> <span class="nav-text">Fork&#x2F;Join框架的异常处理</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">159k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">2:25</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
