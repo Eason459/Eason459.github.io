@@ -25,7 +25,7 @@
   <meta name="description" content="Java并发&#x2F;多线程编程系列blog(九）Executor框架含简介&#x2F;ThreadPoolExecutor详解&#x2F;ScheduledThreadPoolExecutor详解&#x2F;FutureTask详解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【Java并发编程】Executor框架">
-<meta property="og:url" content="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:url" content="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6%20/index.html">
 <meta property="og:site_name" content="小贺のBLOG">
 <meta property="og:description" content="Java并发&#x2F;多线程编程系列blog(九）Executor框架含简介&#x2F;ThreadPoolExecutor详解&#x2F;ScheduledThreadPoolExecutor详解&#x2F;FutureTask详解">
 <meta property="og:locale" content="zh_CN">
@@ -45,14 +45,14 @@
 <meta property="og:image" content="https://wx2.sbimg.cn/2020/07/15/CalrJ.png">
 <meta property="og:image" content="https://wx1.sbimg.cn/2020/07/15/CaODm.png">
 <meta property="article:published_time" content="2020-07-15T15:01:00.000Z">
-<meta property="article:modified_time" content="2020-07-15T15:03:04.829Z">
+<meta property="article:modified_time" content="2020-07-15T15:19:42.494Z">
 <meta property="article:author" content="Eason He">
 <meta property="article:tag" content="学习">
 <meta property="article:tag" content="Java并发编程">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wx1.sbimg.cn/2020/07/14/CKcoU.png">
 
-<link rel="canonical" href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6/">
+<link rel="canonical" href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6%20/">
 
 
 <script id="page-configurations">
@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6/">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6%20/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/header.JPG">
@@ -511,6 +511,7 @@
 </ul>
 <p><img src="https://wx1.sbimg.cn/2020/07/15/CaODm.png" alt="CaODm.png"></p>
 <p>假设开始时FutureTask处于未启动状态或已启动状态，等待队列中已经有3个线程（A、B和 C）在等待。此时，线程D执行get()方法将导致线程D也到等待队列中去等待。 当线程E执行run()方法时，会唤醒队列中的第一个线程A。线程A被唤醒后，首先把自己从队列中删除，然后唤醒它的后继线程B，最后线程A从get()方法返回。线程B、C和D重复A线程的处理流程。最终，在队列中等待的所有线程都被级联唤醒并从get()方法返回。</p>
+<p>参考：<br><strong>《Java并发编程的艺术》</strong></p>
 
     </div>
 
@@ -536,7 +537,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6/" title="【Java并发编程】Executor框架">http://easonhe.top/2020/07/15/【Java并发编程】Executor框架/</a>
+    <a href="http://easonhe.top/2020/07/15/%E3%80%90Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E3%80%91Executor%E6%A1%86%E6%9E%B6%20/" title="【Java并发编程】Executor框架">http://easonhe.top/2020/07/15/【Java并发编程】Executor框架 /</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
