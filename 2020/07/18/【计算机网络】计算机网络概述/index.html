@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机网络不看后悔系列blog(一）计算机网络概述&#x2F;超详细！！( ◉ืൠ◉ื)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【计算机网络】计算机网络概述">
+<meta property="og:url" content="http://easonhe.top/2020/07/18/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="计算机网络不看后悔系列blog(一）计算机网络概述&#x2F;超详细！！( ◉ืൠ◉ื)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEuSA.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEqPV.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEHvD.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEYAj.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEaSn.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEUoh.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEiqM.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEnEa.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CE8kR.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CENvK.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEl4G.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEOHw.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CEtE6.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CEzpO.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CE7he.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CNDN7.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/18/CNo06.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CN3sO.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CNQBN.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CNAKj.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/18/CNByk.png">
+<meta property="article:published_time" content="2020-07-18T04:38:00.000Z">
+<meta property="article:modified_time" content="2020-07-18T04:40:58.438Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="Java并发编程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx2.sbimg.cn/2020/07/18/CEuSA.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/18/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【计算机网络】计算机网络概述 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">29</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/18/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【计算机网络】计算机网络概述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-18 12:38:00" itemprop="dateCreated datePublished" datetime="2020-07-18T12:38:00+08:00">2020-07-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>计算机网络不看后悔系列blog(一）计算机网络概述/超详细！！( ◉ืൠ◉ื)</strong></p>
+<a id="more"></a>
+<h2 id="相关名词"><a href="#相关名词" class="headerlink" title="相关名词"></a>相关名词</h2><h3 id="网络（Network）"><a href="#网络（Network）" class="headerlink" title="网络（Network）"></a>网络（Network）</h3><p>由多个主机通过链路连接结点（交换机）就组成了网络</p>
+<h3 id="互联网（internet）"><a href="#互联网（internet）" class="headerlink" title="互联网（internet）"></a>互联网（internet）</h3><p>网络的网络，由多个网络连接路由器组成互联网，也就是将多个网络连接在一起组成互联网（注意这里的i为小写）</p>
+<h3 id="因特网（Internet）"><a href="#因特网（Internet）" class="headerlink" title="因特网（Internet）"></a>因特网（Internet）</h3><p>全球最大的一个互联网（注意这里的I为大写）<br><img src="https://wx2.sbimg.cn/2020/07/18/CEuSA.png" alt="CEuSA.png"></p>
+<p><img src="https://wx1.sbimg.cn/2020/07/18/CEqPV.png" alt="CEqPV.png"></p>
+<h2 id="多层次ISP结构的互联网"><a href="#多层次ISP结构的互联网" class="headerlink" title="多层次ISP结构的互联网"></a>多层次ISP结构的互联网</h2><p><img src="https://wx2.sbimg.cn/2020/07/18/CEHvD.png" alt="CEHvD.png"></p>
+<blockquote>
+<p>在这个互联网结构图中，若第二层ISP为河南电信ISP那么连接它的本地ISP可能就是郑州ISP和濮阳ISP等等。</p>
+</blockquote>
+<blockquote>
+<p>从这张图中可以看出两台主机通信需要走的最多的路径，所以说如果要创建一个网站只面向全国用户，那么将网站使用第二层ISP访问速度比较快，因为国内用户不需要再向第一层ISP访问，如果要创建一个网站面向全球用户那么就需要使用第一层的ISP了，因为这样相对于全球用户来说速度是比较快的了。</p>
+</blockquote>
+<h2 id="中国互联网"><a href="#中国互联网" class="headerlink" title="中国互联网"></a>中国互联网</h2><p><a href="https://sbimg.cn/image/CEYAj" target="_blank" rel="noopener"><img src="https://wx2.sbimg.cn/2020/07/18/CEYAj.png" alt="CEYAj.png"></a></p>
+<blockquote>
+<p>从图中可以看出每个运营商指向图外的数据为出口带宽，其他的运营商之间连线的数据为到其他运营商的带宽，有的运营商之间的带宽很低，所以有的网站会在多个运营商中配置，这样的话网民访问的时候可以选择本地的运营商访问，比如下载东西的时候就选择本地运营商下载比较快</p>
+</blockquote>
+<h2 id="因特网的组成及其通信方式"><a href="#因特网的组成及其通信方式" class="headerlink" title="因特网的组成及其通信方式"></a>因特网的组成及其通信方式</h2><p><img src="https://wx2.sbimg.cn/2020/07/18/CEaSn.png" alt="CEaSn.png"><br><img src="https://wx1.sbimg.cn/2020/07/18/CEUoh.png" alt="CEUoh.png"></p>
+<blockquote>
+<p>在图中可以看出，互联网的边缘部分指的就是一个个的主机，而核心部分就是由路由器和网络组成的可以让主机之间通信的网络</p>
+</blockquote>
+<h3 id="因特网的边缘主机之间的通信方式"><a href="#因特网的边缘主机之间的通信方式" class="headerlink" title="因特网的边缘主机之间的通信方式"></a>因特网的边缘主机之间的通信方式</h3><h4 id="客户服务器方式（Client-Server方式-C-s方式）"><a href="#客户服务器方式（Client-Server方式-C-s方式）" class="headerlink" title="客户服务器方式（Client/Server方式-C/s方式）"></a>客户服务器方式（Client/Server方式-C/s方式）</h4><p><img src="https://wx2.sbimg.cn/2020/07/18/CEiqM.png" alt="CEiqM.png"></p>
+<blockquote>
+<p>这里假如是要从网站上下载东西，那么客户机（用户所使用的消耗流量的软件）需要向服务器请求服务然后从服务器中得到服务，那么此时如果多个客户机同时需要从网站下载，那么都需要向服务器请求得到服务，那么这时候请求的越多，服务器的带宽压力越大，从而速度会越来越慢</p>
+</blockquote>
+<h4 id="对等连接方式（Peer-to-Peer-P2P"><a href="#对等连接方式（Peer-to-Peer-P2P" class="headerlink" title="对等连接方式（Peer-to-Peer P2P)"></a>对等连接方式（Peer-to-Peer P2P)</h4><p><img src="https://wx1.sbimg.cn/2020/07/18/CEnEa.png" alt="CEnEa.png"></p>
+<blockquote>
+<p>对等连接方式的精髓就是不区分客户机与服务器，客户机也可以是服务器，也就是说客户机下载数据可以从其他客户机（此时已作为服务器）处下载。如果我从服务器的100M数据中下载了50M，那么我可以作为服务器提供数据给其他客户机下载，这样的下载方式下载的端越多，速度就越快，因为多个端一起下载速度很快</p>
+</blockquote>
+<h3 id="因特网的核心数据交换方式"><a href="#因特网的核心数据交换方式" class="headerlink" title="因特网的核心数据交换方式"></a>因特网的核心数据交换方式</h3><h4 id="电路交换"><a href="#电路交换" class="headerlink" title="电路交换"></a>电路交换</h4><p><img src="https://wx2.sbimg.cn/2020/07/18/CE8kR.png" alt="CE8kR.png"><br>电路交换面向连接过程：</p>
+<ul>
+<li>建立连接（申请占用通信资源）</li>
+<li>通话（一直占用通信资源）</li>
+<li>释放链接（释放通信资源）</li>
+</ul>
+<blockquote>
+<p>电路交换的缺陷很明显，需要一直占用通信资源，这样会导致其他连线无法成功，效率比较低</p>
+</blockquote>
+<blockquote>
+<p>电路交换适合于数据量很大的实时性传输，如电话通话，还有核心路由器之间可以用电路交换）</p>
+</blockquote>
+<h4 id="分组交换方式"><a href="#分组交换方式" class="headerlink" title="分组交换方式"></a>分组交换方式</h4><p><img src="https://wx2.sbimg.cn/2020/07/18/CENvK.png" alt="CENvK.png"></p>
+<ul>
+<li>发送端：将要传输的完整的报文分成若干组，每一组加上首部（目的地，顺序等信息）然后独立的传送</li>
+<li>接收端：将接收到的分组首部去掉再组成一个完整的报文即可完成传输<br><img src="https://wx1.sbimg.cn/2020/07/18/CEl4G.png" alt="CEl4G.png"><blockquote>
+<p>这样的传输不占线，每个分组独立的选择最佳传输路线，路由器具有存储转发的功能，并且能够控制哪些连接不可以向外连接因特网，分组在里面查找转发表找到转发端口，不需要建立连接。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>分组交换方式的优点是高效灵活迅速可靠，缺点是时延和开</p>
+</blockquote>
+<h4 id="报文交换方式"><a href="#报文交换方式" class="headerlink" title="报文交换方式"></a>报文交换方式</h4><p>报文交换方式是对整个报文加上首部后直接传走，并不分组，它的缺点是一般比分组长的多，并且时延较长。</p>
+<h4 id="三种交换方式的对比"><a href="#三种交换方式的对比" class="headerlink" title="三种交换方式的对比"></a>三种交换方式的对比</h4><p><img src="https://wx1.sbimg.cn/2020/07/18/CEOHw.png" alt="CEOHw.png"></p>
+<blockquote>
+<p>通过图可知，分组交换时延最短</p>
+</blockquote>
+<h2 id="计算机网络的类别"><a href="#计算机网络的类别" class="headerlink" title="计算机网络的类别"></a>计算机网络的类别</h2><h3 id="通过作用范围区分"><a href="#通过作用范围区分" class="headerlink" title="通过作用范围区分"></a>通过作用范围区分</h3><p>（现在主要看用的什么网的技术就是什么网，比如你和邻居之间都是通过运行商上网的，虽然你们两家离得很近，但仍然是使用的广域网）</p>
+<ul>
+<li>广域网WAN（花钱买服务，花钱买带宽）</li>
+<li>城域网MAN（自己购买设备，自己维护，宽带固定，100米以内）</li>
+<li>局域网LAN</li>
+<li>个人区域网PAN<h3 id="通过使用者区分"><a href="#通过使用者区分" class="headerlink" title="通过使用者区分"></a>通过使用者区分</h3></li>
+<li>公用网（Public Network）</li>
+<li>专用网（Private Network）<h3 id="通过拓扑结构区分"><a href="#通过拓扑结构区分" class="headerlink" title="通过拓扑结构区分"></a>通过拓扑结构区分</h3></li>
+<li>总线型</li>
+<li>环形</li>
+<li>星型</li>
+<li>树型</li>
+<li>网状<h3 id="通过交换方式进行区分"><a href="#通过交换方式进行区分" class="headerlink" title="通过交换方式进行区分"></a>通过交换方式进行区分</h3></li>
+<li>电路交换网</li>
+<li>报文交换网</li>
+<li>分组交换网<h3 id="通过工作方式区分"><a href="#通过工作方式区分" class="headerlink" title="通过工作方式区分"></a>通过工作方式区分</h3></li>
+<li>资源子网</li>
+<li>通信子网</li>
+<li>接入网</li>
+</ul>
+<h2 id="计算机网络的性能"><a href="#计算机网络的性能" class="headerlink" title="计算机网络的性能"></a>计算机网络的性能</h2><p><img src="https://wx1.sbimg.cn/2020/07/18/CEtE6.png" alt="CEtE6.png"></p>
+<h3 id="速率"><a href="#速率" class="headerlink" title="速率"></a>速率</h3><p>连接在计算机网络上的主机在数字信道上传送数据位数的速率，也称data rate或bit rate(比特率)，单位是b/s, kb/s, Mb/s, Gb/s。和正常理解的网速的关系是除以8.</p>
+<h3 id="带宽"><a href="#带宽" class="headerlink" title="带宽"></a>带宽</h3><p>数据通信领域中，数字信道所能传送的最高数据率，单位是b/s, kb/s, Mb/s, Gb/s。常见的是Mpbs。</p>
+<h3 id="吞吐量"><a href="#吞吐量" class="headerlink" title="吞吐量"></a>吞吐量</h3><p>在单位时间内通过某个网络的数据量，单位是b/s, Mb/s。</p>
+<h3 id="时延"><a href="#时延" class="headerlink" title="时延"></a>时延</h3><p>包括发送时延，传播时延，处理时延，排队时延。发送时延等于数据块长度(bit)除以信道带宽(bit/s). 更快的发送速度意味着波长越短，链路上的数据量更大；更快的传播速度意味着在网线中更快的传播速度。</p>
+<h3 id="时延带宽积"><a href="#时延带宽积" class="headerlink" title="时延带宽积"></a>时延带宽积</h3><p>表示一个宽带的链路商总的容纳量 即：<br>时延带宽积=传播时延*带宽</p>
+<h3 id="往返时间-RTT-Round-Trip-Time"><a href="#往返时间-RTT-Round-Trip-Time" class="headerlink" title="往返时间(RTT, Round-Trip Time)"></a>往返时间(RTT, Round-Trip Time)</h3><p>从发送方发送数据开始，到发送方收到接收方确认数据的时间下。局域网的往返时间一般小于1ms<br><strong>可以通过ping指令查看时延</strong><br>例如 ping <a href="http://www.easonhe.top" target="_blank" rel="noopener">www.easonhe.top</a><br><img src="https://wx2.sbimg.cn/2020/07/18/CEzpO.png" alt="CEzpO.png"></p>
+<blockquote>
+<p>可以看到，由于easonhe.top是用了广域网所以时延很高，有时还会timeout   </p>
+</blockquote>
+<p>例如 ping 本机地址（本机地址可以通过ifconfig查看本机地址）<br><img src="https://wx1.sbimg.cn/2020/07/18/CE7he.png" alt="CE7he.png"></p>
+<blockquote>
+<p>这就属于局域网了，所以时延要小于1毫秒</p>
+</blockquote>
+<h3 id="利用率"><a href="#利用率" class="headerlink" title="利用率"></a>利用率</h3><p>包括信道利用率：有数据通过的时间/总时间<br>网络利用率：信道利用率的加权平均<br>网络当前时延D = 网络空闲时时延D0 / (1 - 信道利用率U)</p>
+<h2 id="计算机网络的体系结构"><a href="#计算机网络的体系结构" class="headerlink" title="计算机网络的体系结构"></a>计算机网络的体系结构</h2><h3 id="几个基本概念"><a href="#几个基本概念" class="headerlink" title="几个基本概念"></a>几个基本概念</h3><ul>
+<li>ISO：国际标准化组织</li>
+<li>OSI/RM：互联网法律上的国际标准</li>
+<li>TCP/IP Suite：因特网事实上的国际标准</li>
+<li>Network Protocols：数据交换遵守的规则、标准或约定</li>
+<li>网络体系结构：计算机网络各层及其协议的集合</li>
+</ul>
+<h3 id="OSI7层模型"><a href="#OSI7层模型" class="headerlink" title="OSI7层模型"></a>OSI7层模型</h3><p><strong>分层其实就是分步</strong>，<strong>体系结构分层的意义是为了标准化和降低各个步骤之间的关联</strong></p>
+<ul>
+<li>应用层：<strong>能够产生网络流量</strong>能够和用户交互的应用程序</li>
+<li>表示层：加密 压缩 开发人员考虑</li>
+<li>会话层：服务和客户端建立的会话 查木马 netstat -nb</li>
+<li>传输层：可靠传输建立对话 不可靠传输扔包 流量控制</li>
+<li>网络层：IP地址编址 选择最佳路径</li>
+<li>数据链路层：输入如何封装 添加物理层地址MAC</li>
+<li>物理层：电压 接口标准</li>
+</ul>
+<blockquote>
+<ul>
+<li>程序开发人员主要解决567层问题</li>
+<li>网络工程师主要解决234层问题</li>
+<li>物理层已经有标准化设备不用考虑了 </li>
+</ul>
+</blockquote>
+<h3 id="其他体系结构"><a href="#其他体系结构" class="headerlink" title="其他体系结构"></a>其他体系结构</h3><ul>
+<li>原理体系结构为5层（本次学习按照的就是原理体系结构的5层）应用层-传输层-网络层-数据链路层-物理层</li>
+<li>TCP/IP为四层模型，应用层-传输层-网际层-网络接口层</li>
+</ul>
+<h3 id="网络排错"><a href="#网络排错" class="headerlink" title="网络排错"></a>网络排错</h3><blockquote>
+<p>从最底层物理层到高层开始排，底层好排错，高层难排错，比如网线是否插好了，路由设备重启一下，是否欠费</p>
+</blockquote>
+<h3 id="网络安全与OSI参考模型"><a href="#网络安全与OSI参考模型" class="headerlink" title="网络安全与OSI参考模型"></a>网络安全与OSI参考模型</h3><ul>
+<li>物理层安全：别人有可能直接接入你们网络的交换机，通过网线直接相连。应该拔掉已经不使用的网线接口</li>
+<li>数据链路层安全 ADSL密码拨号 无线AP密码</li>
+<li>网络层安全：两个设备通用一个路由器访问网络 但是可以在路由器上设置哪个网段可以连接互联网，哪个网段不可以连接互联网</li>
+<li>应用层安全：SQL注入漏洞，应用开发相关的安全 上传漏洞：有些网站允许上传文件，比如PHP网站并且允许上传PHP文件，那么如果不改扩展名的话那么这个网址就可以直接解析这个php文件，网页就直接在这个服务器上运行了（网站漏洞）</li>
+</ul>
+<h2 id="开放系统信息交换涉及的几个概念"><a href="#开放系统信息交换涉及的几个概念" class="headerlink" title="开放系统信息交换涉及的几个概念"></a>开放系统信息交换涉及的几个概念</h2><ul>
+<li>实体（entity）：交换信息的硬件或软件进程</li>
+<li>协议（protocol)：控制两个对等实体通信的规则</li>
+<li>服务（service）：下层向上层提供服务，上层需要使用下层提供的服务来实现本层的功能</li>
+<li>服务访问点（SAP）：相邻两层实体间交换信息的地方<br><img src="https://wx1.sbimg.cn/2020/07/18/CNDN7.png" alt="CNDN7.png"><blockquote>
+<p>其中的服务访问点比较抽象，可能就是一个函数或者参数，通过协议还有服务访问点会让其他非接收端的实体看不懂所传输的数据内容</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="五层协议对应的数据单元"><a href="#五层协议对应的数据单元" class="headerlink" title="五层协议对应的数据单元"></a>五层协议对应的数据单元</h2><p><a href="https://sbimg.cn/image/CNo06" target="_blank" rel="noopener"><img src="https://wx2.sbimg.cn/2020/07/18/CNo06.png" alt="CNo06.png"></a><br>内容数据传输过程中：</p>
+<ul>
+<li>数据分段加上对应的使用协议称为段（运输层）<br>— 段加上网络层IP地址称为包（数据报）（网络层）</li>
+<li>包外加上MAC物理层地址就变成了数据帧（数据链路层）</li>
+<li>加上帧头帧尾就变成了比特（物理层）</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/18/CN3sO.png" alt="CN3sO.png"></p>
+<blockquote>
+<p>对应的接收端层层去掉对应的首部到应用层就可以得到完整的数据了</p>
+</blockquote>
+<h2 id="TCP-IP协议的结构与通信"><a href="#TCP-IP协议的结构与通信" class="headerlink" title="TCP/IP协议的结构与通信"></a>TCP/IP协议的结构与通信</h2><p><img src="https://wx1.sbimg.cn/2020/07/18/CNQBN.png" alt="CNQBN.png"><br><img src="https://wx1.sbimg.cn/2020/07/18/CNAKj.png" alt="CNAKj.png"><br><img src="https://wx1.sbimg.cn/2020/07/18/CNByk.png" alt="CNByk.png"></p>
+<blockquote>
+<p>对于功能比较强的计算机来说，可以同时有多个服务器，如SMTP服务、Web服务等等</p>
+</blockquote>
+<h2 id="其他计算机知识"><a href="#其他计算机知识" class="headerlink" title="其他计算机知识"></a>其他计算机知识</h2><blockquote>
+<p>虽然本机的物理地址在出场时已经全球唯一不可更改了已经写在了芯片上，但是可以更改网络地址告诉计算机通信的时候不用网卡上的MAC地址而是用自己指定的MAC地址，这样做的好处是可以蹭企业的网 但是不能重复一样，因为如果这样数据报来了交换机就不知道该给谁了，这样网络就是一会通一会不通的了，有时候网络连接速度不同也不可以连接，比如服务器和交换机设置的连接速度不同或者两台计算机连接但是连接速度不同就会导致网络连接的上但就是不通 这是数据链路层的问题</p>
+</blockquote>
+<blockquote>
+<p>一个网络相当于一个交换机</p>
+</blockquote>
+<blockquote>
+<p>netstat 查看建立的会话<br>病毒消耗资源破坏系统 木马程序盗窃信息也可以远程控制机器 一般没有对话框 偷偷在后台运行 直接查看会话</p>
+</blockquote>
+<p><strong>计算机网络课程学习笔记</strong></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/18/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="【计算机网络】计算机网络概述">http://easonhe.top/2020/07/18/【计算机网络】计算机网络概述/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/Java%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> Java并发编程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/17/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%B9%B2%E8%B4%A7%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" rel="prev" title="【计算机网络】干货知识总结">
+      <i class="fa fa-chevron-left"></i> 【计算机网络】干货知识总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#相关名词"><span class="nav-number">1.</span> <span class="nav-text">相关名词</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络（Network）"><span class="nav-number">1.1.</span> <span class="nav-text">网络（Network）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互联网（internet）"><span class="nav-number">1.2.</span> <span class="nav-text">互联网（internet）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#因特网（Internet）"><span class="nav-number">1.3.</span> <span class="nav-text">因特网（Internet）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层次ISP结构的互联网"><span class="nav-number">2.</span> <span class="nav-text">多层次ISP结构的互联网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中国互联网"><span class="nav-number">3.</span> <span class="nav-text">中国互联网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#因特网的组成及其通信方式"><span class="nav-number">4.</span> <span class="nav-text">因特网的组成及其通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#因特网的边缘主机之间的通信方式"><span class="nav-number">4.1.</span> <span class="nav-text">因特网的边缘主机之间的通信方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#客户服务器方式（Client-Server方式-C-s方式）"><span class="nav-number">4.1.1.</span> <span class="nav-text">客户服务器方式（Client&#x2F;Server方式-C&#x2F;s方式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对等连接方式（Peer-to-Peer-P2P"><span class="nav-number">4.1.2.</span> <span class="nav-text">对等连接方式（Peer-to-Peer P2P)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#因特网的核心数据交换方式"><span class="nav-number">4.2.</span> <span class="nav-text">因特网的核心数据交换方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#电路交换"><span class="nav-number">4.2.1.</span> <span class="nav-text">电路交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分组交换方式"><span class="nav-number">4.2.2.</span> <span class="nav-text">分组交换方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#报文交换方式"><span class="nav-number">4.2.3.</span> <span class="nav-text">报文交换方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三种交换方式的对比"><span class="nav-number">4.2.4.</span> <span class="nav-text">三种交换方式的对比</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的类别"><span class="nav-number">5.</span> <span class="nav-text">计算机网络的类别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过作用范围区分"><span class="nav-number">5.1.</span> <span class="nav-text">通过作用范围区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过使用者区分"><span class="nav-number">5.2.</span> <span class="nav-text">通过使用者区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过拓扑结构区分"><span class="nav-number">5.3.</span> <span class="nav-text">通过拓扑结构区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过交换方式进行区分"><span class="nav-number">5.4.</span> <span class="nav-text">通过交换方式进行区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过工作方式区分"><span class="nav-number">5.5.</span> <span class="nav-text">通过工作方式区分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的性能"><span class="nav-number">6.</span> <span class="nav-text">计算机网络的性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#速率"><span class="nav-number">6.1.</span> <span class="nav-text">速率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带宽"><span class="nav-number">6.2.</span> <span class="nav-text">带宽</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#吞吐量"><span class="nav-number">6.3.</span> <span class="nav-text">吞吐量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时延"><span class="nav-number">6.4.</span> <span class="nav-text">时延</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时延带宽积"><span class="nav-number">6.5.</span> <span class="nav-text">时延带宽积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#往返时间-RTT-Round-Trip-Time"><span class="nav-number">6.6.</span> <span class="nav-text">往返时间(RTT, Round-Trip Time)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用率"><span class="nav-number">6.7.</span> <span class="nav-text">利用率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机网络的体系结构"><span class="nav-number">7.</span> <span class="nav-text">计算机网络的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#几个基本概念"><span class="nav-number">7.1.</span> <span class="nav-text">几个基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI7层模型"><span class="nav-number">7.2.</span> <span class="nav-text">OSI7层模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他体系结构"><span class="nav-number">7.3.</span> <span class="nav-text">其他体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络排错"><span class="nav-number">7.4.</span> <span class="nav-text">网络排错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络安全与OSI参考模型"><span class="nav-number">7.5.</span> <span class="nav-text">网络安全与OSI参考模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开放系统信息交换涉及的几个概念"><span class="nav-number">8.</span> <span class="nav-text">开放系统信息交换涉及的几个概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五层协议对应的数据单元"><span class="nav-number">9.</span> <span class="nav-text">五层协议对应的数据单元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-IP协议的结构与通信"><span class="nav-number">10.</span> <span class="nav-text">TCP&#x2F;IP协议的结构与通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他计算机知识"><span class="nav-number">11.</span> <span class="nav-text">其他计算机知识</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">228k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:27</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
