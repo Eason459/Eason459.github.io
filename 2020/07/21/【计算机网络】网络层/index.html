@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机网络不看后悔系列blog(四）网络层&#x2F;超详细！！(๑´ڡ&#96;๑)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【计算机网络】网络层">
+<meta property="og:url" content="http://easonhe.top/2020/07/21/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="计算机网络不看后悔系列blog(四）网络层&#x2F;超详细！！(๑´ڡ&#96;๑)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/21/DMnNI.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/DM80K.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D5emT.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CF1cM.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CFqWa.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CFeVR.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CFw6I.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CFztK.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CIszJ.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CIJOm.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CIjDU.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CIuud.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/DMNUT.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/21/DMl5w.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/DMrRo.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/21/DMOKl.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/DMSy1.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/21/DMy62.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CIemY.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CI184.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/DMVe8.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/D5sza.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D5hQM.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D5uuK.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/D518G.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CIff1.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CIFho.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/Cf5A2.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CIIal.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CfXSJ.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CfjHa.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/CfVee.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/CfFbD.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D45ik.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D4mRh.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/D4pWM.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/21/DMFbJ.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/20/D4fw8.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/20/D5XjU.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/21/D5tgw.png">
+<meta property="article:published_time" content="2020-07-21T06:03:00.000Z">
+<meta property="article:modified_time" content="2020-07-21T06:04:31.435Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx2.sbimg.cn/2020/07/21/DMnNI.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/21/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【计算机网络】网络层 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">32</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/21/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【计算机网络】网络层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-21 14:03:00" itemprop="dateCreated datePublished" datetime="2020-07-21T14:03:00+08:00">2020-07-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>计算机网络不看后悔系列blog(四）网络层/超详细！！(๑´ڡ`๑)</strong></p>
+<a id="more"></a>
+<h2 id="网络层的作用"><a href="#网络层的作用" class="headerlink" title="网络层的作用"></a>网络层的作用</h2><blockquote>
+<p>负责在不同的网络之间(基于数据包的IP地址)尽力转发数据包，不负责丢包重传和接收顺序。有点像送快递，一个人往另一个地方寄快递，每个快递走不同的路线，可能后发的先到了，也可能丢件了。但是网络层不管这些，只管寄快递。</p>
+</blockquote>
+<p><img src="https://wx2.sbimg.cn/2020/07/21/DMnNI.png" alt="DMnNI.png"></p>
+<p>数据包在Internet中的传输，Internet既有局域网，又有广域网，既有光纤，又有铜线，无线，还有不同的协议，这是Internet复杂所在。<br>路由器是三层设备：能看到网络层的IP地址来选择路径:</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/DM80K.png" alt="DM80K.png"></p>
+<p>典型的路由器结构：</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/D5emT.png" alt="D5emT.png"></p>
+<h2 id="网络层向运输层提供的两种服务"><a href="#网络层向运输层提供的两种服务" class="headerlink" title="网络层向运输层提供的两种服务"></a>网络层向运输层提供的两种服务</h2><ul>
+<li>电信网：虚电路服务：指定所传送的分组都沿着相通的一条虚电路传送，也就是为分组指定路径，这个方式可以不用写目标地址，因为线路已经确定了（可靠性应到由网络来保证）</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/CF1cM.png" alt="CF1cM.png"></p>
+<ul>
+<li>因特网：数据包服务：网络层向上只提供简单灵活的、无连接的、尽最大努力交付的数据报服务，网络在发送分组时不需要先建立连接，每一个分组（即IP数据报）独立发送，与其前后的分组无关（不进行编号），网络层不提供服务质量的承诺，即所传送的分组可能出错、丢失、重复、失序（不按序达到终点），当然也不保证分组传送的时限。（可靠通信应当由主机来保证）</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/CFqWa.png" alt="CFqWa.png"></p>
+<h2 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h2><p>如果计算机没有配网关，那么计算机将不能到其他网段，但是可以访问本网段的计算机，网关就是到其他网段的路由器的接口，一个计算机可以指定多个网关 （得是存在的路由器接口）还可以指定多个IP地址</p>
+<h2 id="IP协议简介"><a href="#IP协议简介" class="headerlink" title="IP协议简介"></a>IP协议简介</h2><p>网际协议IP是TCP/IP体系中最重要的协议之一，网络层还有四个协议：</p>
+<ul>
+<li>地址解析协议ARP</li>
+<li>逆地址解析协议RARP</li>
+<li>国际控制报文协议ICMP</li>
+<li>国际组管理协议IGMP</li>
+</ul>
+<blockquote>
+<p>第一和第二协议一般被认为是同一回事，所以就直接用ARP协议代替，组成网络层的四种协议</p>
+</blockquote>
+<h2 id="网络层4个协议之间的层次"><a href="#网络层4个协议之间的层次" class="headerlink" title="网络层4个协议之间的层次"></a>网络层4个协议之间的层次</h2><p><img src="https://wx2.sbimg.cn/2020/07/20/CFeVR.png" alt="CFeVR.png"></p>
+<h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><h3 id="网络部分与主机部分"><a href="#网络部分与主机部分" class="headerlink" title="网络部分与主机部分"></a>网络部分与主机部分</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/CFw6I.png" alt="CFw6I.png"></p>
+<p><strong>前半段为网络地址，后半段为主机地址</strong></p>
+<h3 id="网络地址"><a href="#网络地址" class="headerlink" title="网络地址"></a>网络地址</h3><p>网络地址（也可以称为网络号）唯一指定了每个网络，同一网络中的每台计算机都共享相同的网络地址，并用它作为自己IP地址的一部分，其中划分的几个类别的区分网络地址段与主机地址段的区别：</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/CFztK.png" alt="CFztK.png"></p>
+<h3 id="IP地址及其表示方法"><a href="#IP地址及其表示方法" class="headerlink" title="IP地址及其表示方法"></a>IP地址及其表示方法</h3><p>我们把整个因特网看成为一个单一的、抽象的网络。IP地址就是给连接再因特网上的主机或路由器的每一个接口分配一个再全世界范围是唯一的32位标识符，IP地址现在由因特网名字与号码指派公司ICANN进行分配。IP地址的编址方法：</p>
+<ul>
+<li>分类的IP地址，这是最基本的编址方法。</li>
+<li>子网的划分。这是对基本的编址方法的改进。</li>
+<li>构成超网。这是比较新的无分类编址方法</li>
+</ul>
+<h3 id="IP地址-1"><a href="#IP地址-1" class="headerlink" title="IP地址"></a>IP地址</h3><p><img src="https://wx2.sbimg.cn/2020/07/20/CIszJ.png" alt="CIszJ.png"></p>
+<p><strong>可以看到A类地址的网络号字段只有8位而主机号字段有24位，即A类地址可以接254^3台主机为他们分配不同的地址，同样的道理，C类地址只有8位主机号字段，那么它只能给254台主机分配不同的地址</strong></p>
+<p>原因牵扯到十进制与二进制的关系：</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/CIJOm.png" alt="CIJOm.png"></p>
+<ul>
+<li>当第一段为0-127则为A类地址</li>
+<li>128-191则为B类地址</li>
+<li>192-224则为C类地址</li>
+</ul>
+<p>也就是说</p>
+<ul>
+<li>0开头的为A类地址</li>
+<li>10开头的为B类地址</li>
+<li>110开头的为C类地址</li>
+</ul>
+<h3 id="常用的三种类别的IP地址"><a href="#常用的三种类别的IP地址" class="headerlink" title="常用的三种类别的IP地址"></a>常用的三种类别的IP地址</h3><p><img src="https://wx2.sbimg.cn/2020/07/20/CIjDU.png" alt="CIjDU.png"></p>
+<p><strong>主机的网段不能全为0或1，所以A类可用网络号到126因为127全为1，128全为0，向下的以此类推</strong></p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/CIuud.png" alt="CIuud.png"></p>
+<p><strong>在这个例子中的首段为133，说明这个为B类IP地址，B类IP地址的前两段为网络号字段，所以TAB键自动填充两个255，也就是告诉计算机我的前两个字段为网络号字段</strong></p>
+<h3 id="几个特殊的IP地址"><a href="#几个特殊的IP地址" class="headerlink" title="几个特殊的IP地址"></a>几个特殊的IP地址</h3><ul>
+<li>127.0.0.1本机环回地址</li>
+<li>169.254.0.0没有地址而分配到的默认地址（所有默认这个地址的人是在一个网段的）</li>
+<li>10.0.0.0保留的A类私网地址（在互联网上这个地址没有被服务器拿来用，可以让企业或学校来用）</li>
+<li>172.16.0.0–172.31.0.0保留的B类私网地址</li>
+<li>192.168.0.0–192.168.255.0保留的C类私网地址</li>
+</ul>
+<p><strong>注意：保留的私网地址是不能通过互联网连接的，因为互联网没有这些地址的服务器，所以不知道怎么走，这肯定是在某个机构的内网里，这些地址重叠都没关系，因为私网之间不互相通信。</strong>公网地址才能通过互联网访问</p>
+<h2 id="IP数据包的格式"><a href="#IP数据包的格式" class="headerlink" title="IP数据包的格式"></a>IP数据包的格式</h2><p>注意，ARP数据包不是这个格式。</p>
+<ul>
+<li>首部：第一部分是固定长度，20字节，是所有IP数据包必须具有的。后一部分是可选字段，长度可变。</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/DMNUT.png" alt="DMNUT.png"></p>
+<p>每一行32bit相当于1个字节，一共5行，共20字节</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/21/DMl5w.png" alt="DMl5w.png"></p>
+<ul>
+<li>版本：用来表示TCP/IP是哪个版本，ipv4还是ipv6.</li>
+<li>区分服务：确定更高的传输优先级。</li>
+<li>总长度：确定数据部分长度。一共是16位，最多有2^16-1=65535字节。</li>
+</ul>
+<blockquote>
+<p>注意，网络层，数据包最大65535字节；而数据链路层数据最大是1500字节，是不一样的。所以说，一旦超过数据链路层的最大要求时(网络层数据部分超过1480字节)，数据包会分片。最大传输单元MTU。</p>
+</blockquote>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/DMrRo.png" alt="DMrRo.png"></p>
+<blockquote>
+<p>数据包分片：把数据分割，分别添加IP地址，通过网络发给目标MAC地址。目标在通过网络层拼接。传送过程中可能会丢包，或者后发的先到(泪滴攻击就是利用目标机发送破坏的IP包(重叠的包货过大的包负荷)可以通过TCP/IP协议来瘫痪各种不同的操作系统)。所以需要编号。</p>
+</blockquote>
+<ul>
+<li>标识：如果出现数据包分片，那么标识用来确定哪些数据包是需要组合的。</li>
+<li>标志：确定该数据包是完整的还是分片中的一部分。占3位，只有前两位有用，标志字段最低位是MF(More Fragment)，MF=1表示后面还有分片，MF=0表示最后一个分片。标志字段中间一位是DF(Don’t Fragment)，只有DF=0才允许分片。</li>
+<li>片偏移：偏移等于当前字节在数据部分的第几个再除以8.(下图是一个举例)</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/21/DMOKl.png" alt="DMOKl.png"></p>
+<ul>
+<li>生存时间：就是TTL，time to live，每过一个路由器就减1。8位二进制。防止数据包在网络中循环。</li>
+<li>协议：用协议号标识数据部分是什么数据。</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/DMSy1.png" alt="DMSy1.png"></p>
+<blockquote>
+<ul>
+<li>ICMP协议号：1；</li>
+<li>IGMP协议号：2；</li>
+<li>TCP协议号：6；</li>
+<li>UDP协议号：17；域名解析</li>
+<li>IPv6协议号：41；</li>
+<li>OSPF协议号：89；</li>
+</ul>
+</blockquote>
+<ul>
+<li>首部检验和：16位，只检验数据报的首部，不检验数据部分。这里不是采用CRC检验码而是采用简单的计算方法。每经过一个路由器就会检验一次。</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/21/DMy62.png" alt="DMy62.png"></p>
+<ul>
+<li>源地址和目的地址都是IP地址，32位，只符合IPv4。IPv6是128位。</li>
+<li>可变部分：一般没用。</li>
+</ul>
+<h2 id="子网掩码"><a href="#子网掩码" class="headerlink" title="子网掩码"></a>子网掩码</h2><p><strong>在两个地址准备通信时，子网掩码会比较两个地址的网络号段是否相同（即是否是在同一个网段）若相同则直接通信，若不相同则转发给.1.0的网关路由器再转发给对应的地址</strong></p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/CIemY.png" alt="CIemY.png"></p>
+<p>注意：子网掩码的格式错误也会产生错误，造成线路不同，所以一定要配置正确的子网掩码<br>具体的比较过程：</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/CI184.png" alt="CI184.png"></p>
+<h2 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h2><p>网络畅通的条件下沿途路由器必须知道下一跳给谁，数据包有去有回。</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/DMVe8.png" alt="DMVe8.png"></p>
+<h3 id="静态路由"><a href="#静态路由" class="headerlink" title="静态路由"></a>静态路由</h3><ul>
+<li>数据路由：路由器在不同网段转发数据包</li>
+<li>静态路由问题：ping连接一通一断很有规律很可能就是路由造成的，它可能加了两个网关，每次发到一个，一次一回就导致了这个问题。如果要通信的那个地址不在默认网关的一端，那么久route add手动添加一条和指定地址联系的道路</li>
+<li>需要管理员告诉路由器所有没有直连的网络下一跳给谁。</li>
+<li>适合于小规模网络，不能自动调整路由。</li>
+</ul>
+<h3 id="动态路由"><a href="#动态路由" class="headerlink" title="动态路由"></a>动态路由</h3><h4 id="RIP协议"><a href="#RIP协议" class="headerlink" title="RIP协议"></a>RIP协议</h4><p>周期性广播(30s)路由表，选择路径的依据是最少的跳数，最大跳数是15跳，所以一般不适合大网络。</p>
+<h4 id="内部网关协议OSPF（Open-Shortest-Path-First）"><a href="#内部网关协议OSPF（Open-Shortest-Path-First）" class="headerlink" title="内部网关协议OSPF（Open Shortest Path First）"></a>内部网关协议OSPF（Open Shortest Path First）</h4><blockquote>
+<ul>
+<li>向本自治系统中所有路由器发送信息，实力使用的方法是洪泛法</li>
+<li>发送的消息就是与本路由器小林的所有路由器的链路状态，但这只是路由器所知道的部分信息</li>
+<li>只有当链路状态发生变化时，路由器采用洪泛法向所有路由器发送此信息</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>OSPF带宽度量值，支持多区域，触发式更新，有三个表，</p>
+<ul>
+<li>邻居表，hello包（和邻居互相打一下招呼）</li>
+<li>链路状态表（交换邻居表就能得出谁连着谁）</li>
+<li>计算路由表（算一下看看最短路径）</li>
+</ul>
+</blockquote>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/D5sza.png" alt="D5sza.png"></p>
+<p>OSPF划分为两种不同的区域</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/D5hQM.png" alt="D5hQM.png"></p>
+<p>OSPF下的路由器只会和自己所在自治系统（也就是不同的区域用各自的协议就是自治系统）的路由器互相交互，不会影响到其他区域的路由器，自治区域汇成一条线路与主干区域相连</p>
+<p><strong>OSPF的其他特点</strong>：</p>
+<ul>
+<li>ISPF不用UDP而是直接用IP数据报传送</li>
+<li>OSPf对不同的链路可根据IP分组的不同服务类型而设置成不同的代价。因此，对于不同类型的业务可计算出不同的路由</li>
+<li>如果到同一个目的网络有多条代价相同的路径，那么可以将信息量分配给这几条路径，这叫做多路径间的负载平衡</li>
+<li>所有在OSPF了路由器之间交换的分组都具有鉴别功能</li>
+<li>支持可变长度的子网划分和无分类编址CIDR</li>
+<li>每一个链路状态都带上一个32位的序号，序号越大状态就越新</li>
+<li>OSPF对子网掩码的要求是反过来的</li>
+</ul>
+<h3 id="外部网关协议BGP"><a href="#外部网关协议BGP" class="headerlink" title="外部网关协议BGP"></a>外部网关协议BGP</h3><p>BGP协议是不同自治系统的路由器之间交换路由信息的协议。边界网关BGP只能是力求寻找一条能够到达目的网络且比较好的路由（不能兜圈子），而并非要寻找一条最佳路由。每一个自治系统的管理员要选择至少一个路由器作为该自制系统的“BGP发言人”：</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/D5uuK.png" alt="D5uuK.png"></p>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/D518G.png" alt="D518G.png"></p>
+<p>BGP协议的特点:</p>
+<ul>
+<li>BGP协议交换路由信息的数量不是很多</li>
+<li>BGP发言人数目不多，路由选择相对简单</li>
+<li>BGP协议支持CIDR</li>
+<li>BGP建立时，交换整个路由表但之后只交换变化部分</li>
+</ul>
+<h3 id="动态路由配置问题"><a href="#动态路由配置问题" class="headerlink" title="动态路由配置问题"></a>动态路由配置问题</h3><blockquote>
+<p>动态路由添加的时候如果是统一网段那么就写一个就行了，如果不是同一个网段那么则要全部添加</p>
+</blockquote>
+<h2 id="子网的划分"><a href="#子网的划分" class="headerlink" title="子网的划分"></a>子网的划分</h2><p>划分子网为了充分利用IP地址</p>
+<h3 id="等分子网的划分"><a href="#等分子网的划分" class="headerlink" title="等分子网的划分"></a>等分子网的划分</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/CIff1.png" alt="CIff1.png"><br><img src="https://wx1.sbimg.cn/2020/07/20/CIFho.png" alt="CIFho.png"><br><img src="https://wx1.sbimg.cn/2020/07/20/Cf5A2.png" alt="Cf5A2.png"><br><img src="https://wx1.sbimg.cn/2020/07/20/CIIal.png" alt="CIIal.png"></p>
+<p>（B类网络的子网划分以此类推）</p>
+<blockquote>
+<p><strong>在这个里面0-64字段里面能使用的字段为1-62，因为0是管理员63为广播字段，以此类推其他的字段，第一个和倒数的两个都不能用</strong> 128往前移几位就是处于几个2，就得到了第一个0-*的网段，等分成几个子网，网络号段就往后移一半位，一直向后移到0-4，这样这个往里面只有两个地址，这样就变成了两个主机，点对点的的子网掩码就变成了11111100（252）</p>
+</blockquote>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/CfXSJ.png" alt="CfXSJ.png"><br>每个网断最大地址的为广播地址，所以最大地址为理论最大地址-1位</p>
+<h3 id="等分子网划分的规律"><a href="#等分子网划分的规律" class="headerlink" title="等分子网划分的规律"></a>等分子网划分的规律</h3><p>划分子网的各子网的内部主机数量与2相关，比如200台机器划分为150与50是不能划分的，因为中间数为128，无法划分</p>
+<h3 id="变长子网的划分"><a href="#变长子网的划分" class="headerlink" title="变长子网的划分"></a>变长子网的划分</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/CfjHa.png" alt="CfjHa.png"></p>
+<h2 id="超网合并网络"><a href="#超网合并网络" class="headerlink" title="超网合并网络"></a>超网合并网络</h2><p><strong>这种情况下A与B通信需要经过路由器转发，但是这样是很多此一举的（两台计算机接在了一个网关的两个接口，是在两个C类地址里）</strong></p>
+<p><img src="https://wx1.sbimg.cn/2020/07/20/CfVee.png" alt="CfVee.png"></p>
+<p><strong>合并方式其实就是子网划分的反过程</strong>：</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/CfFbD.png" alt="CfFbD.png"></p>
+<p><strong>这两个地址都被合并到了192.168.0这个网段里了，以此类推，192.168.2与192.168.3也可以合并，10和11，但是需要向前移动两位，但是并不是所有的网段都可以合并，比如192.168.1与192.168.2，01和10，这样需要向前移动两位，但是这样的话1，3也将被纳入到一个网段，所以是不能合并的</strong></p>
+<h3 id="超网合并的规律"><a href="#超网合并的规律" class="headerlink" title="超网合并的规律"></a>超网合并的规律</h3><p><img src="https://wx2.sbimg.cn/2020/07/20/D45ik.png" alt="D45ik.png"></p>
+<p><strong>117与118就不能合并，小的是偶数才能合并</strong>。</p>
+<h2 id="IP地址与MAC地址"><a href="#IP地址与MAC地址" class="headerlink" title="IP地址与MAC地址"></a>IP地址与MAC地址</h2><p><strong><em>IP地址决定了数据的终点是谁，MAC地址决定了下一设备是谁</em></strong></p>
+<blockquote>
+<p>arp -a可以查看本机所缓存的MAC地址</p>
+</blockquote>
+<p><img src="https://wx2.sbimg.cn/2020/07/20/D4mRh.png" alt="D4mRh.png"></p>
+<p>通信过程中M系列为各端口的MAC地址</p>
+<h2 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h2><h3 id="ARP-amp-RARP"><a href="#ARP-amp-RARP" class="headerlink" title="ARP&amp;RARP"></a>ARP&amp;RARP</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/D4pWM.png" alt="D4pWM.png"></p>
+<h3 id="TCP-IP协议层次关系"><a href="#TCP-IP协议层次关系" class="headerlink" title="TCP/IP协议层次关系"></a>TCP/IP协议层次关系</h3><p><img src="https://wx2.sbimg.cn/2020/07/21/DMFbJ.png" alt="DMFbJ.png"></p>
+<ul>
+<li>IP协议：把数据包从一个网段转到另一个网段，就是用来选择路径用的。</li>
+<li>ARP为IP服务，IP为ICMP/IGMP服务。</li>
+</ul>
+<h3 id="ARP协议的作用"><a href="#ARP协议的作用" class="headerlink" title="ARP协议的作用"></a>ARP协议的作用</h3><p>将IP地址通过广播(本网段，不通过路由器)，目标MAC地址是FF-FF-FF-FF-FF-FF，解析目标IP地址的MAC地址。ARP是解决同一个局域网上的主机或路由器的IP地址和MAC地址的映射关系。如果所找的主机和原主机不在同一个局域网上，那么就要通过ARP找一个位于本局域网上的某个路由器的MAC地址，然后把分组发送给这个路由器，让这个路由器把分组转发给下一个网络。剩下的工作就由下一个网络来做。从IP地址到MAC地址的解析是自动进行的，主机的用户对这种地址解析过程是不知情的。<strong>只要主机或路由器要和本网络上的另一个已知IP地址的主机或路由器进行通信，ARP协议就会自动地将该IP地址解析为链路层所需要的MAC地址</strong>。</p>
+<h3 id="使用ARP的四种典型情况"><a href="#使用ARP的四种典型情况" class="headerlink" title="使用ARP的四种典型情况"></a>使用ARP的四种典型情况</h3><ul>
+<li>发送方是主机，要把IP数据报发送到本网络的另一个主机，此时用ARP找到目标主机的MAC地址；</li>
+<li>发送方是主机，要把IP数据报发送到另一个网络的另一个主机，此时用ARP找到本网络上一个路由器的MAC地址，剩下的工作由路由器进行；</li>
+<li>发送方是路由器，要把IP数据报发送到本网络的另一个主机，此时用ARP找到目标主机的MAC地址；</li>
+<li>发送方是路由器，要把IP数据报发送到另一个网络的另一个主机，此时用ARP找到本网络上一个路由器的MAC地址，剩下的工作由路由器进行；</li>
+</ul>
+<h3 id="逆地址解析协议RARP"><a href="#逆地址解析协议RARP" class="headerlink" title="逆地址解析协议RARP"></a>逆地址解析协议RARP</h3><blockquote>
+<p>只知道自己MAC地址就能获得其IP地址。</p>
+</blockquote>
+<h2 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h2><h3 id="ICMP报文格式"><a href="#ICMP报文格式" class="headerlink" title="ICMP报文格式"></a>ICMP报文格式</h3><p><img src="https://wx1.sbimg.cn/2020/07/20/D4fw8.png" alt="D4fw8.png"></p>
+<p><strong>ICMP报文的前4个字节是统一的格式，共有三个字段：类型、代码、检验和，接着4个字节的内容与ICMP的类型有关</strong></p>
+<h3 id="ICMP报文的类型"><a href="#ICMP报文的类型" class="headerlink" title="ICMP报文的类型"></a>ICMP报文的类型</h3><p>两种类型：</p>
+<ul>
+<li><p>ICMP差错报告报文</p>
+<blockquote>
+<ul>
+<li>终点不可达</li>
+<li>源点抑制</li>
+<li>时间超过</li>
+<li>参数问题</li>
+<li>改变路由（重定向）</li>
+</ul>
+</blockquote>
+</li>
+<li><p>ICMP询问报文</p>
+<blockquote>
+<ul>
+<li>回送请求和回答报文</li>
+<li>时间戳请求和回答报文</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h3 id="差错报告报文的字段和内容"><a href="#差错报告报文的字段和内容" class="headerlink" title="差错报告报文的字段和内容"></a>差错报告报文的字段和内容</h3><p><img src="https://wx2.sbimg.cn/2020/07/20/D5XjU.png" alt="D5XjU.png"></p>
+<p><strong>其中B收到报文后将数据区拿出来，然后加上蓝色部分到最后的首部+ICMP差错报告报文，然后将其返回</strong></p>
+<h3 id="ping-Packet-Internet-Grope-命令诊断网络故障"><a href="#ping-Packet-Internet-Grope-命令诊断网络故障" class="headerlink" title="ping(Packet Internet Grope)命令诊断网络故障"></a>ping(Packet Internet Grope)命令诊断网络故障</h3><ul>
+<li><p>PING是网络层命令。</p>
+</li>
+<li><p>TTL是数据报的生存时间每过一个路由器就会减1，作用是防止数据报在网络中循环。TTL默认初始值如下：</p>
+<blockquote>
+<ul>
+<li>Linux 64</li>
+<li>Windows 128</li>
+<li>Unix 256</li>
+</ul>
+</blockquote>
+</li>
+<li><p>可以根据TTL值粗略判定对方是什么系统。</p>
+</li>
+<li><p>PING,因特网包套所起，用于测试网络连接量的程序。ping发送一饿ICMP回声请求消息给目的地并报告是否收到所希望的ICMP回声应答。</p>
+</li>
+<li><p>ping指端对端联通，通常用作可用性检测，但是某些病毒会强行大量远程执行ping命令抢占你的网络资源，导致系统网速变慢。严禁ping入侵作为大多数防火墙的一个基本功能提供给用户进行选择。</p>
+</li>
+<li><p>如果打开IE浏览器访问网站失败，可以通过ping命令测试到Internet的网络连通，可以为你排除网络故障提供线索。</p>
+</li>
+</ul>
+<h3 id="ping和pathping命令"><a href="#ping和pathping命令" class="headerlink" title="ping和pathping命令"></a>ping和pathping命令</h3><blockquote>
+<p>QQ能登上，网页打不开是为什么？网络层没有问题，域名解析有问题。</p>
+</blockquote>
+<p>pathping 能跟踪数据包路径，发现出问题的位置。<br>pathping 还可以列出丢包率</p>
+<h2 id="NAT和PAT"><a href="#NAT和PAT" class="headerlink" title="NAT和PAT"></a>NAT和PAT</h2><h3 id="NAT网络地址转换的过程"><a href="#NAT网络地址转换的过程" class="headerlink" title="NAT网络地址转换的过程"></a>NAT网络地址转换的过程</h3><ul>
+<li>内部主机X用本机地址（私网地址）IPx和因特网上的主机Y通信所发送的数据报必须经过NAT路由器</li>
+<li>NAT路由器将数据报的源地址IPg），但目的地址IPy保持不变，然后发送到因特网</li>
+<li>NAT路由器收到主机Y发挥的数据报时，知道数据报中的源地址时IPy而目的地址是IPg</li>
+<li>根据NAT转换表，NAT路由器将目的地址IPg转换为IPx转发给最终的内部主机X</li>
+</ul>
+<blockquote>
+<p>NAT不节省公网IP，如果NAT路由器绑定了5个公网地址，那么如果局域网有10台主机那么将会有5台主机无法上网，并且只能出去不能访问进来</p>
+</blockquote>
+<p>利用这样的特性有另一种应用：单向访问</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/21/D5tgw.png" alt="D5tgw.png"></p>
+<blockquote>
+<p>在图中左边区域为私密主机不能让右边区域访问但得让外部的那个机器访问，但左边区域要访问右边区域，这样就可以利用外部这个机器充当NAT，让左边区域当内网（私网）访问右边机器时统一使用外部机器转换的那个公网地址，这样一来，右边的机器只知道访问它们的是一个公网地址，而不知道左边机器的具体地址</p>
+</blockquote>
+<h3 id="PAT端口地址转换"><a href="#PAT端口地址转换" class="headerlink" title="PAT端口地址转换"></a>PAT端口地址转换</h3><p><strong>PAT(port address translation,端口地址转换)是NAT（network address translation，网络地址转换）最常用的一种实现方式。NAT通过将企业内部的私有IP地址转换为全球唯一的公网IP地址，使内部网络可以连接外网（internet），而PAT可以在上述转换过程中，实现企业内网的多个私有IP对一个或是多个IP复用，从而实现IP地址的节约.</strong></p>
+<h2 id="IGMP组播协议"><a href="#IGMP组播协议" class="headerlink" title="IGMP组播协议"></a>IGMP组播协议</h2><p>组播可以想象成是一个频道，主机就是电视台，IGMP就是管理组播成员的。当电视台向其他路由器传输组播数据包时，路由器会利用IGMP协议查看是否有用户连接，如果没有就会返回不再接受组播数包了</p>
+<p>参考：<br>韩立刚老师《计算机网络》课程<br><a href="https://blog.csdn.net/iwanderu/article/details/103812967" target="_blank" rel="noopener">https://blog.csdn.net/iwanderu/article/details/103812967</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/21/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%B1%82/" title="【计算机网络】网络层">http://easonhe.top/2020/07/21/【计算机网络】网络层/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/20/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" rel="prev" title="【计算机网络】数据链路层">
+      <i class="fa fa-chevron-left"></i> 【计算机网络】数据链路层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层的作用"><span class="nav-number">1.</span> <span class="nav-text">网络层的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层向运输层提供的两种服务"><span class="nav-number">2.</span> <span class="nav-text">网络层向运输层提供的两种服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网关"><span class="nav-number">3.</span> <span class="nav-text">网关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP协议简介"><span class="nav-number">4.</span> <span class="nav-text">IP协议简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层4个协议之间的层次"><span class="nav-number">5.</span> <span class="nav-text">网络层4个协议之间的层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP地址"><span class="nav-number">6.</span> <span class="nav-text">IP地址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络部分与主机部分"><span class="nav-number">6.1.</span> <span class="nav-text">网络部分与主机部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络地址"><span class="nav-number">6.2.</span> <span class="nav-text">网络地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址及其表示方法"><span class="nav-number">6.3.</span> <span class="nav-text">IP地址及其表示方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址-1"><span class="nav-number">6.4.</span> <span class="nav-text">IP地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用的三种类别的IP地址"><span class="nav-number">6.5.</span> <span class="nav-text">常用的三种类别的IP地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子"><span class="nav-number">6.6.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个特殊的IP地址"><span class="nav-number">6.7.</span> <span class="nav-text">几个特殊的IP地址</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP数据包的格式"><span class="nav-number">7.</span> <span class="nav-text">IP数据包的格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子网掩码"><span class="nav-number">8.</span> <span class="nav-text">子网掩码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP协议"><span class="nav-number">9.</span> <span class="nav-text">IP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态路由"><span class="nav-number">9.1.</span> <span class="nav-text">静态路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态路由"><span class="nav-number">9.2.</span> <span class="nav-text">动态路由</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RIP协议"><span class="nav-number">9.2.1.</span> <span class="nav-text">RIP协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内部网关协议OSPF（Open-Shortest-Path-First）"><span class="nav-number">9.2.2.</span> <span class="nav-text">内部网关协议OSPF（Open Shortest Path First）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外部网关协议BGP"><span class="nav-number">9.3.</span> <span class="nav-text">外部网关协议BGP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态路由配置问题"><span class="nav-number">9.4.</span> <span class="nav-text">动态路由配置问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子网的划分"><span class="nav-number">10.</span> <span class="nav-text">子网的划分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#等分子网的划分"><span class="nav-number">10.1.</span> <span class="nav-text">等分子网的划分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等分子网划分的规律"><span class="nav-number">10.2.</span> <span class="nav-text">等分子网划分的规律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变长子网的划分"><span class="nav-number">10.3.</span> <span class="nav-text">变长子网的划分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超网合并网络"><span class="nav-number">11.</span> <span class="nav-text">超网合并网络</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#超网合并的规律"><span class="nav-number">11.1.</span> <span class="nav-text">超网合并的规律</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP地址与MAC地址"><span class="nav-number">12.</span> <span class="nav-text">IP地址与MAC地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARP协议"><span class="nav-number">13.</span> <span class="nav-text">ARP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP-amp-RARP"><span class="nav-number">13.1.</span> <span class="nav-text">ARP&amp;RARP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-IP协议层次关系"><span class="nav-number">13.2.</span> <span class="nav-text">TCP&#x2F;IP协议层次关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP协议的作用"><span class="nav-number">13.3.</span> <span class="nav-text">ARP协议的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用ARP的四种典型情况"><span class="nav-number">13.4.</span> <span class="nav-text">使用ARP的四种典型情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逆地址解析协议RARP"><span class="nav-number">13.5.</span> <span class="nav-text">逆地址解析协议RARP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ICMP"><span class="nav-number">14.</span> <span class="nav-text">ICMP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP报文格式"><span class="nav-number">14.1.</span> <span class="nav-text">ICMP报文格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP报文的类型"><span class="nav-number">14.2.</span> <span class="nav-text">ICMP报文的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差错报告报文的字段和内容"><span class="nav-number">14.3.</span> <span class="nav-text">差错报告报文的字段和内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping-Packet-Internet-Grope-命令诊断网络故障"><span class="nav-number">14.4.</span> <span class="nav-text">ping(Packet Internet Grope)命令诊断网络故障</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ping和pathping命令"><span class="nav-number">14.5.</span> <span class="nav-text">ping和pathping命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT和PAT"><span class="nav-number">15.</span> <span class="nav-text">NAT和PAT</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NAT网络地址转换的过程"><span class="nav-number">15.1.</span> <span class="nav-text">NAT网络地址转换的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PAT端口地址转换"><span class="nav-number">15.2.</span> <span class="nav-text">PAT端口地址转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGMP组播协议"><span class="nav-number">16.</span> <span class="nav-text">IGMP组播协议</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">246k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:44</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
