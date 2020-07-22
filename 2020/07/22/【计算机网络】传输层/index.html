@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机网络不看后悔系列blog(五）传输层&#x2F;超详细！！ℰ⋆‿⋆ℰ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【计算机网络】传输层">
+<meta property="og:url" content="http://easonhe.top/2020/07/22/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="计算机网络不看后悔系列blog(五）传输层&#x2F;超详细！！ℰ⋆‿⋆ℰ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/22/DUN8e.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DUlpD.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DUOaj.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/22/DUSfk.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DUyQn.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/22/DUV7h.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DUFSM.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/22/DUfPa.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/Di41R.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/22/Di58I.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DiXpK.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/22/DipaT.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/Dikfw.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/Di2Ao.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/DiC7l.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DiDS1.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/Dioo2.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/Di6EJ.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DiGkm.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/DiQhU.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DiAvd.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/DiR44.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DicAY.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/DidHA.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DigSV.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/Diso7.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/23/DiJq6.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/23/DiLEO.png">
+<meta property="article:published_time" content="2020-07-22T15:59:00.000Z">
+<meta property="article:modified_time" content="2020-07-22T16:34:49.073Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx1.sbimg.cn/2020/07/22/DUN8e.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/22/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E4%BC%A0%E8%BE%93%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【计算机网络】传输层 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">33</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/22/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E4%BC%A0%E8%BE%93%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【计算机网络】传输层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-22 23:59:00" itemprop="dateCreated datePublished" datetime="2020-07-22T23:59:00+08:00">2020-07-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>计算机网络不看后悔系列blog(五）传输层/超详细！！ℰ⋆‿⋆ℰ</strong></p>
+<a id="more"></a>
+<h2 id="传输层两个协议的应用场景"><a href="#传输层两个协议的应用场景" class="headerlink" title="传输层两个协议的应用场景"></a>传输层两个协议的应用场景</h2><ul>
+<li>TCP：可靠传输，分段，编号，流量控制（如果丢包则可再传相应的数据报），建立会话（服务器与用户间需要建立连接，确保网络畅通），netstat -n查看会话（QQ传文件，一个包一个包的传。访问网站）</li>
+<li>UDP：非可靠传输，一个包就能搞定数据通信，不需要再分段编号，不建立会话。（QQ聊天发消息，看电视节目）</li>
+</ul>
+<h2 id="传输层和应用层之间的关系"><a href="#传输层和应用层之间的关系" class="headerlink" title="传输层和应用层之间的关系"></a>传输层和应用层之间的关系</h2><ul>
+<li>http=TCP+80（应用层协议http在运输层使用TCP协议+80端口来表示一个应用层协议）</li>
+<li>https=TCP+443（Web服务用的协议端口）</li>
+<li>ftp=TCP+21（文件传输用的协议端口）</li>
+<li>SMTP=TCP+25（发邮件用的协议端口）</li>
+<li>POP3=TCP+110（收邮件用的协议端口）</li>
+<li>RDP=TCP—+3389（远程桌面用的协议端口）</li>
+<li>TCP+445（共享文件夹用的协议端口）</li>
+<li>SQL=TCP+1433（微软数据库用的协议端口）</li>
+<li>DNS=UDP+53 or</li>
+<li>TCP+53（少用）（网站解析用的协议端口）</li>
+</ul>
+<h2 id="应用层协议和服务之间的关系"><a href="#应用层协议和服务之间的关系" class="headerlink" title="应用层协议和服务之间的关系"></a>应用层协议和服务之间的关系</h2><p>Web服务<br>ftp服务<br>smtp服务<br>pop3服务</p>
+<blockquote>
+<p>假设每个服务都打开了，那么它们就会在某个特定的端口侦听数据。端口代表服务<br>(用IP地址来定位计算机，用端口来定位服务。)</p>
+</blockquote>
+<h2 id="更改端口增加服务器安全"><a href="#更改端口增加服务器安全" class="headerlink" title="更改端口增加服务器安全"></a>更改端口增加服务器安全</h2><p>更改端口会让侵入的人不知道这个端口的服务是什么，或者说对正常的端口猜测错误，攻击不成</p>
+<h2 id="TCP-IP筛选实现服务器安全"><a href="#TCP-IP筛选实现服务器安全" class="headerlink" title="TCP/IP筛选实现服务器安全"></a>TCP/IP筛选实现服务器安全</h2><p>虽然可能计算机上添加了很多服务端口，但是可以使用防火墙尽让部分端口开放，也就是网卡只允许某些端口可以对外连接，这样也就实现了一定的服务器安全</p>
+<h2 id="TCP与UDP"><a href="#TCP与UDP" class="headerlink" title="TCP与UDP"></a>TCP与UDP</h2><h3 id="传送的数据格式"><a href="#传送的数据格式" class="headerlink" title="传送的数据格式"></a>传送的数据格式</h3><p>两个对等运输实体再通信时传送的数据单位叫做<strong>运输协议数据单元</strong></p>
+<ul>
+<li>TCP传送的协议数据单元是TCP报文段</li>
+<li>UDP传送的协议数据单元是UDP报文或用户数据报</li>
+</ul>
+<h3 id="一些区别"><a href="#一些区别" class="headerlink" title="一些区别"></a>一些区别</h3><ul>
+<li>UDP在传送数据之前不需要先建立连接，对方的运输层在收到UDP报文后，不需要给出任何确认，虽然UDP不提供可靠交付，但在某些情况下UDP是一种最有效的工作方式</li>
+<li>TCP则提供面向连接的服务，TCP不提供广播或多播服务。由于TCP要提供可靠的、面向连接的运输服务，因此不可避免的增加了许多的开销。这不进使协议数据单元的首部增大很多，还要占用许多的处理机资源。</li>
+</ul>
+<p>SYN攻击：不断的给一个计算机发起建立会话的请求，但是请求的端口位置不正确，就导致大量的同意连接请求得不到相应从而占用大量的资源，达到了攻击的目的</p>
+<p>land攻击：大量的让目标地址与自己建立会话占用大量资源</p>
+<h2 id="OSI和DoD模型"><a href="#OSI和DoD模型" class="headerlink" title="OSI和DoD模型"></a>OSI和DoD模型</h2><p><img src="https://wx1.sbimg.cn/2020/07/22/DUN8e.png" alt="DUN8e.png"></p>
+<p>传输层最大数据包是65535字节，而网络层数据最大只有1480字节。所以需要分段，但是只要分段，就有可能丢包，因为网络层不负责可靠传输。所以要求服务器和客户端保持会话，直到数据传输完成。</p>
+<p>-&gt;TCP(Transmission Control Protocol)传输控制协议<br>应用场景：需要将要传输的文件分段传输时；就需要TCP协议来建立会话实现可靠传输；同时也有流量控制功能。(例如QQ传文件)<br>查看会话 netstat -n<br>查看建立会话的进程 netstat -nb</p>
+<p>-&gt;UDP(User Data Protocol)用户数据报协议<br>应用场景：一个数据包就能完成数据通信；不需要建立会话和流量控制；多播/广播；是一种不可靠传输。(例如QQ聊天，屏幕广播)</p>
+<h2 id="传输层协议与应用层协议的关系"><a href="#传输层协议与应用层协议的关系" class="headerlink" title="传输层协议与应用层协议的关系"></a>传输层协议与应用层协议的关系</h2><p><img src="https://wx2.sbimg.cn/2020/07/22/DUlpD.png" alt="DUlpD.png"></p>
+<p>(1)TCP和UDP协议和不同的端口即可对应一个应用层的协议。注意，53大部分是与UDP相连。<br>(2)熟知数值一般为0-1023，登记端口号数值1024-49151，客户端口号数值为49152-65535.<br>(3)常用的应用层协议使用的端口(号)：<br>http = TCP + 80<br>Https = TCP + 443<br>RDP = TCP + 3389<br>ftp = TCP + 21<br>共享文件夹 = TCP + 445<br>SMTP = TCP + 25<br>POP3 = TCP + 110<br>telnet = TCP + 23<br>SQL = TCP + 1433<br>DNS = UDP + 53</p>
+<h2 id="服务和应用层协议的关系"><a href="#服务和应用层协议的关系" class="headerlink" title="服务和应用层协议的关系"></a>服务和应用层协议的关系</h2><p>防火墙是基于网卡的，只打开必要的端口，不必要的端口不允许接收数据，不影响服务的运行和监听。<br>服务使用TCP或UDP的端口侦听客户端请求；<br>客户端使用IP地址定位服务器，使用目标端口，定位服务；<br>可以在服务器网卡上设置只开放必要的端口，实现服务器网络安全。</p>
+<h2 id="如何查看服务器侦听端口"><a href="#如何查看服务器侦听端口" class="headerlink" title="如何查看服务器侦听端口"></a>如何查看服务器侦听端口</h2><p>netstat -a<br>netstat -an 以数字的形式查看端口<br>netstat -n 查看建立的会话<br>netstat -nb 查看建立会话的进程<br>telnet 192.168.80.100 3389 测试到远程计算机某个端口是否打开</p>
+<h2 id="传输层功能和端口范围"><a href="#传输层功能和端口范围" class="headerlink" title="传输层功能和端口范围"></a>传输层功能和端口范围</h2><p><img src="https://wx2.sbimg.cn/2020/07/22/DUOaj.png" alt="DUOaj.png"></p>
+<h3 id="传输层协议与网络层协议的主要区别"><a href="#传输层协议与网络层协议的主要区别" class="headerlink" title="传输层协议与网络层协议的主要区别"></a>传输层协议与网络层协议的主要区别</h3><p>网络层实现如何把数据包从这个地址(服务器)发送到另一个地址(服务器)。<br>传输层实现如何让这个应用程序找到对应计算机的应用程序(相对应的应用程序实现逻辑通信)。</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/22/DUSfk.png" alt="DUSfk.png"></p>
+<h3 id="传输层的主要功能"><a href="#传输层的主要功能" class="headerlink" title="传输层的主要功能"></a>传输层的主要功能</h3><p>(1)传输层为应用进程之间提供了端到端的逻辑通信(但网络层是为主机之间提供逻辑通信)。<br>(2)传输层还要对收到的报文进行差错检验。<br>(3)传输层提供面向连接(TCP)和无连接(UDP)的服务。</p>
+<h3 id="运输层的端口"><a href="#运输层的端口" class="headerlink" title="运输层的端口"></a>运输层的端口</h3><p><img src="https://wx2.sbimg.cn/2020/07/22/DUyQn.png" alt="DUyQn.png"></p>
+<p>TCP的端口：</p>
+<ul>
+<li>端口用一个16位端口号进行标志。</li>
+<li>端口号只具有本地意义，即端口号只是为了标志本计算机应用层的各进程。</li>
+<li>在Internet中不同计算机的相同端口号是没有联系的(最好不要有冲突)。</li>
+</ul>
+<h2 id="UDP协议"><a href="#UDP协议" class="headerlink" title="UDP协议"></a>UDP协议</h2><p>(1)UDP是无连接的，即发送数据之前不需要建立连接。<br>(2)UDP使用尽最大努力交付，即不保证可靠交付，同时也不使用拥塞控制。<br>(3)UDP是面向报文的，适合多媒体通信的要求。<br>(4)UDP支持一对一，一对多，多对一，多对多交互通信。<br>(5)UDP首部开销小，只有8个字节。</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/22/DUV7h.png" alt="DUV7h.png"></p>
+<h3 id="UDP首部格式"><a href="#UDP首部格式" class="headerlink" title="UDP首部格式"></a>UDP首部格式</h3><p><img src="https://wx2.sbimg.cn/2020/07/22/DUFSM.png" alt="DUFSM.png"></p>
+<p>首部中的长度指的是UDP用户数据报的长度(首部+数据)。<br>伪首部用于检验和，伪首部是IP数据包首部的后</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/22/DUfPa.png" alt="DUfPa.png"></p>
+<h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><ul>
+<li>TCP是面向连接的传输层协议。(三次握手)</li>
+<li>每一条TCP连接智能有两个端点(endpoint)，每一条TCP连接只能时点对点的(一对一)。</li>
+<li>TCP提供可靠交付的服务。(确保不丢包)</li>
+<li>TCP提供全双工通信。(因为需要接收端的反馈，例如如果接收端处理不过来，可让发送端慢一点，流量控制)</li>
+<li>面向字节流。</li>
+<li>TCP实现全双工通信就一定得建立双向通信，不能用户机只在服务器端下载，应该还要有回应，就像打电话一样，一个人说话，一个人只在听但是也得回应“嗯”确保这个通信是正常的</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/22/Di41R.png" alt="Di41R.png"></p>
+<blockquote>
+<p>如果要传输一个比较大的数据，首先一次只会传输一小块，这个数据块的大小是没有规律的。加上数据包数据帧的头，发送给接收端，接收端去掉首部，再次拼接。</p>
+</blockquote>
+<h3 id="TCP的连接"><a href="#TCP的连接" class="headerlink" title="TCP的连接"></a>TCP的连接</h3><ul>
+<li>TCP把连接作为最基本的抽象。</li>
+<li>每一条TCP连接有两个端点。</li>
+<li>TCP连接的端点不是主机，不是主机的IP地址，不是应用程序，也不是传输层协议端口，TCP连接的端点叫 套接字(socket).</li>
+</ul>
+<blockquote>
+<ul>
+<li>套接字socket = (IP地址:端口号)</li>
+<li>每一条TCP连接唯一地被通信两端的两个套接字所确定，即：</li>
+<li>TCP连接 ::= {socket1, socket2} = {(IP1:port1), (IP2:port2)}</li>
+<li>端口号拼接到IP地址即构成了套接字。</li>
+</ul>
+</blockquote>
+<h3 id="TCP如何实现可靠传输"><a href="#TCP如何实现可靠传输" class="headerlink" title="TCP如何实现可靠传输"></a>TCP如何实现可靠传输</h3><p><strong>可靠传输的工作原理——停止等待协议</strong>:</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/22/Di58I.png" alt="Di58I.png"></p>
+<p>在发送完一个分组后，必须暂时保留已发送的分组的副本。</p>
+<ul>
+<li>分组和确认分组都必须进行编号。</li>
+<li>超时计时器的重传时间应当比数据在分组传输的平均往返时间更长一些。</li>
+</ul>
+<p><strong>确认丢失和确认迟到</strong>:</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/22/DiXpK.png" alt="DiXpK.png"></p>
+<ul>
+<li>可靠通信的实现<blockquote>
+<ul>
+<li>使用上述的确认和重传机制，微秒就可以在不可靠的传输网络上实现可靠的通信。</li>
+<li>这种可靠传输的协议常称为自动重传请求ARQ(Automatic Repeat reQuest)。</li>
+<li>ARQ表明重传的请求是自动进行的。接收方不需要请求发送方重传某个出错的分组。</li>
+<li>缺点，信道利用率低。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/22/DipaT.png" alt="DipaT.png"></p>
+<p><strong>信道利用率</strong></p>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/Dikfw.png" alt="Dikfw.png"></p>
+<h3 id="流水线传输"><a href="#流水线传输" class="headerlink" title="流水线传输"></a>流水线传输</h3><blockquote>
+<p>发送方可连续发送多个分组，不必每发完一个分组就停顿下来等待对方的确认。由于信道上一直有数据不间断的传送，这种传输方式可获得很高的信道利用率。</p>
+</blockquote>
+<p><img src="https://wx2.sbimg.cn/2020/07/23/Di2Ao.png" alt="Di2Ao.png"></p>
+<h3 id="连续AQR协议"><a href="#连续AQR协议" class="headerlink" title="连续AQR协议"></a>连续AQR协议</h3><p><img src="https://wx1.sbimg.cn/2020/07/23/DiC7l.png" alt="DiC7l.png"><br><img src="https://wx2.sbimg.cn/2020/07/23/DiDS1.png" alt="DiDS1.png"></p>
+<p>如果1确认收到了，则滑动窗口。如果12收到了，3没有收到，则滑动窗口会会回溯到3位置，重新发送。</p>
+<blockquote>
+<p>滑动窗口技术：发送端的滑动窗口大小不能大于接收端的窗口大小</p>
+</blockquote>
+<ul>
+<li>累计确认(接收方)<blockquote>
+<ul>
+<li>接收方一般采用累计确认的方式。</li>
+<li>优点：容易实现，信道利用率高。</li>
+<li>缺点：不能向发送方反映出接收方已经正确收到的所有分组的信息。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h2 id="TCP报文段的首部格式"><a href="#TCP报文段的首部格式" class="headerlink" title="TCP报文段的首部格式"></a>TCP报文段的首部格式</h2><p><img src="https://wx1.sbimg.cn/2020/07/23/Dioo2.png" alt="Dioo2.png"></p>
+<ul>
+<li>源端口：2个字节16位。</li>
+<li>目的端口：2个字节16位。</li>
+<li>序号：当前数据的第一个字节在整个文件中的序号。</li>
+<li>确认号ack：接收端发送，提示发送端下一次该发的数据在整个文件中的序号。接收端收到后，会把这个序号之前的数据从缓存中删掉。</li>
+<li>数据偏移：当前TCP报文段第多少个字节后是TCP的数据部分了。数据偏移最多表示1111，即15，他最多可以表示15乘以4，即60个字节的偏移量，所以选项+填充最多只能是40个字节。</li>
+<li>保留：6位，无作用。</li>
+<li>URG：urgent，意思是优先级高，发送端优先发送，而不是在缓存中排队。</li>
+<li>ACK：acknowledge，1意味着确认建立了会话。</li>
+<li>PSH：1意味着接收端优先读取，而不是在缓存中排队。</li>
+<li>RST：reset，1意味着TCP会话出现严重错误，必须释放和重新连接。</li>
+<li>SYN：同步。1意味着要发起会话。</li>
+<li>FIN：finish，1意味着释放连接。</li>
+<li>窗口：接收端先发，发送端根据接收端的窗口尺寸确定发送端窗口尺寸。</li>
+<li>检验和：和UDP一样要在TCP报文段的前端加一个12字节的伪首部，和UDP差不多相同</li>
+<li>紧急指针：指明了紧急数据段的尾部位置</li>
+<li>选项：可以规定最大数据报的长度，MSS，确认的时候是不是支持选择性确认，如果选项不够4个字节，那么它就会填充.</li>
+</ul>
+<p>从建立会话，到传输数据到确认反馈的一个过程如下:</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/Di6EJ.png" alt="Di6EJ.png"></p>
+<h2 id="TCP如何实现可靠传输-1"><a href="#TCP如何实现可靠传输-1" class="headerlink" title="TCP如何实现可靠传输"></a>TCP如何实现可靠传输</h2><h3 id="以字节为单位的滑动窗口技术"><a href="#以字节为单位的滑动窗口技术" class="headerlink" title="以字节为单位的滑动窗口技术"></a>以字节为单位的滑动窗口技术</h3><ul>
+<li>A的发送窗口是由B的接受窗口长度决定的。</li>
+<li>在没有收到B确认收到之前，A不能删掉滑动窗口内的内容。</li>
+<li>A可以持续给B发送，直到A的滑动窗口内数据都发了。</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/23/DiGkm.png" alt="DiGkm.png"></p>
+<p>B收到后给A发确认收到的反馈ACK，序号是下一个应该发送的字节的序号，A收到后，就可以滑动窗口到对应的位置。例如B反馈ACK是7，那么A的滑窗可以移动到7位置，1-6删除。21-26可以发送</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/DiQhU.png" alt="DiQhU.png"></p>
+<p>B收到1-6之后，也开始滑窗，B的应用程序可以读取1-6的数据。B的滑窗继续接收。</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/23/DiAvd.png" alt="DiAvd.png"></p>
+<p>以上是正常状态下的情况。如果出现丢失情况，例如7-9丢失，此时B反馈的ACK=7.因为10-12收到了，因此B发送SACK(选择性确认)，A只发送7-9.</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/DiR44.png" alt="DiR44.png"></p>
+<h3 id="超时重传时间的确定"><a href="#超时重传时间的确定" class="headerlink" title="超时重传时间的确定"></a>超时重传时间的确定</h3><p>T- CP每发送一个报文段，就对这个报文段设置一次计时器。只要计时器设置的重传时间到了，但是还没有收到数据，那么就重传这一报文段。</p>
+<ul>
+<li>RTTs(new) = (1 - alpha) x (RTTs(old)) + alpha x (new RTT样本)</li>
+<li>超时重传时间应略大于上面得出的加权平均往返时间RTTs。alpha推荐值是0.125.</li>
+<li>这个公式的目的是根据网速和带宽的实时情况调整往返时间。</li>
+</ul>
+<h2 id="TCP如何实现流量控制P68"><a href="#TCP如何实现流量控制P68" class="headerlink" title="TCP如何实现流量控制P68"></a>TCP如何实现流量控制P68</h2><blockquote>
+<p>解决通信两端处理时间不一样的问题。通过实时调整滑窗尺寸的大小(尺寸甚至可以是0)来实现流量控制。接收端主动调整滑窗大小，发送端根据接收端发送的报文调整相应的滑窗。发送端也会定时发送报文向接收端确认滑窗信息，避免接收端发送的相关调整滑窗大小的报文丢失带来的影响。</p>
+</blockquote>
+<h2 id="TCP如何避免网络拥塞"><a href="#TCP如何避免网络拥塞" class="headerlink" title="TCP如何避免网络拥塞"></a>TCP如何避免网络拥塞</h2><ul>
+<li>出现资源拥塞的条件：对资源需求的总和&gt;可用资源。</li>
+<li>拥塞控制是一个全局性的过程，涉及到所有的主机，所有的路由区，以及与降低网络传输性能有关的所有因素。</li>
+<li>流量控制往往指在给定的发送端和接收端之间的点对点通信量的控制，它所要做的就是抑制发送端发送数据的速率，以便使接收端来得及接收。</li>
+</ul>
+<h3 id="拥塞控制起到的作用"><a href="#拥塞控制起到的作用" class="headerlink" title="拥塞控制起到的作用"></a>拥塞控制起到的作用</h3><p>红线和绿线之间是数据丢失内容。</p>
+<p><img src="https://wx2.sbimg.cn/2020/07/23/DicAY.png" alt="DicAY.png"></p>
+<h3 id="慢开始和拥塞避免"><a href="#慢开始和拥塞避免" class="headerlink" title="慢开始和拥塞避免"></a>慢开始和拥塞避免</h3><ul>
+<li>发送方维持拥塞窗口cwnd(congestion window)</li>
+<li>发送方控制拥塞窗口的原则是：<blockquote>
+<ul>
+<li>只要网络没有出现拥塞，拥塞窗口就再增大一些，以便把更多的分组发送出去；</li>
+<li>只要网络出现拥塞，拥塞窗口就减少一些，以减少注入到网络中的分组数。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p><strong>慢开始算法的原理</strong>:</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/DidHA.png" alt="DidHA.png"></p>
+<ul>
+<li><p>设置慢开始门限状态变量ssthresh<br>慢开始门限状态变量ssthresh的用法如下：</p>
+<blockquote>
+<ul>
+<li>当cwnd&lt;ssthresh时，使用慢开始算法；</li>
+<li>当cwnd&gt;ssthresh时，停止使用慢开始算法，改用拥塞避免算法；</li>
+<li>当cwnd=ssthresh时，使用慢开始算法或拥塞避免算法均可；</li>
+</ul>
+</blockquote>
+</li>
+<li><p>拥塞避免算法的思路<br>让拥塞窗口cwnd缓慢地增大，即每经过一个往返时间RTT就把发送方的拥塞窗口cwnd加1，而不是加倍，使拥塞窗口cwnd按线性规律缓慢增长。</p>
+</li>
+<li><p>当网络出现拥塞时对策<br>无论是在慢开始阶段还是在拥塞避免阶段，只要发送方判断网络出现拥塞(其根据就是没有按时收到确认)，就要把慢开始门限ssthresh设置为出现拥塞时的发送方窗口值的一半(但是不能小于2)。<br>然后把拥塞窗口cwnd重新设置为1，执行慢开始算法。</p>
+<blockquote>
+<p>这样做的目的就是要迅速减少主机发送到网络中的分组数，使得发生拥塞的路由器有足够的时间吧队列中积压的分组处理完毕。</p>
+</blockquote>
+</li>
+<li><p>慢开始和拥塞避免算法的实现举例</p>
+</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/23/DigSV.png" alt="DigSV.png"></p>
+<blockquote>
+<ul>
+<li>拥塞避免并非指完全能够避免拥塞。利用以上的措施要完全避免网络拥塞还是不可能的。</li>
+<li>拥塞避免是说在拥塞避免阶段吧拥塞避免窗口控制为按线性规律增长，使网络比较不容易出现拥塞。</li>
+</ul>
+</blockquote>
+<h3 id="快重传和快恢复"><a href="#快重传和快恢复" class="headerlink" title="快重传和快恢复"></a>快重传和快恢复</h3><ul>
+<li>快重传算法首先要求接收方每收到一个失序的报文段后就立即发出重复确认，这样做可以让发送方及早知道有报文段没有到达接收方。</li>
+<li>当发送端收到连续三个重复的确认时，就执行“乘法减少”算法，即把慢开始门限ssthresh减半，但拥塞窗口cwnd现在不设置为1，而是设置为慢开始门限ssthresh减半后的数值，然后开始执行拥塞避免算法(“加法增大”)，使拥塞窗口缓慢地线性增大。</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/23/Diso7.png" alt="Diso7.png"></p>
+<h3 id="发送窗口的实际上限制"><a href="#发送窗口的实际上限制" class="headerlink" title="发送窗口的实际上限制"></a>发送窗口的实际上限制</h3><p>取接收方窗口和 拥塞窗口 这两个变量中的较小值。<br>发送窗口的上限制 = min {rwnd, cwnd}.</p>
+<h3 id="TCP传输连接管理"><a href="#TCP传输连接管理" class="headerlink" title="TCP传输连接管理"></a>TCP传输连接管理</h3><blockquote>
+<p>传输连接有三个阶段，即：</p>
+<ul>
+<li>连接建立</li>
+<li>数据传送</li>
+<li>连接释放</li>
+</ul>
+</blockquote>
+<ul>
+<li>TCP连接的建立都是采用客户服务器方式。</li>
+<li>主动发起连接建立的应用进程叫做客户(client)。</li>
+<li>被动等待连接建立的应用进程叫做服务器(server)。</li>
+</ul>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="https://wx2.sbimg.cn/2020/07/23/DiJq6.png" alt="DiJq6.png"></p>
+<ul>
+<li>头两次握手除了确定双方都能联通外，还通知了双方的一些端口信息。</li>
+<li>第三次握手原因：假如把三次握手改成仅需要两次握手，死锁是可能发生的。作为例子，考虑计算机A和B之间的通信，假定A给B发送一个连接请求分组，B收到了这个分组，并发送了确认应答分组。按照两次握手的协定，B认为连接已经成功地建立了，可以开始发送数据分组。可是，B的应答分组在传输中被丢失的情况下，A将不知道B是否已准备好，A认为连接还未建立成功，将忽略B发来的任何数据分组，这样就形成了死锁。</li>
+</ul>
+<h3 id="四次分手"><a href="#四次分手" class="headerlink" title="四次分手"></a>四次分手</h3><p><img src="https://wx1.sbimg.cn/2020/07/23/DiLEO.png" alt="DiLEO.png"></p>
+<blockquote>
+<p>为什么要四次挥手？在第二步b-&gt;a要发送两次呢。因为TCP是全双工模式，这就意味着，当主机1发出FIN报文段时，只是表示主机1已经没有数据要发送了，主机1告诉主机2，它的数据已经全部发送完毕了；但是，这个时候主机1还是可以接受来自主机2的数据；当主机2返回ACK报文段时，表示它已经知道主机1没有数据发送了，但是主机2还是可以发送数据到主机1的；当主机2也发送了FIN报文段时，这个时候就表示主机2也没有数据要发送了，就会告诉主机1，我也没有数据要发送了，之后彼此就会愉快的中断这次TCP连接。</p>
+</blockquote>
+<p>参考：<br>韩立刚老师《计算机网络》课程<br><a href="https://blog.csdn.net/iwanderu/article/details/103812974" target="_blank" rel="noopener">https://blog.csdn.net/iwanderu/article/details/103812974</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/22/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E4%BC%A0%E8%BE%93%E5%B1%82/" title="【计算机网络】传输层">http://easonhe.top/2020/07/22/【计算机网络】传输层/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/21/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%B1%82/" rel="prev" title="【计算机网络】网络层">
+      <i class="fa fa-chevron-left"></i> 【计算机网络】网络层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层两个协议的应用场景"><span class="nav-number">1.</span> <span class="nav-text">传输层两个协议的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层和应用层之间的关系"><span class="nav-number">2.</span> <span class="nav-text">传输层和应用层之间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用层协议和服务之间的关系"><span class="nav-number">3.</span> <span class="nav-text">应用层协议和服务之间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改端口增加服务器安全"><span class="nav-number">4.</span> <span class="nav-text">更改端口增加服务器安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-IP筛选实现服务器安全"><span class="nav-number">5.</span> <span class="nav-text">TCP&#x2F;IP筛选实现服务器安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP与UDP"><span class="nav-number">6.</span> <span class="nav-text">TCP与UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传送的数据格式"><span class="nav-number">6.1.</span> <span class="nav-text">传送的数据格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些区别"><span class="nav-number">6.2.</span> <span class="nav-text">一些区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI和DoD模型"><span class="nav-number">7.</span> <span class="nav-text">OSI和DoD模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层协议与应用层协议的关系"><span class="nav-number">8.</span> <span class="nav-text">传输层协议与应用层协议的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务和应用层协议的关系"><span class="nav-number">9.</span> <span class="nav-text">服务和应用层协议的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何查看服务器侦听端口"><span class="nav-number">10.</span> <span class="nav-text">如何查看服务器侦听端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层功能和端口范围"><span class="nav-number">11.</span> <span class="nav-text">传输层功能和端口范围</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#传输层协议与网络层协议的主要区别"><span class="nav-number">11.1.</span> <span class="nav-text">传输层协议与网络层协议的主要区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传输层的主要功能"><span class="nav-number">11.2.</span> <span class="nav-text">传输层的主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运输层的端口"><span class="nav-number">11.3.</span> <span class="nav-text">运输层的端口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP协议"><span class="nav-number">12.</span> <span class="nav-text">UDP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP首部格式"><span class="nav-number">12.1.</span> <span class="nav-text">UDP首部格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP协议"><span class="nav-number">13.</span> <span class="nav-text">TCP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP的连接"><span class="nav-number">13.1.</span> <span class="nav-text">TCP的连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP如何实现可靠传输"><span class="nav-number">13.2.</span> <span class="nav-text">TCP如何实现可靠传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流水线传输"><span class="nav-number">13.3.</span> <span class="nav-text">流水线传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连续AQR协议"><span class="nav-number">13.4.</span> <span class="nav-text">连续AQR协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP报文段的首部格式"><span class="nav-number">14.</span> <span class="nav-text">TCP报文段的首部格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何实现可靠传输-1"><span class="nav-number">15.</span> <span class="nav-text">TCP如何实现可靠传输</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以字节为单位的滑动窗口技术"><span class="nav-number">15.1.</span> <span class="nav-text">以字节为单位的滑动窗口技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超时重传时间的确定"><span class="nav-number">15.2.</span> <span class="nav-text">超时重传时间的确定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何实现流量控制P68"><span class="nav-number">16.</span> <span class="nav-text">TCP如何实现流量控制P68</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP如何避免网络拥塞"><span class="nav-number">17.</span> <span class="nav-text">TCP如何避免网络拥塞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拥塞控制起到的作用"><span class="nav-number">17.1.</span> <span class="nav-text">拥塞控制起到的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#慢开始和拥塞避免"><span class="nav-number">17.2.</span> <span class="nav-text">慢开始和拥塞避免</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快重传和快恢复"><span class="nav-number">17.3.</span> <span class="nav-text">快重传和快恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送窗口的实际上限制"><span class="nav-number">17.4.</span> <span class="nav-text">发送窗口的实际上限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP传输连接管理"><span class="nav-number">17.5.</span> <span class="nav-text">TCP传输连接管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三次握手"><span class="nav-number">17.6.</span> <span class="nav-text">三次握手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四次分手"><span class="nav-number">17.7.</span> <span class="nav-text">四次分手</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">253k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:50</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
