@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="计算机网络不看后悔系列blog(七）网络安全&#x2F;超详细！！ʅ(‾◡◝)ʃ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【计算机网络】网络安全">
+<meta property="og:url" content="http://easonhe.top/2020/07/24/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="计算机网络不看后悔系列blog(七）网络安全&#x2F;超详细！！ʅ(‾◡◝)ʃ">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DN0rn.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/24/DNCDh.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNDuM.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNzPA.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNH87.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/24/DNWp6.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/24/DNZae.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNafD.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/24/DNUQN.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DN8Pn.png">
+<meta property="og:image" content="https://wx2.sbimg.cn/2020/07/24/DNE1h.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNNEM.png">
+<meta property="og:image" content="https://wx1.sbimg.cn/2020/07/24/DNrhR.png">
+<meta property="article:published_time" content="2020-07-24T06:41:00.000Z">
+<meta property="article:modified_time" content="2020-07-24T06:44:14.171Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wx1.sbimg.cn/2020/07/24/DN0rn.png">
+
+<link rel="canonical" href="http://easonhe.top/2020/07/24/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【计算机网络】网络安全 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">35</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/07/24/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【计算机网络】网络安全
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-24 14:41:00" itemprop="dateCreated datePublished" datetime="2020-07-24T14:41:00+08:00">2020-07-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>计算机网络不看后悔系列blog(七）网络安全/超详细！！ʅ(‾◡◝)ʃ</strong></p>
+<a id="more"></a>
+<h2 id="网络安全简介"><a href="#网络安全简介" class="headerlink" title="网络安全简介"></a>网络安全简介</h2><p>所谓网络安全主要是针对以下几个方面：</p>
+<ul>
+<li>数据（文件文件夹）存储安全</li>
+<li>应用程序安全</li>
+<li>操作系统安全</li>
+<li>网络安全</li>
+<li>物理安全</li>
+<li>用户安全教育</li>
+</ul>
+<h2 id="威胁通信"><a href="#威胁通信" class="headerlink" title="威胁通信"></a>威胁通信</h2><h3 id="截获"><a href="#截获" class="headerlink" title="截获"></a>截获</h3><blockquote>
+<p>从网络上窃听两台主机之间的通信内容（被动攻击如cain）</p>
+</blockquote>
+<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3><blockquote>
+<p>故意中断他人在网络上的通信（主动攻击）</p>
+</blockquote>
+<h3 id="篡改"><a href="#篡改" class="headerlink" title="篡改"></a>篡改</h3><blockquote>
+<p>故意篡改网络上通信所使用的报文（主动攻击如cain软件）</p>
+</blockquote>
+<h3 id="伪造"><a href="#伪造" class="headerlink" title="伪造"></a>伪造</h3><blockquote>
+<p>伪造信息在网络上传送（主动攻击）</p>
+</blockquote>
+<p><strong>例如(cain软件的ARP欺骗）</strong></p>
+<blockquote>
+<p>cain软件能够截获和篡改本网段的的报文。它是在主机通过ARP协议寻找网关地址(想上网)的时候，用ARP欺骗，把本电脑的地址当成要上网的路由器MAC地址发给那个主机，此时，网段内的所有的计算机想上网发送的报文都会先发给cain，这样主机访问外网的时候，都是通过cain访问的(主机访问cain提供的假域名，cain去访问真的域名，再把信息转给主机，这是一种<strong>DNS劫持</strong>)，既能篡改DNS解析结果，还能获取密码。同样的道理，局域网管理员可以在网关设置监视端口，获得本网段的所有信息。</p>
+</blockquote>
+<p><img src="https://wx1.sbimg.cn/2020/07/24/DN0rn.png" alt="DN0rn.png"></p>
+<h3 id="主动攻击与被动攻击"><a href="#主动攻击与被动攻击" class="headerlink" title="主动攻击与被动攻击"></a>主动攻击与被动攻击</h3><p><img src="https://wx2.sbimg.cn/2020/07/24/DNCDh.png" alt="DNCDh.png"></p>
+<ul>
+<li>中断——拒绝服务式攻击<blockquote>
+<p>如DoS拒绝服务式攻击，通过在网络上拥挤一些没用的数据包来组断网络。一般会占用下载通道ADSL而不是上传通道UDP，因为下载的带宽要大得多。<br>DDoS分布式攻击，可以在网络上找很多有漏洞的网站(肉鸡)，给指定的服务器发流量来使网络拥挤吃掉带宽，对于这种方式没有什么好办法。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/24/DNDuM.png" alt="DNDuM.png"></p>
+<ul>
+<li><p>篡改——修改域名解析的结果</p>
+<blockquote>
+<p>类似于钓鱼网站，当用户想进入银行的Web页面，解析错误导致用户访问了错误的网站（这个网站可能和要访问的网站的页面相同），当用户输入账号密码的话就会导致信息泄漏。</p>
+</blockquote>
+</li>
+<li><p>伪造——伪装成其它主机的IP地址</p>
+<blockquote>
+<p>趁其它主机关机时，把IP地址伪装成该主机的IP地址，访问一些特定的服务器，从而获取信息。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="恶意程序-rogue-program"><a href="#恶意程序-rogue-program" class="headerlink" title="恶意程序(rogue program)"></a>恶意程序(rogue program)</h2><ul>
+<li>计算机病毒——会“传染”其它程序，“传染”是通过修改其它程序来把自身或其变种复制进去完成的。(熊猫烧香)</li>
+<li>计算机蠕虫——通过网络的通信功能将自身从一个结点发送到另一个结点并启动运行的程序。(消耗CPU资源)</li>
+<li>特洛伊木马——一种程序，它执行的功能超过所声称的功能。(和(1)(2)的区别是会和外界通信)</li>
+<li>逻辑炸弹——一种当运行环境满足某种特定条件时执行其它特殊功能的程序。</li>
+</ul>
+<h3 id="木马程序的识别"><a href="#木马程序的识别" class="headerlink" title="木马程序的识别"></a>木马程序的识别</h3><ul>
+<li>查看会话netstat -n看看是否有可疑的会话；</li>
+<li>运行msconfig服务，把隐藏微软服务掉，看看剩下的有哪些刻意；</li>
+<li>杀毒软件。</li>
+</ul>
+<h2 id="加密技术"><a href="#加密技术" class="headerlink" title="加密技术"></a>加密技术</h2><p>广泛应用于应用层加密。</p>
+<h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><blockquote>
+<p>加密密钥和解密密钥是同一个。</p>
+<ul>
+<li>缺点：密钥不适合在网上传；密钥是一对一的，如果很多主机相互通信，有很多密钥需要维护；</li>
+<li>优点：效率高（因为一般不会增大文件的大小，并且加密解密都用同一个密钥）。加密包括加密算法和加密密钥。</li>
+</ul>
+</blockquote>
+<h3 id="数据加密标准DES"><a href="#数据加密标准DES" class="headerlink" title="数据加密标准DES"></a>数据加密标准DES</h3><ul>
+<li><p>它属于常规密钥密码体制，是一种分组密码。在加密前，先对整个铭文进行分组，每一个组长为64位，然后对每一个64位二进制数据进行加密处理，产生一组64位密文数据。最后将各组密文串接起来，即得出整个密文。使用的密钥是64位(实际密钥长度位56位，有8位数用来奇偶校验)。</p>
+</li>
+<li><p>DES的保密性：仅取决于对密钥的保密，而算法本身是公开的。尽管人在破译DES上有很多进展，但是至今没有找到比穷举搜索密钥更有效的方法。</p>
+</li>
+<li><p>DES是世界上第一个公认的使用密码算法标准，它曾对密码学的发展做出了重大贡献。</p>
+</li>
+<li><p>目前较为严重的问题是DES的密钥的长度。</p>
+</li>
+<li><p>现在已经设计出来搜索DES密钥的专用芯片。</p>
+</li>
+<li><p>DES算法公开，所以破解取决于密钥长度，56位密码破解需要3.5-21min；128位密钥破解需要5.4*10^18年。</p>
+</li>
+</ul>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><ul>
+<li>加密密钥和解密密钥是不同的，有一对密钥对，公钥和私钥。要么公钥加密私钥解密；要么私钥加密公钥解密。</li>
+<li>优点：安全性高，给出私钥和公钥其中一个无法算出另一个。</li>
+<li>缺点：效率低。</li>
+<li>非对称加密实现细节：<blockquote>
+<p>设A是非对称加密机制；B为对称加密机制；A1要给A2传一组数据，很大，如果直接用非对称加密花的时间很长；为了加快速度，用对称加密手段B来加密这个数据得到加密后数据B’和密钥B给A1，速度很快；然后A1对密钥B进行非对称加密得到公钥A1’；A1把密钥A1’和数据B’发给A2；A2运用私钥解密A1’获得密钥B，再用密钥B解密这个数据，最终得到想要的结果。<br>通过这种对数据采用对称加密，对对称加密的密钥进行非对称加密的方式能实现快速加密。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/24/DNzPA.png" alt="DNzPA.png"></p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>能够检查签名后的内容有没有被更改过，防止非法更改内容，并且能够证明是签名单位签发的。</p>
+<p><img src="https://wx1.sbimg.cn/2020/07/24/DNH87.png" alt="DNH87.png"></p>
+<blockquote>
+<p>签名用私钥，加密用公钥</p>
+</blockquote>
+<h3 id="CA（证书颁发机构）"><a href="#CA（证书颁发机构）" class="headerlink" title="CA（证书颁发机构）"></a>CA（证书颁发机构）</h3><ul>
+<li>用来来验证公钥是否是证书颁发机构认证过。</li>
+<li>为企业和用户办法数字证书，确认这些企业和个人的身份；</li>
+<li>如果证书丢失，它要发布证书吊销列表；</li>
+<li>企业和个人是信任证书颁发机构的。</li>
+</ul>
+<h2 id="Internet上使用的安全协议"><a href="#Internet上使用的安全协议" class="headerlink" title="Internet上使用的安全协议"></a>Internet上使用的安全协议</h2><h3 id="安全套接字SSL-Secure-Sockets-Layer"><a href="#安全套接字SSL-Secure-Sockets-Layer" class="headerlink" title="安全套接字SSL(Secure Sockets Layer)"></a>安全套接字SSL(Secure Sockets Layer)</h3><ul>
+<li>SSL的位置：是在<strong>应用层和传输层之间</strong>进行加密。好处是应用层和传输层都不需要来加密。</li>
+<li><strong>不需要应用程序(应用层)来支持</strong>，但是需要在服务器配置证书。</li>
+<li>例如，不使用SSL加密使用的是http://，使用SSL加密是https://。</li>
+<li>注意，http://使用的是TCP的80端口，而https://使用的是TCP的443端口。</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/24/DNWp6.png" alt="DNWp6.png"></p>
+<h3 id="SSL的配置-加密的实现-https"><a href="#SSL的配置-加密的实现-https" class="headerlink" title="SSL的配置(加密的实现)(https://)"></a>SSL的配置(加密的实现)(https://)</h3><ul>
+<li>客户端有一个浏览器IE，想要访问服务器端的网站web；</li>
+<li>浏览器IE要访问网站web，此时网站web会把他的公钥给浏览器IE；</li>
+<li>浏览器IE通过校验CA证书确保网站web的公钥是可靠的；</li>
+<li>浏览器IE会产生一个对称密钥；</li>
+<li>浏览器IE拿着网站web的公钥对它的对称密钥进行加密，发给网站web；</li>
+<li>网站web用它的私钥进行解密，就得到了浏览器IE的对称密钥；</li>
+<li>本质上是用对称密钥对数据进行加密的，公钥和私钥是用来对这个对称密钥进行加密的。这也是为什么https://刚开始打开的时候会有一些慢。</li>
+</ul>
+<p><strong>另外一些服务协议使用的安全套接字SSL时对应的TCP端口</strong>：</p>
+<blockquote>
+<ul>
+<li>imaps tcp-993</li>
+<li>pop3s tcp-995</li>
+<li>smtps tcp-465</li>
+<li>https tcp-443</li>
+</ul>
+</blockquote>
+<h3 id="SSL提供的三个功能"><a href="#SSL提供的三个功能" class="headerlink" title="SSL提供的三个功能"></a>SSL提供的三个功能</h3><ul>
+<li>SSL服务器鉴别：允许用户证实服务器的身份；具有SSL功能的浏览器维持一个表，上面有一些可信赖的认证中心CA(Certificate Authority)和它们的公钥。</li>
+<li>加密的SSL会话：客户和服务器交互的所有数据都在发送方加密，在接收方解密。</li>
+<li>SSL客户鉴别：允许服务器证实客户的身份。</li>
+</ul>
+<h2 id="网络层安全IPSec"><a href="#网络层安全IPSec" class="headerlink" title="网络层安全IPSec"></a>网络层安全IPSec</h2><p>网络层安全是<strong>底层安全</strong>，<strong>不需要应用程序支持，也不需要配置证书，对用户是透明的(感觉不到)</strong>。</p>
+<ul>
+<li><p>安全关联SA(Security Association):<br>在使用AH或ESP之前，先要从源主机到目的主机建立一条网络层的逻辑连接。此逻辑连接叫做安全关联SA。<br>IPsec就把传统的Internet无连接的网络层转换为具有逻辑连接的层。</p>
+</li>
+<li><p>SA是构成IPSec的基础，是两个通信实体经过协商(利用IKE协议)建立起来的一种协定，它决定了用来保护数据分组安全的安全协议<strong>AH协议(只签名：只关心发送方的身份而不关心数据是否被窃取</strong>)或<strong>ESP协议(既签名又对数据加密</strong>))，转码方式，密钥及密钥的生存周期等。</p>
+</li>
+</ul>
+<h3 id="IPsec中最主要的2个协议-AH与ESP"><a href="#IPsec中最主要的2个协议-AH与ESP" class="headerlink" title="IPsec中最主要的2个协议(AH与ESP)"></a>IPsec中最主要的2个协议(AH与ESP)</h3><h4 id="鉴别首部AH-Authentication-Header-AH鉴别源点和检查数据完整性，但不能保密。"><a href="#鉴别首部AH-Authentication-Header-AH鉴别源点和检查数据完整性，但不能保密。" class="headerlink" title="鉴别首部AH(Authentication Header):AH鉴别源点和检查数据完整性，但不能保密。"></a>鉴别首部AH(Authentication Header):AH鉴别源点和检查数据完整性，但<strong>不能保密</strong>。</h4><ul>
+<li>在使用AH时，把AH首部插在原数据报数据部分的签名，同时把IP首部中的协议字段设置为51.</li>
+<li>在传输过程中，中间的路由器都不查看AH首部。当数据报到达终点时，目的主机才会处理AH字段，以鉴别源点和检查数据报的完整性。</li>
+</ul>
+<p><img src="https://wx2.sbimg.cn/2020/07/24/DNZae.png" alt="DNZae.png"></p>
+<h4 id="封装安全有效载荷ESP-Encapsulation-Security-Payload"><a href="#封装安全有效载荷ESP-Encapsulation-Security-Payload" class="headerlink" title="封装安全有效载荷ESP(Encapsulation Security Payload)"></a>封装安全有效载荷ESP(Encapsulation Security Payload)</h4><ul>
+<li>ESP比AH复杂的多，它鉴别源点，检查数据完整性和提供保密。</li>
+<li>使用ESP时，IP数据报首部的协议字段设置为50.当IP首部检查到协议字段是50时，就知道在IP首部后面紧跟着ESP首部，同时在原IP数据报后面增加了2个字段，即ESP尾部和ESP数据。</li>
+</ul>
+<p><img src="https://wx1.sbimg.cn/2020/07/24/DNafD.png" alt="DNafD.png"></p>
+<h2 id="防火墙-firewall"><a href="#防火墙-firewall" class="headerlink" title="防火墙(firewall)"></a>防火墙(firewall)</h2><ul>
+<li>防火墙用来解决内联网和外联网的安全问题。</li>
+<li>防火墙是由软件，硬件构成的系统，是一种特殊编程的路由器，用来在两个网络之间实施接入控制策略。接入控制策略是由防火墙的单位自行制定的，为的是可以最适合本单位的需要。</li>
+<li>防火墙内的网络称为“可信赖的网络”(trusted network)，而将外部的Internet称为“不可信赖的网络”(untrusted network)。</li>
+</ul>
+<h3 id="防火墙在互联网中的位置"><a href="#防火墙在互联网中的位置" class="headerlink" title="防火墙在互联网中的位置"></a>防火墙在互联网中的位置</h3><p><img src="https://wx2.sbimg.cn/2020/07/24/DNUQN.png" alt="DNUQN.png"></p>
+<h3 id="防火墙的功能"><a href="#防火墙的功能" class="headerlink" title="防火墙的功能"></a>防火墙的功能</h3><ul>
+<li>阻止：阻止某种类型的通信量通过防火墙(从外部网络到内部网络，或反过来)。</li>
+<li>允许：允许某种类型的通信量通过防火墙(从外部网络到内部网络，或反过来)。</li>
+</ul>
+<p>防火墙必须能够识别通信量的各种类型。一般是阻止功能。</p>
+<h3 id="防火墙技术的分类"><a href="#防火墙技术的分类" class="headerlink" title="防火墙技术的分类"></a>防火墙技术的分类</h3><ul>
+<li>网络层防火墙：用来防止整个网络出现外来非法的入侵。属于这类的有分组过滤和授权服务器。前者检查所有流入本网络的信息，然后拒绝不符合事先制订好的一套准则的数据，而后者则是检查用户的登录是否合法。可以基于数据包，源地址，目标地址，协议和端口来控制流量。</li>
+<li>应用层防火墙：从应用程序来进行接入控制，通常使用应用网关或代理服务器来区分各种应用。例如，可以只允许用过访问www的应用，而阻止FTP应用的通过。<br>应用级防火墙可以检查数据报的内容。可以基于数据包，源地址，目标地址，协议和端口，用户名，时间段来控制内容，可以放病毒，可见功能更强大。</li>
+</ul>
+<h3 id="防火墙的结构"><a href="#防火墙的结构" class="headerlink" title="防火墙的结构"></a>防火墙的结构</h3><h4 id="边缘防火墙"><a href="#边缘防火墙" class="headerlink" title="边缘防火墙"></a>边缘防火墙</h4><p><img src="https://wx1.sbimg.cn/2020/07/24/DN8Pn.png" alt="DN8Pn.png"></p>
+<h4 id="三向外围墙"><a href="#三向外围墙" class="headerlink" title="三向外围墙"></a>三向外围墙</h4><p><img src="https://wx2.sbimg.cn/2020/07/24/DNE1h.png" alt="DNE1h.png"></p>
+<blockquote>
+<p>DMZ是公司内部的服务器。内网可以访问外网，外网不能访问内网，只能访问服务器DMZ。</p>
+</blockquote>
+<h4 id="背靠背防火墙"><a href="#背靠背防火墙" class="headerlink" title="背靠背防火墙"></a>背靠背防火墙</h4><p><img src="https://wx1.sbimg.cn/2020/07/24/DNNEM.png" alt="DNNEM.png"></p>
+<h4 id="单一网卡防火墙"><a href="#单一网卡防火墙" class="headerlink" title="单一网卡防火墙"></a>单一网卡防火墙</h4><p><img src="https://wx1.sbimg.cn/2020/07/24/DNrhR.png" alt="DNrhR.png"></p>
+<p>参考：<br>韩立刚老师《计算机网络》课程<br><a href="https://blog.csdn.net/iwanderu/article/details/103812986" target="_blank" rel="noopener">https://blog.csdn.net/iwanderu/article/details/103812986</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/07/24/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" title="【计算机网络】网络安全">http://easonhe.top/2020/07/24/【计算机网络】网络安全/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"><i class="fa fa-tag"></i> 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/23/%E3%80%90%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%91%E5%BA%94%E7%94%A8%E5%B1%82/" rel="prev" title="【计算机网络】应用层">
+      <i class="fa fa-chevron-left"></i> 【计算机网络】应用层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#网络安全简介"><span class="nav-number">1.</span> <span class="nav-text">网络安全简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#威胁通信"><span class="nav-number">2.</span> <span class="nav-text">威胁通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#截获"><span class="nav-number">2.1.</span> <span class="nav-text">截获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断"><span class="nav-number">2.2.</span> <span class="nav-text">中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#篡改"><span class="nav-number">2.3.</span> <span class="nav-text">篡改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪造"><span class="nav-number">2.4.</span> <span class="nav-text">伪造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主动攻击与被动攻击"><span class="nav-number">2.5.</span> <span class="nav-text">主动攻击与被动攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#恶意程序-rogue-program"><span class="nav-number">3.</span> <span class="nav-text">恶意程序(rogue program)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#木马程序的识别"><span class="nav-number">3.1.</span> <span class="nav-text">木马程序的识别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密技术"><span class="nav-number">4.</span> <span class="nav-text">加密技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对称加密"><span class="nav-number">4.1.</span> <span class="nav-text">对称加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据加密标准DES"><span class="nav-number">4.2.</span> <span class="nav-text">数据加密标准DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非对称加密"><span class="nav-number">4.3.</span> <span class="nav-text">非对称加密</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-number">5.</span> <span class="nav-text">数字签名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CA（证书颁发机构）"><span class="nav-number">5.1.</span> <span class="nav-text">CA（证书颁发机构）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Internet上使用的安全协议"><span class="nav-number">6.</span> <span class="nav-text">Internet上使用的安全协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安全套接字SSL-Secure-Sockets-Layer"><span class="nav-number">6.1.</span> <span class="nav-text">安全套接字SSL(Secure Sockets Layer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL的配置-加密的实现-https"><span class="nav-number">6.2.</span> <span class="nav-text">SSL的配置(加密的实现)(https:&#x2F;&#x2F;)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSL提供的三个功能"><span class="nav-number">6.3.</span> <span class="nav-text">SSL提供的三个功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层安全IPSec"><span class="nav-number">7.</span> <span class="nav-text">网络层安全IPSec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPsec中最主要的2个协议-AH与ESP"><span class="nav-number">7.1.</span> <span class="nav-text">IPsec中最主要的2个协议(AH与ESP)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#鉴别首部AH-Authentication-Header-AH鉴别源点和检查数据完整性，但不能保密。"><span class="nav-number">7.1.1.</span> <span class="nav-text">鉴别首部AH(Authentication Header):AH鉴别源点和检查数据完整性，但不能保密。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#封装安全有效载荷ESP-Encapsulation-Security-Payload"><span class="nav-number">7.1.2.</span> <span class="nav-text">封装安全有效载荷ESP(Encapsulation Security Payload)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防火墙-firewall"><span class="nav-number">8.</span> <span class="nav-text">防火墙(firewall)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙在互联网中的位置"><span class="nav-number">8.1.</span> <span class="nav-text">防火墙在互联网中的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙的功能"><span class="nav-number">8.2.</span> <span class="nav-text">防火墙的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙技术的分类"><span class="nav-number">8.3.</span> <span class="nav-text">防火墙技术的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙的结构"><span class="nav-number">8.4.</span> <span class="nav-text">防火墙的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘防火墙"><span class="nav-number">8.4.1.</span> <span class="nav-text">边缘防火墙</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三向外围墙"><span class="nav-number">8.4.2.</span> <span class="nav-text">三向外围墙</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#背靠背防火墙"><span class="nav-number">8.4.3.</span> <span class="nav-text">背靠背防火墙</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单一网卡防火墙"><span class="nav-number">8.4.4.</span> <span class="nav-text">单一网卡防火墙</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">259k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:55</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
