@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.gif">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.gif">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-loading-bar.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"easonhe.top","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据结构再度学习（详细注释版）：串&lt;常规操作，模式匹配&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【数据结构】串的深度学习">
+<meta property="og:url" content="http://easonhe.top/2020/08/06/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%B8%B2%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="小贺のBLOG">
+<meta property="og:description" content="数据结构再度学习（详细注释版）：串&lt;常规操作，模式匹配&gt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-05T17:38:00.000Z">
+<meta property="article:modified_time" content="2020-08-05T17:38:48.170Z">
+<meta property="article:author" content="Eason He">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://easonhe.top/2020/08/06/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%B8%B2%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【数据结构】串的深度学习 | 小贺のBLOG</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">小贺のBLOG</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档<span class="badge">41</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/Eason459" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://easonhe.top/2020/08/06/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%B8%B2%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.JPG">
+      <meta itemprop="name" content="Eason He">
+      <meta itemprop="description" content="你当像鸟飞往你的山">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小贺のBLOG">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【数据结构】串的深度学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-06 01:38:00" itemprop="dateCreated datePublished" datetime="2020-08-06T01:38:00+08:00">2020-08-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E5%8C%BA/" itemprop="url" rel="index"><span itemprop="name">学习区</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>数据结构再度学习（详细注释版）：串&lt;常规操作，模式匹配&gt;</strong></p>
+<a id="more"></a>
+<h2 id="串的常规操作与模式匹配"><a href="#串的常规操作与模式匹配" class="headerlink" title="串的常规操作与模式匹配"></a>串的常规操作与模式匹配</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.c</span></span><br><span class="line"><span class="comment">//  StringList</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by Eason on 2020/8/3.</span></span><br><span class="line"><span class="comment">//  Copyright © 2020 Eason. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OK 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ERROR 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZE 10</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> Status;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">char</span> <span class="keyword">String</span>[MAXSIZE+<span class="number">1</span>];  <span class="comment">//串的存储结构，第一个位置存储长度信息所以实际数组要比定义的MAXSIZE+1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//用c值初始化一个串(S为空，c为一个串）</span></span><br><span class="line"><span class="function">Status <span class="title">initString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">char</span> *c)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strlen</span>(c)&gt;MAXSIZE)&#123;   <span class="comment">//判断用来初始化的串是否超出了串本身的存储范围</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"初始值过大，无法初始化\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;   <span class="comment">//未超出范围，继续进行</span></span><br><span class="line">        S[<span class="number">0</span>]=<span class="built_in">strlen</span>(c);   <span class="comment">//S串的长度置为c串的长度</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=S[<span class="number">0</span>];i++)&#123;   <span class="comment">//循环将c串的字符一个个存入S串中</span></span><br><span class="line">            S[i] = *c;   <span class="comment">//存入</span></span><br><span class="line">            c+=<span class="number">1</span>;   <span class="comment">//切换到下一个字符，循环继续</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//判断是否为空串</span></span><br><span class="line"><span class="function">Status <span class="title">isEmpty</span><span class="params">(<span class="keyword">String</span> S)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(S[<span class="number">0</span>]==<span class="number">0</span>)&#123;   <span class="comment">//S[0]为串的长度，若为0则表示串为空</span></span><br><span class="line">        <span class="keyword">return</span> TRUE;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//判断串是否已满</span></span><br><span class="line"><span class="function">Status <span class="title">isFull</span><span class="params">(<span class="keyword">String</span> S)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(S[<span class="number">0</span>]==MAXSIZE)&#123;   <span class="comment">//S[0]为串的长度，若为MAXSIZE则表示串已满</span></span><br><span class="line">        <span class="keyword">return</span> TRUE;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> FALSE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//清空串</span></span><br><span class="line"><span class="function">Status <span class="title">clearString</span><span class="params">(<span class="keyword">String</span> S)</span></span>&#123;</span><br><span class="line">    S[<span class="number">0</span>]=<span class="number">0</span>;   <span class="comment">//将串的长度置0即将串清空了</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取串的长度（方法返回的即是长度值）</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getLength</span><span class="params">(<span class="keyword">String</span> S)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> S[<span class="number">0</span>];   <span class="comment">//将串的长度S[0]的数据返回</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//复制串（将串C的内容复制到串S中）</span></span><br><span class="line"><span class="function">Status <span class="title">copyString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> C)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(isEmpty(C))&#123;   <span class="comment">//判断要进行拷贝的串是否为空</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"需要复制的串为空，无法复制\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(C[<span class="number">0</span>]&gt;MAXSIZE)&#123;   <span class="comment">//判断拷贝的串是不是超出了粘贴串的长度MAXSIZE</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"需要复制的串过长，无法完全复制\n"</span>);  <span class="comment">//若超出了长度，则只能复制MAXSIZE前的内容</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=C[<span class="number">0</span>];i++)&#123;   <span class="comment">//循环存入</span></span><br><span class="line">            S[i] = C[i];   <span class="comment">//存入</span></span><br><span class="line">        &#125;</span><br><span class="line">        S[<span class="number">0</span>]=C[<span class="number">0</span>];   <span class="comment">//S串的长度置为拷贝来的串的长度C[0]</span></span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=C[<span class="number">0</span>];i++)&#123;   <span class="comment">//如果没有超出长度则可以完全进行循环存储</span></span><br><span class="line">        S[i]=C[i];  <span class="comment">//存储</span></span><br><span class="line">    &#125;</span><br><span class="line">    S[<span class="number">0</span>]=C[<span class="number">0</span>];   <span class="comment">//S串的长度置为拷贝来的串的长度C[0]</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//串的比较（若串S与C相等则返回0，不想等则返回S-C）</span></span><br><span class="line"><span class="function">Status <span class="title">compareString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> C)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = S[<span class="number">0</span>]&lt;=C[<span class="number">0</span>]?S[<span class="number">0</span>]:C[<span class="number">0</span>];   <span class="comment">//比较两个串的长度，按照短的进行比较</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=len;i++)&#123;   <span class="comment">//整个长度的串逐个进行比较</span></span><br><span class="line">        <span class="keyword">if</span>(S[i]!=C[i])&#123;   <span class="comment">//若现在位置的串的两个字符不想等，则表示串不想等</span></span><br><span class="line">            <span class="keyword">return</span> S[i]-C[i];   <span class="comment">//不想等则返回当前字符的S-C差值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//计较完成，即短的串与长串中前短串长度的内容都想等</span></span><br><span class="line">    <span class="keyword">if</span>(S[<span class="number">0</span>]==C[<span class="number">0</span>])&#123;   <span class="comment">//若两个串的长度也想等，则说明两个串完全相等，则返回0</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;   <span class="comment">//如果只是短串想等，则返回两个串的长度S-C差值</span></span><br><span class="line">        <span class="keyword">return</span> S[<span class="number">0</span>]-C[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//串的连接（S1串在前，S2串在后，连接后的串为New）</span></span><br><span class="line"><span class="function">Status <span class="title">connectString</span><span class="params">(<span class="keyword">String</span> S1, <span class="keyword">String</span> S2, <span class="keyword">String</span> New)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(S1[<span class="number">0</span>]+S2[<span class="number">0</span>]&gt;MAXSIZE)&#123;   <span class="comment">//若连个串连接的总长度超过了最大存储长度，则只能存储MAXSIZE长度的串，多余的内容摒弃</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"字符串连接过长，尽力连接\n"</span>);</span><br><span class="line">        New[<span class="number">0</span>] = MAXSIZE;   <span class="comment">//因为已经超过总长度了，所以长度只能是MAXSIZE了</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=S1[<span class="number">0</span>];i++)&#123;   <span class="comment">//先用循环存储的方式将S串的内容添加至新串中</span></span><br><span class="line">            New[i] = S1[i];   <span class="comment">//存入</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> p=<span class="number">1</span>;   <span class="comment">//S2串当前需要存储位置的计数器</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=S1[<span class="number">0</span>]+<span class="number">1</span>;i&lt;=New[<span class="number">0</span>];i++)&#123;   <span class="comment">//在S1存储完成后的位置再开始存储S2串</span></span><br><span class="line">            New[i] = S2[p];   <span class="comment">//存入到对应位置</span></span><br><span class="line">            p++;   <span class="comment">//S2需存储位置向后移一位，继续循环进行存储</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//若总长度未超过MAXSIZE则按照如下连接</span></span><br><span class="line">    New[<span class="number">0</span>] = S1[<span class="number">0</span>]+S2[<span class="number">0</span>];  <span class="comment">//新串的长度等于两个字串长度之和</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=S1[<span class="number">0</span>];i++)&#123;   <span class="comment">//现将子串S1的内容存储到新串中</span></span><br><span class="line">        New[i] = S1[i];   <span class="comment">//存入</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> p=<span class="number">1</span>;   <span class="comment">//S2串当前需要存储位置的计数器</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=S1[<span class="number">0</span>]+<span class="number">1</span>;i&lt;=New[<span class="number">0</span>];i++)&#123;   <span class="comment">//在S1存储完成后之后的位置再开始存储S2串的内容</span></span><br><span class="line">        New[i] = S2[p];   <span class="comment">//存入</span></span><br><span class="line">        p++;   <span class="comment">//S2的位置向后走一位，循环继续存入</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//串的插入（在S串的第l位置前插入串N）</span></span><br><span class="line"><span class="function">Status <span class="title">insertString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">int</span> l, <span class="keyword">String</span> N)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&lt;<span class="number">1</span> || l&gt;S[<span class="number">0</span>]+<span class="number">1</span>)&#123;   <span class="comment">//判断插入位置是否合法</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"插入位置不合法，无法插入"</span>);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(S[<span class="number">0</span>]+N[<span class="number">0</span>]&gt;MAXSIZE)&#123;   <span class="comment">//判断是否可以完全插入，如果超出最大存储容量则丢失一部分</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"插入过长，丢失一部分插入\n"</span>);</span><br><span class="line">        <span class="keyword">int</span> temp = MAXSIZE;   <span class="comment">//串S向后移动的计位器</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=S[<span class="number">0</span>];i&gt;=l;i-- )&#123;   <span class="comment">//从串的最后一个位置开始向后移动到插入后的位置，为插入的元素腾出位置</span></span><br><span class="line">            S[temp] = S[i];   <span class="comment">//移动到对应位置存入</span></span><br><span class="line">            temp--;   <span class="comment">//计位器-1，一直到插入位置的元素也移动完毕为止</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> length = MAXSIZE-S[<span class="number">0</span>];   <span class="comment">//腾出来位置的长度</span></span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">1</span>;   <span class="comment">//串N计位器</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;MAXSIZE-(S[<span class="number">0</span>]-l);i++)&#123;   <span class="comment">//从插入位置开始插入，到腾出来的位置的末尾</span></span><br><span class="line">            S[i] = N[t];   <span class="comment">//找到对应位置并存入</span></span><br><span class="line">            t++;   <span class="comment">//串向下走继续执行插入操作</span></span><br><span class="line">        &#125;</span><br><span class="line">        S[<span class="number">0</span>] = MAXSIZE;   <span class="comment">//由于是不完全插入，所以最终S串达到了最大的长度</span></span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//若插入后的长度不超过最大存储容量则完全插入执行以下步骤</span></span><br><span class="line">    <span class="keyword">int</span> newlength = S[<span class="number">0</span>]+N[<span class="number">0</span>];   <span class="comment">//插入后的总长度</span></span><br><span class="line">    <span class="keyword">int</span> t = newlength;   <span class="comment">//移动目标位置计位器即移动到的最后位置</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=S[<span class="number">0</span>];i&gt;=l;i--)&#123;   <span class="comment">//从最后位置开始移动到指定的位置</span></span><br><span class="line">        S[t] = S[i];   <span class="comment">//找到对应的位置并存入</span></span><br><span class="line">        t--;   <span class="comment">//移动目标位置-1，因为是从后往前移动</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> d=<span class="number">1</span>;   <span class="comment">//N串的临时计位器</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;l+N[<span class="number">0</span>];i++)&#123;   <span class="comment">//从要插入的位置开始插入</span></span><br><span class="line">        S[i] = N[d];   <span class="comment">//从N的第一个元素插到指定位置开始向后存入</span></span><br><span class="line">        d++;   <span class="comment">//N串的计位器+1，即向后挪动一位继续执行插入操作</span></span><br><span class="line">    &#125;</span><br><span class="line">    S[<span class="number">0</span>] = newlength;   <span class="comment">//新串的长度为总长度</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//串的删除（删除串S的第i个位置开始长度为length的串）</span></span><br><span class="line"><span class="function">Status <span class="title">deleteString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">int</span> i, <span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&lt;<span class="number">1</span> || i&gt;MAXSIZE || length&lt;<span class="number">0</span>)&#123;   <span class="comment">//判断要删除位置与长度信息是否合法</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"删除信息不合法，无法删除\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> n=i+length;n&lt;=S[<span class="number">0</span>];n++)&#123;   <span class="comment">//将删除完成后删除串的末尾后的一个元素开始向前移动一直到删除后半截的元素都向前移动完毕</span></span><br><span class="line">        S[n-length] = S[n];   <span class="comment">//找到移动到的对应位置存入</span></span><br><span class="line">    &#125;</span><br><span class="line">    S[<span class="number">0</span>] =S[<span class="number">0</span>]-length;   <span class="comment">//新串的长度为老串长度减去删掉的对应长度</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//串的截取（将S串l位置开始向后长度为length的串截取下来存入N（即截取的串））</span></span><br><span class="line"><span class="function">Status <span class="title">subString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">int</span> l, <span class="keyword">int</span> length, <span class="keyword">String</span> N)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&lt;<span class="number">1</span> || length&lt;<span class="number">0</span> || l&gt;S[<span class="number">0</span>])&#123;   <span class="comment">//判断要截取子串的长度与位置是否合法</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"输入截取信息不合法，无法截取"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">1</span>;   <span class="comment">//S串当前位置计位器</span></span><br><span class="line">    N[<span class="number">0</span>] = length;   <span class="comment">//截取的串的长度即为指定的长度</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;l+length;i++)&#123;   <span class="comment">//从指定的位置开始直到length个元素后结束</span></span><br><span class="line">        N[n] = S[i];   <span class="comment">//找到指定的截取元素并赋给N</span></span><br><span class="line">        n++;   <span class="comment">//继续向下判断是否也应该截取</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子串的定位（查找S串的第l位置后第一次出现L串的位置信息）</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">localString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> L, <span class="keyword">int</span> l)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(L[<span class="number">0</span>]&gt;S[<span class="number">0</span>])&#123;   <span class="comment">//判断要查找的字串的长度是否合法</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"字串过大，定位不合法\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">String</span> sub;   <span class="comment">//定义一个临时的截取片段的串容器</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=l;i&lt;=S[<span class="number">0</span>]-L[<span class="number">0</span>]+<span class="number">1</span>;i++)&#123;   <span class="comment">//从指定的位置开始截取直到最后只剩子串L的长度为止</span></span><br><span class="line">        subString(S,i,L[<span class="number">0</span>],sub);   <span class="comment">//从当前位置截取子串长度的子串</span></span><br><span class="line">        <span class="keyword">if</span>(compareString(sub, L)==<span class="number">0</span>)&#123;   <span class="comment">//如果当前截取的字串与指定的字串想等，则返回当前位置</span></span><br><span class="line">            <span class="keyword">return</span> i;   <span class="comment">//返回当前位置i</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//子串的替换（将串S中出现C字串的地方将C字串替换成R串）</span></span><br><span class="line"><span class="function">Status <span class="title">replaceString</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> C, <span class="keyword">String</span> R)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(isEmpty(C))&#123;   <span class="comment">//判断要替换的字串是否为空</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"替换的串为空，不合法"</span>);</span><br><span class="line">        <span class="keyword">return</span> ERROR;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> n=<span class="number">1</span>;   <span class="comment">//开始位置标志一下</span></span><br><span class="line">    <span class="keyword">int</span> i;   <span class="comment">//当前匹配到的C字串在S串的位置信息</span></span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        i = localString(S, C, n);   <span class="comment">//从第1个位置开始查找第一次出现C字串的位置信息赋给i</span></span><br><span class="line">        <span class="keyword">if</span>(i)&#123;   <span class="comment">//如果i存在，即查找到了对应的字串位置信息</span></span><br><span class="line">            deleteString(S, i, C[<span class="number">0</span>]);   <span class="comment">//将出现位置开始删除C串长度的串，即将C字串从S串中删除掉</span></span><br><span class="line">            insertString(S, i, R);   <span class="comment">//再将要替换上的字串插入到删除字串的位置</span></span><br><span class="line">            n+=R[<span class="number">0</span>];   <span class="comment">//从查找到的字串后继续开始查找是否还有C字串的存在</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">while</span>(i);   <span class="comment">//如果i为0了说明找不到C字串的位置了，即所有C字串已经被替换完成</span></span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//串的打印</span></span><br><span class="line"><span class="function">Status <span class="title">printString</span><span class="params">(<span class="keyword">String</span> S)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"字符串为："</span>);</span><br><span class="line">    <span class="keyword">if</span>(S[<span class="number">0</span>]==<span class="number">0</span>)&#123;   <span class="comment">//判断要打印的字串是否为空，若为空则输出：空</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"空\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> OK;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=S[<span class="number">0</span>];i++)&#123;   <span class="comment">//从第一个元素的位置开始直到串的最后一个位置结束</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c"</span>, S[i]);   <span class="comment">//输出对应位置的元素信息</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//--------------------模式匹配部分-----------------------</span></span><br><span class="line"><span class="comment">//朴素模式匹配(查询S串第l个位置之后串N首次出现的位置）</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">normalFind</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> N, <span class="keyword">int</span> l)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = l;   <span class="comment">//S的位置计数器 初始从第l个位置开始比较</span></span><br><span class="line">    <span class="keyword">int</span> n = <span class="number">1</span>;   <span class="comment">//N串的位置计数器 初始从第一个开始比较</span></span><br><span class="line">    <span class="keyword">while</span>(i&lt;=S[<span class="number">0</span>] &amp;&amp; n&lt;=N[<span class="number">0</span>])&#123;   <span class="comment">//若两个串都还没匹配完毕则继续循环进行，若匹配完毕则推出循环</span></span><br><span class="line">        <span class="keyword">if</span>(S[i]==N[n])&#123;   <span class="comment">//如果当前串位置的元素等的话就进入</span></span><br><span class="line">            i++;   <span class="comment">//S串位置向下走一格</span></span><br><span class="line">            n++;   <span class="comment">//N串的位置也向下走一格然后继续比较</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            i = i-n+<span class="number">2</span>;   <span class="comment">//若当前位置不一样则重新从S串本次匹配开始的地方的下一个位置为首再进行匹配操作</span></span><br><span class="line">            n = <span class="number">1</span>;   <span class="comment">//N串还是从第一个位置开始比较</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(n&gt;N[<span class="number">0</span>])&#123;   <span class="comment">//若n的值大于N串的总长度了，说明N串已经全部匹配成功了，则说明找到了对应的N字串</span></span><br><span class="line">        <span class="keyword">return</span> i-N[<span class="number">0</span>];   <span class="comment">//返回S串当前所在位置减去N串的长度，即回到了开始的位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;   <span class="comment">//如果不是n大于N字串的总长度说明S串全部匹配完也没找到对应的完整N字串的位置，则返回ERROR</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//普通版KMP算法：</span></span><br><span class="line"><span class="comment">//获取字串的next数组值</span></span><br><span class="line"><span class="function">Status <span class="title">getNext</span><span class="params">(<span class="keyword">String</span> N, <span class="keyword">int</span> *next)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;   <span class="comment">//表示串味指针</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;   <span class="comment">//表示串头部指针</span></span><br><span class="line">    next[<span class="number">1</span>] = <span class="number">0</span>;   <span class="comment">//第一个元素前肯定无元素与之匹配，故next数组的第一个值永远为0</span></span><br><span class="line">    <span class="keyword">while</span>(i&lt;=N[<span class="number">0</span>])&#123;   <span class="comment">//即将N串的元素全部进行操作</span></span><br><span class="line">        <span class="keyword">if</span>(j==<span class="number">0</span> || N[i]==N[j])&#123;</span><br><span class="line">            <span class="comment">//如果已经达到表头或者当前所指的元素想等则继续向下走且为next复制</span></span><br><span class="line">            i++;   <span class="comment">//串尾向后走一格</span></span><br><span class="line">            j++;   <span class="comment">//串头向后走一格</span></span><br><span class="line">            next[i] = j;   <span class="comment">//当前next[i]值即为j的长度值</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            j = next[j];   <span class="comment">//如果j！=0并且当前元素也不想等，则回溯到j匹配成功的表头</span></span><br><span class="line">        &#125;   <span class="comment">//next[j]存放的就是j对应位置头部有几个元素是相等的，则直接回溯到相等的元素之后进行匹配就可以了</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//普通KMP</span></span><br><span class="line"><span class="function">Status <span class="title">normalKMP</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> N, <span class="keyword">int</span> l)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> next[<span class="number">11</span>];   <span class="comment">//定义一个int数组next用来存放字串的next值</span></span><br><span class="line">    getNext(N, next);   <span class="comment">//获取串N的next值</span></span><br><span class="line">    <span class="keyword">while</span>(i&lt;=S[<span class="number">0</span>] &amp;&amp; j&lt;=N[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">if</span>(S[i] == N[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            j = next[j];  <span class="comment">//本质上就这里不相同，若此时元素不想等，则j回溯到next指定的位置（因为这个位置前的都是相等的，不需要再进行比较了</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(j&gt;N[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">return</span> i-N[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印next值</span></span><br><span class="line"><span class="function">Status <span class="title">printNext</span><span class="params">(<span class="keyword">int</span> next[], <span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=length;i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, next[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//改良后的KMP算法</span></span><br><span class="line"><span class="comment">//获取nextval值</span></span><br><span class="line"><span class="function">Status <span class="title">getNextval</span><span class="params">(<span class="keyword">String</span> N, <span class="keyword">int</span> *nextval)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j=<span class="number">0</span>;</span><br><span class="line">    nextval[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;N[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">if</span>(j==<span class="number">0</span> || N[i]==N[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">            <span class="keyword">if</span>(N[i]!=N[j])&#123;   <span class="comment">//与求next值只差这一点，为了避免有大量重复的元素同样占用时间，则进行一个新的比较</span></span><br><span class="line">                nextval[i] = j;   <span class="comment">//若当前两值是不想等的话则nextval值就与next值相同</span></span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                nextval[i] = nextval[j];   <span class="comment">//但如果此时位置的元素是相等的话，nextval值就等于next对应的元素位置的值的nextval值想等</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            j = nextval[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//改进后的KMP算法</span></span><br><span class="line"><span class="function">Status <span class="title">newKMP</span><span class="params">(<span class="keyword">String</span> S, <span class="keyword">String</span> N, <span class="keyword">int</span> l)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> nextval[<span class="number">21</span>];</span><br><span class="line">    getNextval(N, nextval);</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=S[<span class="number">0</span>] &amp;&amp; j&lt;=N[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">if</span>(S[i]==N[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            j = nextval[j];  <span class="comment">//同普通KMP算法，这里只是更换成了nextval值</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(j&gt;N[<span class="number">0</span>])&#123;</span><br><span class="line">        <span class="keyword">return</span> i-N[<span class="number">0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//打印nextval值</span></span><br><span class="line"><span class="function">Status <span class="title">printNextval</span><span class="params">(<span class="keyword">int</span> *nextval, <span class="keyword">int</span> length)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=length;i++)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, nextval[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">String</span> S1, S2, S3;</span><br><span class="line">    initString(S1, <span class="string">"abcbcf"</span>);</span><br><span class="line">    initString(S2, <span class="string">"bc"</span>);</span><br><span class="line">    initString(S3, <span class="string">"gg"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S1"</span>);</span><br><span class="line">    printString(S1);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S1的长度为：%d\n"</span>, getLength(S1));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S2"</span>);</span><br><span class="line">    printString(S2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S2的长度为：%d\n"</span>, getLength(S2));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S3"</span>);</span><br><span class="line">    printString(S3);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S3的长度为：%d\n"</span>, getLength(S3));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"将S1中与S2相同的串替换为S3可得S1：\n"</span>);</span><br><span class="line">    replaceString(S1, S2, S3);</span><br><span class="line">    printString(S1);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"删除S1第一个位置后长度为3的串后得S1：\n"</span>);</span><br><span class="line">    deleteString(S1, <span class="number">1</span>, <span class="number">3</span>);</span><br><span class="line">    printString(S1);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"寻找S1中与S3首个相同的串开始的位置，无则返回0：%d\n"</span>, localString(S1, S3, <span class="number">1</span>));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"比较S1与S3，若相同返回0，不同则返回S1-S3的值：%d\n"</span>, compareString(S1, S3));</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"向S2串的第二个位置插入S3串后可得S2串：\n"</span>);</span><br><span class="line">    insertString(S2, <span class="number">2</span>, S3);</span><br><span class="line">    printString(S2);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"清除S3串后得S3串为：\n"</span>);</span><br><span class="line">    clearString(S3);</span><br><span class="line">    printString(S3);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"将S2串复制给S3后可得S3串为：\n"</span>);</span><br><span class="line">    copyString(S3, S2);</span><br><span class="line">    printString(S3);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n-------------以下测试模式匹配算法------------\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"初始化两个串S4与S5，他们对应为：\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S4串为：\n"</span>);</span><br><span class="line">    <span class="keyword">String</span> S4,S5;</span><br><span class="line">    initString(S4, <span class="string">"aaaabcdbc"</span>);</span><br><span class="line">    initString(S5, <span class="string">"aabcd"</span>);</span><br><span class="line">    <span class="keyword">int</span> *next, *nextval;</span><br><span class="line">    <span class="keyword">int</span> l = S5[<span class="number">0</span>];</span><br><span class="line">    next = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>((l+<span class="number">1</span>)*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    nextval = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>((l+<span class="number">1</span>)*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</span><br><span class="line">    printString(S4);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"S5串为：\n"</span>);</span><br><span class="line">    printString(S5);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"根据KMP算法我们可以得到S5对应的next值与nextval值：\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"next值：\n"</span>);</span><br><span class="line">    getNext(S5, next);</span><br><span class="line">    printNext(next, getLength(S5));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"nextval值：\n"</span>);</span><br><span class="line">    getNextval(S5, nextval);</span><br><span class="line">    printNextval(nextval, getLength(S5));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"使用普通匹配算法可得位置为：%d\n"</span>, normalFind(S4, S5, <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"使用KMS算法可得位置为：%d\n"</span>, normalKMP(S4, S5, <span class="number">1</span>));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"使用改进版KMS算法可得位置为：%d\n"</span>, newKMP(S4, S5, <span class="number">1</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>如果觉得还不错的话，把它分享给朋友们吧(ง •̀_•́)ง</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Eason He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://easonhe.top/2020/08/06/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%B8%B2%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" title="【数据结构】串的深度学习">http://easonhe.top/2020/08/06/【数据结构】串的深度学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 学习</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/02/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E9%98%9F%E5%88%97%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="prev" title="【数据结构】队列的深度学习">
+      <i class="fa fa-chevron-left"></i> 【数据结构】队列的深度学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/03/%E3%80%90%E7%BD%AE%E9%A1%B6%E3%80%91%E5%92%8C%E6%88%91%E7%9A%84Blog%E8%AE%A4%E8%AF%86%E4%B8%80%E4%B8%8B%E5%90%A7/" rel="next" title="【置顶】和我的Blog认识一下吧">
+      【置顶】和我的Blog认识一下吧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#串的常规操作与模式匹配"><span class="nav-number">1.</span> <span class="nav-text">串的常规操作与模式匹配</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Eason He"
+      src="/images/header.JPG">
+  <p class="site-author-name" itemprop="name">Eason He</p>
+  <div class="site-description" itemprop="description">你当像鸟飞往你的山</div>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Eason459" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Eason459" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+      <div id="music163player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=5392945&auto=0&height=66">
+    </iframe>
+</div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">贺俊耀</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">299k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">4:32</span>
+</div>
+<!--添加网站的运行时间-->
+<span id="sitetime"> <br></span>
+<script language="javascript">
+	function siteTime(){
+		window.setTimeout("siteTime()", 1000);
+		var seconds = 1000
+		var minutes = seconds * 60
+		var hours = minutes * 60
+		var days = hours * 24
+		var years = days * 365
+
+		var today = new Date()
+		var todayYear = today.getFullYear()
+		var todayMonth = today.getMonth()
+		var todayDate = today.getDate()
+		var todayHour = today.getHours()
+		var todayMinute = today.getMinutes()
+		var todaySecond = today.getSeconds()
+		var t1 = Date.UTC(2020,3,12,11,00,00)
+		var t2 = Date.UTC(todayYear,todayMonth,todayDate,todayHour,todayMinute,todaySecond)
+		var diff = t2-t1
+
+		var diffYears = Math.floor(diff/years)
+		var diffDays = Math.floor((diff/days)-diffYears*365)
+		var diffHours = Math.floor((diff-(diffYears*365+diffDays)*days)/hours)
+		var diffMinutes = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours)/minutes)
+		var diffSeconds = Math.floor((diff-(diffYears*365+diffDays)*days-diffHours*hours-diffMinutes*minutes)/seconds)
+		document.getElementById("sitetime").innerHTML=" 本站已运行"+diffYears+" 年 "+diffDays+" 天 "+diffHours+" 小时 "+diffMinutes+" 分钟 "+diffSeconds+" 秒<br>"
+	}
+	siteTime()
+</script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <span class="site-uv" title="总访客量">
+    你是我的第<span id="busuanzi_value_site_uv"></span>位访客, 
+  </span>
+
+  <span class="site-pv" title="总访问量">
+    经过<span id="busuanzi_value_site_pv"></span>次回眸才得以与你相遇
+  </span>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
