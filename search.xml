@@ -17,6 +17,33 @@
     
     
     <entry>
+      <title>【Java】Eclipse for Java EE下载安装踩坑</title>
+      <link href="/2020/09/19/%E3%80%90Java%E3%80%91Eclipse%20for%20Java%20EE%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%B8%A9%E5%9D%91/"/>
+      <url>/2020/09/19/%E3%80%90Java%E3%80%91Eclipse%20for%20Java%20EE%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85%E8%B8%A9%E5%9D%91/</url>
+      
+        <content type="html"><![CDATA[<p><strong>Eclipse启动出现“An Error has Occurred. See the log file”的解决方案</strong></p><a id="more"></a><h2 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h2><p><strong><em>Java EE版本过旧，jdk版本太新！请注重这个问题！！！！旧版本的eclipse是肯定不能兼容新版jdk的！！要么更新eclipse要么安装旧版jdk，个人认为更新eclipse是要更简单的～</em></strong></p><h2 id="问题过程"><a href="#问题过程" class="headerlink" title="问题过程"></a>问题过程</h2><blockquote><p>由于最近开始上c#课程需要用到Java web项目,但是我曾经一直在用的Eclipse是SE版的,虽然SE版可以通过安装相关插件来实现这个功能但是被类似因为插件配置搞的莫名其妙的问题搞怕了，所以还是乖乖下载EE版，下载很简单但是这个致命错误的出现差点给我心态搞崩了，还好我犯的这个愚蠢的问题被我后想明白了：）</p></blockquote><ul><li>下载安装直接搜索Java EE就直接点了第一个的搜索结果：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6aCJ.png" alt="G6aCJ.png"></p><ul><li>这个页面看起来非常正常，下载很顺利，安装也很快，然后光速开始运行它：</li></ul><p><img src="https://wx1.sbimg.cn/2020/09/19/G68YY.png" alt="G68YY.png"><br><img src="https://wx1.sbimg.cn/2020/09/19/G6vjm.png" alt="G6vjm.png"></p><ul><li>选择好workspace后接着就出现了这么一幕：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6xd4.png" alt="G6xd4.png"></p><h2 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h2><ul><li>有错误很正常，那就上网找解决方案呗，试了不下5种方式，像什么删除某某文件，直接删除.metedata文件夹，更改.ini的内容。。。全都失败，后来看到很多人是因为jdk的版本太新去下载了jdk8然后完美解决的问题，这突然点醒了我，我快回到了下载页面才恍然大悟：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6EFA.png" alt="G6EFA.png"></p><ul><li>我的jdk是14。。很明显这个老版本的eclipse是支持不了这么新的jdk的，那就去找一个最新的Eclipse EE来解决问题吧，点击的引导的here超链接后才来到了最新版本的eclipse下载页面中：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6lw7.png" alt="G6lw7.png"></p><ul><li>信心满满的下载了下来（第一次下载镜像也没有换等了很久。。。看来安装东西的时候一定要头脑清醒，不然问题太多惹）</li></ul><p><img src="https://wx1.sbimg.cn/2020/09/19/G6rr6.png" alt="G6rr6.png"><br><img src="https://wx1.sbimg.cn/2020/09/19/G6SCO.png" alt="G6SCO.png"></p><ul><li>看到这个页面十分舒心，完美运行把握十足：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6Tje.png" alt="G6Tje.png"></p><ul><li>果然：</li></ul><p><img src="https://wx2.sbimg.cn/2020/09/19/G6yxD.png" alt="G6yxD.png"></p><ul><li>成功撒花！！！</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 学习区 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 学习 </tag>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【数据结构】二叉树的深度学习</title>
       <link href="/2020/08/16/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
       <url>/2020/08/16/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%91%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</url>
